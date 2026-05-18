@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>每日新聞與行情通知測試</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --panel-soft: #eef4ff;
+      --text: #18202f;
+      --muted: #697386;
+      --line: #dfe5ef;
+      --green: #087f5b;
+      --red: #c92a2a;
+      --blue: #2557a7;
+      --amber: #946200;
+      --shadow: 0 18px 48px rgba(27, 39, 68, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(180deg, #e8f0ff 0%, rgba(232, 240, 255, 0) 340px),
+        var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 48px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 5px 10px;
+      border: 1px solid rgba(37, 87, 167, 0.24);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .timestamp {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+
+    .hero-main,
+    .hero-side,
+    .section {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      padding: 28px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-side {
+      display: grid;
+      align-content: center;
+      gap: 14px;
+      padding: 22px;
+    }
+
+    .stat {
+      display: grid;
+      gap: 4px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stat:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section {
+      overflow: hidden;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel-soft);
+    }
+
+    .section-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .section-body {
+      padding: 18px 20px 20px;
+    }
+
+    .news-list,
+    .risk-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .news-item,
+    .risk-item {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .item-title {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 800;
+    }
+
+    .item-copy {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+
+    th,
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .symbol {
+      font-weight: 850;
+    }
+
+    .market {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .up {
+      color: var(--green);
+      font-weight: 850;
+    }
+
+    .down {
+      color: var(--red);
+      font-weight: 850;
+    }
+
+    .flat {
+      color: var(--amber);
+      font-weight: 850;
+    }
+
+    .currency-toggle {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid rgba(37, 87, 167, 0.18);
+      border-radius: 999px;
+      background: #fff;
+    }
+
+    .currency-toggle button {
+      min-width: 58px;
+      min-height: 30px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .currency-toggle button[aria-pressed="true"] {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .price-value {
+      font-weight: 850;
+    }
+
+    .price-original {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .supply-chain {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .supplier-card {
+      min-height: 118px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .supplier-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .supplier-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .risk-band {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .risk-item.positive {
+      border-color: rgba(8, 127, 91, 0.28);
+      background: rgba(8, 127, 91, 0.05);
+    }
+
+    .risk-item.negative {
+      border-color: rgba(201, 42, 42, 0.26);
+      background: rgba(201, 42, 42, 0.05);
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 860px) {
+      .shell {
+        width: min(100% - 24px, 680px);
+        padding-top: 20px;
+      }
+
+      .topbar,
+      .hero,
+      .grid,
+      .risk-band,
+      .supply-chain {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        display: grid;
+        align-items: start;
+      }
+
+      .timestamp {
+        text-align: left;
+      }
+
+      .hero-main {
+        padding: 22px;
+      }
+
+      .lead {
+        font-size: 16px;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .section-tools {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="topbar">
+      <span class="badge">測試通知</span>
+      <span class="timestamp">每日新聞與行情通知測試 · 2026-05-18 · Asia/Taipei</span>
+    </div>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-main">
+        <h1 id="page-title">每日新聞與行情快覽</h1>
+        <p class="lead">彙整 Google 新聞追蹤關鍵字、主要科技股、加密資產、黃金、台股與 Apple 供應鏈標的，供快速瀏覽與風險判讀。</p>
+      </div>
+      <aside class="hero-side" aria-label="市場速覽">
+        <div class="stat">
+          <span class="stat-label">避險資產</span>
+          <span class="stat-value up">XAUUSD +0.85%</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">加密資產</span>
+          <span class="stat-value down">BTC -0.87%</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">大型科技</span>
+          <span class="stat-value up">MSFT +3.05%</span>
+        </div>
+      </aside>
+    </section>
+
+    <div class="grid">
+      <section class="section" aria-labelledby="news-title">
+        <div class="section-head">
+          <h2 id="news-title">最新重點新聞</h2>
+          <span class="badge">Google News Keywords</span>
+        </div>
+        <div class="section-body">
+          <ul class="news-list">
+            <li class="news-item">
+              <span class="item-title">OpenAI / Sam Altman</span>
+              <span class="item-copy">Musk vs. OpenAI 官司進入結案攻防，市場關注 OpenAI 治理、非營利使命與利益衝突指控。</span>
+            </li>
+            <li class="news-item">
+              <span class="item-title">美聯儲</span>
+              <span class="item-copy">FOMC 維持利率區間 3.50%–3.75%，同時出現多位反對票，顯示政策內部分歧升高。</span>
+            </li>
+            <li class="news-item">
+              <span class="item-title">Donald Trump / 世界新聞</span>
+              <span class="item-copy">Trump 結束中國行後宣稱交易成果，但台海、伊朗等地緣政治風險仍牽動市場情緒。</span>
+            </li>
+            <li class="news-item">
+              <span class="item-title">Tesla / X / SpaceX</span>
+              <span class="item-copy">Elon Musk 相關企業仍是新聞波動核心，投資人同步追蹤訴訟、監管、AI 與太空業務進展。</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="risk-title">
+        <div class="section-head">
+          <h2 id="risk-title">利多 / 利空與風險</h2>
+          <span class="badge">Brief View</span>
+        </div>
+        <div class="section-body">
+          <div class="risk-band">
+            <div class="risk-item positive">
+              <span class="item-title">利多</span>
+              <span class="item-copy">大型科技股基本面、雲端與 AI 資本開支循環仍可能支撐半導體與 Apple 供應鏈長線需求。</span>
+            </div>
+            <div class="risk-item negative">
+              <span class="item-title">利空 / 風險</span>
+              <span class="item-copy">利率維持高檔、Fed 歧見升高、地緣政治與監管訴訟新聞，可能放大風險資產短線波動。</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="section" aria-labelledby="prices-title">
+      <div class="section-head">
+        <h2 id="prices-title">追蹤標的行情</h2>
+        <div class="section-tools">
+          <div class="currency-toggle" aria-label="切換顯示幣別">
+            <button type="button" data-currency="USD" aria-pressed="true">美元</button>
+            <button type="button" data-currency="TWD" aria-pressed="false">台幣</button>
+          </div>
+          <span class="badge">TradingView Watchlist</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>標的</th>
+              <th>名稱 / 市場</th>
+              <th>最新價格</th>
+              <th>漲跌幅</th>
+              <th>備註</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="symbol">OANDA:XAUUSD</td>
+              <td><span>Gold Spot</span><div class="market">OANDA</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="4575.95" data-original="$4,575.95"><span class="price-value">$4,575.95</span></td>
+              <td class="up">+0.85%</td>
+              <td>避險資產偏強</td>
+            </tr>
+            <tr>
+              <td class="symbol">BTCUSD</td>
+              <td><span>Bitcoin</span><div class="market">Crypto</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="76758.27" data-original="$76,758.27"><span class="price-value">$76,758.27</span></td>
+              <td class="down">-0.87%</td>
+              <td>加密資產回落</td>
+            </tr>
+            <tr>
+              <td class="symbol">ETHUSD</td>
+              <td><span>Ethereum</span><div class="market">Crypto</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="2168.21" data-original="$2,168.21"><span class="price-value">$2,168.21</span></td>
+              <td class="down">-0.60%</td>
+              <td>同步走弱</td>
+            </tr>
+            <tr>
+              <td class="symbol">TWSE:2330</td>
+              <td><span>台積電</span><div class="market">TWSE</div></td>
+              <td class="price-cell" data-currency-native="TWD" data-price-native="2240" data-original="2240.00 TWD"><span class="price-value">US$71.51</span><span class="price-original">原幣 2240.00 TWD</span></td>
+              <td class="down">-1.10%</td>
+              <td>先進製程核心觀察</td>
+            </tr>
+            <tr>
+              <td class="symbol">NASDAQ:AAPL</td>
+              <td><span>Apple</span><div class="market">NASDAQ</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="300.23" data-original="$300.23"><span class="price-value">$300.23</span></td>
+              <td class="up">+0.68%</td>
+              <td>2026-05-15 收盤</td>
+            </tr>
+            <tr>
+              <td class="symbol">NASDAQ:GOOGL</td>
+              <td><span>Alphabet</span><div class="market">NASDAQ</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="396.78" data-original="$396.78"><span class="price-value">$396.78</span></td>
+              <td class="down">-1.07%</td>
+              <td>2026-05-15 收盤</td>
+            </tr>
+            <tr>
+              <td class="symbol">NASDAQ:MSFT</td>
+              <td><span>Microsoft</span><div class="market">NASDAQ</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="421.92" data-original="$421.92"><span class="price-value">$421.92</span></td>
+              <td class="up">+3.05%</td>
+              <td>2026-05-15 收盤</td>
+            </tr>
+            <tr>
+              <td class="symbol">NASDAQ:AMZN</td>
+              <td><span>Amazon</span><div class="market">NASDAQ</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="264.14" data-original="$264.14"><span class="price-value">$264.14</span></td>
+              <td class="down">-1.15%</td>
+              <td>2026-05-15 收盤</td>
+            </tr>
+            <tr>
+              <td class="symbol">TWSE:2317</td>
+              <td><span>鴻海</span><div class="market">TWSE</div></td>
+              <td class="price-cell" data-currency-native="TWD" data-price-native="248.5" data-original="248.5 TWD"><span class="price-value">US$7.93</span><span class="price-original">原幣 248.5 TWD</span></td>
+              <td class="up">+0.40%</td>
+              <td>Apple 組裝鏈觀察</td>
+            </tr>
+            <tr>
+              <td class="symbol">TWSE:4938</td>
+              <td><span>和碩</span><div class="market">TWSE</div></td>
+              <td class="price-cell" data-currency-native="TWD" data-price-native="76.5" data-original="76.50 TWD"><span class="price-value">US$2.44</span><span class="price-original">原幣 76.50 TWD</span></td>
+              <td class="flat">+0.00%</td>
+              <td>持平整理</td>
+            </tr>
+            <tr>
+              <td class="symbol">SZSE:002475</td>
+              <td><span>立訊精密</span><div class="market">SZSE</div></td>
+              <td class="price-cell" data-currency-native="CNY" data-price-native="40.06" data-original="40.06 CNY"><span class="price-value">US$5.89</span><span class="price-original">原幣 40.06 CNY</span></td>
+              <td class="down">-0.60%</td>
+              <td>中國供應鏈觀察</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section-body" style="padding-top: 0;">
+        <span class="item-copy">換算估值使用 1 USD = 31.322 TWD、1 USD = 6.803386 CNY；實際交易仍以各市場原幣報價為準。</span>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="apple-title" style="margin-top: 18px;">
+      <div class="section-head">
+        <h2 id="apple-title">Apple 供應鏈觀察</h2>
+        <span class="badge">Supply Chain</span>
+      </div>
+      <div class="section-body">
+        <div class="supply-chain">
+          <div class="supplier-card">
+            <strong>台積電 2330</strong>
+            <span class="down">-1.10%</span>
+            <span>AI / 先進製程長線需求仍在，短線受風險偏好影響。</span>
+          </div>
+          <div class="supplier-card">
+            <strong>鴻海 2317</strong>
+            <span class="up">+0.40%</span>
+            <span>組裝與伺服器題材提供支撐，觀察毛利與訂單能見度。</span>
+          </div>
+          <div class="supplier-card">
+            <strong>和碩 4938</strong>
+            <span class="flat">0.00%</span>
+            <span>盤勢持平，等待新品週期與產能配置訊號。</span>
+          </div>
+          <div class="supplier-card">
+            <strong>立訊精密 002475</strong>
+            <span class="down">-0.60%</span>
+            <span>中國供應鏈標的偏弱，留意匯率與地緣風險。</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer-note">資料為測試通知整理用途；報價與新聞需以即時來源為準，非投資建議。</p>
+  </main>
+  <script>
+    const exchangeRates = {
+      USD_TWD: 31.322,
+      USD_CNY: 6.803386
+    };
+
+    const currencyButtons = document.querySelectorAll("[data-currency]");
+    const priceCells = document.querySelectorAll(".price-cell");
+
+    function toUsd(nativeCurrency, nativePrice) {
+      if (nativeCurrency === "USD") return nativePrice;
+      if (nativeCurrency === "TWD") return nativePrice / exchangeRates.USD_TWD;
+      if (nativeCurrency === "CNY") return nativePrice / exchangeRates.USD_CNY;
+      return nativePrice;
+    }
+
+    function formatPrice(value, currency) {
+      if (currency === "TWD") {
+        return new Intl.NumberFormat("zh-TW", {
+          style: "currency",
+          currency: "TWD",
+          maximumFractionDigits: value >= 1000 ? 0 : 2
+        }).format(value);
+      }
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: value >= 1000 ? 2 : 2
+      }).format(value);
+    }
+
+    function renderCurrency(targetCurrency) {
+      priceCells.forEach((cell) => {
+        const nativeCurrency = cell.dataset.currencyNative;
+        const nativePrice = Number(cell.dataset.priceNative);
+        const usdValue = toUsd(nativeCurrency, nativePrice);
+        const displayValue = targetCurrency === "TWD" ? usdValue * exchangeRates.USD_TWD : usdValue;
+        const original = cell.dataset.original;
+
+        cell.innerHTML = `<span class="price-value">${formatPrice(displayValue, targetCurrency)}</span>`;
+
+        if (targetCurrency !== nativeCurrency) {
+          const originalLabel = document.createElement("span");
+          originalLabel.className = "price-original";
+          originalLabel.textContent = `原幣 ${original}`;
+          cell.appendChild(originalLabel);
+        }
+      });
+
+      currencyButtons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.currency === targetCurrency));
+      });
+    }
+
+    currencyButtons.forEach((button) => {
+      button.addEventListener("click", () => renderCurrency(button.dataset.currency));
+    });
+
+    renderCurrency("USD");
+  </script>
+</body>
+</html>
