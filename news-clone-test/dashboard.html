@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>每日新聞與行情（測試）- 圖表</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: #0f1b33;
+        --text: #e8eefc;
+        --muted: #a7b5d6;
+        --accent: #66a3ff;
+        --good: #41d17c;
+        --bad: #ff5c7a;
+        --warn: #ffd166;
+        --border: rgba(255,255,255,.10);
+      }
+      body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans TC", "Microsoft JhengHei", sans-serif; background: radial-gradient(1200px 800px at 20% 0%, #12244a 0%, var(--bg) 50%, #050913 100%); color: var(--text); }
+      header { padding: 20px 18px 10px; border-bottom: 1px solid var(--border); position: sticky; top: 0; backdrop-filter: blur(10px); background: rgba(11,18,32,.72); }
+      h1 { font-size: 16px; margin: 0 0 6px; font-weight: 700; letter-spacing: .2px; }
+      .sub { font-size: 12px; color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; }
+      main { padding: 14px 18px 28px; max-width: 1200px; margin: 0 auto; }
+      .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+      @media (min-width: 1000px) { .grid { grid-template-columns: 1.25fr .75fr; } }
+      .card { background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+      .card h2 { margin: 0; font-size: 13px; padding: 12px 12px 10px; border-bottom: 1px solid var(--border); color: var(--text); display:flex; align-items:center; justify-content:space-between; gap: 10px;}
+      .hint { color: var(--muted); font-weight: 500; font-size: 11px; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { padding: 10px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+      th { text-align: left; font-size: 11px; color: var(--muted); font-weight: 600; }
+      td { font-size: 12px; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+      .pill { display:inline-flex; align-items:center; gap:6px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); background: rgba(0,0,0,.16); font-size: 11px; color: var(--muted); }
+      .chg.up { color: var(--good); }
+      .chg.down { color: var(--bad); }
+      .chg.na { color: var(--muted); }
+      .spark { width: 170px; height: 34px; display:block; }
+      .spark path { fill:none; stroke: rgba(102,163,255,.92); stroke-width: 2; }
+      .spark .bg { stroke: rgba(255,255,255,.10); stroke-width: 1; }
+      .kpi { display:flex; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border-top: 1px solid var(--border); color: var(--muted); font-size: 11px;}
+      .kpi strong { color: var(--text); font-weight: 700; }
+      .right { text-align:right; }
+      .small { font-size: 11px; color: var(--muted); }
+      .warn { color: var(--warn); }
+      .footer { margin-top: 10px; font-size: 11px; color: var(--muted); }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>每日新聞與行情通知（測試）- 圖表儀表板</h1>
+      <div class="sub">
+        <span class="pill">資料檔：<span class="mono">dashboard_data.json</span></span>
+        <span id="asOf" class="pill">asOf：-</span>
+        <span class="pill">指標：RSI(14)、MACD(12,26,9)</span>
+        <span class="pill">背離指數：以近 20 根K 自動評分</span>
+      </div>
+    </header>
+    <main>
+      <div class="grid">
+        <section class="card">
+          <h2>
+            <span>行情 + 背離指數</span>
+            <span class="hint">把各標的 closes 填入（至少 60 筆收盤價較穩）</span>
+          </h2>
+          <div style="overflow:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>標的</th>
+                  <th class="right">最新價</th>
+                  <th class="right">漲跌幅</th>
+                  <th class="right">RSI(14)</th>
+                  <th class="right">MACD</th>
+                  <th class="right">背離指數</th>
+                  <th>走勢</th>
+                </tr>
+              </thead>
+              <tbody id="marketRows"></tbody>
+            </table>
+          </div>
+          <div class="kpi">
+            <div>背離指數說明：<strong>+100</strong>（偏多背離）～<strong>-100</strong>（偏空背離），越接近 0 代表背離不明顯</div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>
+            <span>公司現金儲備（最新季末）</span>
+            <span class="hint">建議填 Cash &amp; cash equivalents</span>
+          </h2>
+          <div style="overflow:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>公司</th>
+                  <th class="right">現金儲備</th>
+                  <th class="right">幣別</th>
+                  <th class="right">季末日期</th>
+                  <th>來源</th>
+                </tr>
+              </thead>
+              <tbody id="cashRows"></tbody>
+            </table>
+          </div>
+          <div class="footer">
+            提示：你可以把來源填成「10-Q/20-F/年報連結」或「法說簡報」。本頁不會自動上網抓資料。
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 });
+      const fmtPct = new Intl.NumberFormat("en-US", { style: "percent", maximumFractionDigits: 2 });
+
+      function clamp(n, lo, hi) { return Math.min(hi, Math.max(lo, n)); }
+      function last(arr) { return arr && arr.length ? arr[arr.length - 1] : null; }
+
+      function ema(values, period) {
+        if (!values || values.length === 0) return [];
+        const k = 2 / (period + 1);
+        const out = [];
+        let prev = values[0];
+        out.push(prev);
+        for (let i = 1; i < values.length; i++) {
+          prev = values[i] * k + prev * (1 - k);
+          out.push(prev);
+        }
+        return out;
+      }
+
+      function rsi(values, period) {
+        if (!values || values.length < period + 1) return [];
+        let gain = 0, loss = 0;
+        for (let i = 1; i <= period; i++) {
+          const diff = values[i] - values[i - 1];
+          if (diff >= 0) gain += diff; else loss -= diff;
+        }
+        gain /= period; loss /= period;
+        const out = new Array(period).fill(null);
+        let rs = loss === 0 ? 100 : gain / loss;
+        out.push(100 - (100 / (1 + rs)));
+        for (let i = period + 1; i < values.length; i++) {
+          const diff = values[i] - values[i - 1];
+          const g = diff > 0 ? diff : 0;
+          const l = diff < 0 ? -diff : 0;
+          gain = (gain * (period - 1) + g) / period;
+          loss = (loss * (period - 1) + l) / period;
+          rs = loss === 0 ? 100 : gain / loss;
+          out.push(100 - (100 / (1 + rs)));
+        }
+        return out;
+      }
+
+      function macd(values, fast, slow, signal) {
+        if (!values || values.length === 0) return { macd: [], signal: [], hist: [] };
+        const fastEma = ema(values, fast);
+        const slowEma = ema(values, slow);
+        const macdLine = values.map((_, i) => (fastEma[i] ?? null) - (slowEma[i] ?? null));
+        const signalLine = ema(macdLine.map(v => (v ?? 0)), signal);
+        const hist = macdLine.map((v, i) => (v ?? 0) - (signalLine[i] ?? 0));
+        return { macd: macdLine, signal: signalLine, hist };
+      }
+
+      function minMax(arr) {
+        let mn = Infinity, mx = -Infinity;
+        for (const v of arr) {
+          if (v === null || v === undefined || Number.isNaN(v)) continue;
+          mn = Math.min(mn, v);
+          mx = Math.max(mx, v);
+        }
+        if (!Number.isFinite(mn) || !Number.isFinite(mx)) return [0, 0];
+        return [mn, mx];
+      }
+
+      function sparklineSvg(values) {
+        const w = 170, h = 34, pad = 2;
+        if (!values || values.length < 2) {
+          return `<svg class="spark" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+            <path class="bg" d="M${pad} ${h-pad} L${w-pad} ${h-pad}" />
+          </svg>`;
+        }
+        const [mn, mx] = minMax(values);
+        const span = mx - mn || 1;
+        const step = (w - pad * 2) / (values.length - 1);
+        let d = "";
+        values.forEach((v, i) => {
+          const x = pad + i * step;
+          const y = pad + (h - pad * 2) * (1 - (v - mn) / span);
+          d += (i === 0 ? "M" : "L") + x.toFixed(2) + " " + y.toFixed(2) + " ";
+        });
+        return `<svg class="spark" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+          <path class="bg" d="M${pad} ${h-pad} L${w-pad} ${h-pad}" />
+          <path d="${d.trim()}" />
+        </svg>`;
+      }
+
+      // 背離指數（簡化可視化版本）：
+      // - 取近 lookback 根
+      // - 計算價格距離近 lookback 高/低的相對位置（-1~+1）
+      // - 計算 RSI/MACD(hist) 同樣的相對位置（-1~+1）
+      // - divergence = (indicatorPos - pricePos) 的加權平均，映射到 -100~+100
+      function divergenceIndex(closes, settings) {
+        const { rsiPeriod, macdFast, macdSlow, macdSignal, divergenceLookback } = settings;
+        if (!closes || closes.length < Math.max(rsiPeriod + 5, macdSlow + macdSignal + 5, divergenceLookback + 2)) return null;
+        const window = closes.slice(-divergenceLookback);
+        const [pMin, pMax] = minMax(window);
+        const pricePos = ((last(window) - (pMin + pMax) / 2) / ((pMax - pMin) / 2 || 1));
+
+        const rsiSeries = rsi(closes, rsiPeriod);
+        const rsiWindow = rsiSeries.slice(-divergenceLookback).filter(v => v !== null);
+        const [rMin, rMax] = minMax(rsiWindow);
+        const rPos = ((last(rsiWindow) - (rMin + rMax) / 2) / ((rMax - rMin) / 2 || 1));
+
+        const m = macd(closes, macdFast, macdSlow, macdSignal);
+        const histWindow = m.hist.slice(-divergenceLookback);
+        const [hMin, hMax] = minMax(histWindow);
+        const hPos = ((last(histWindow) - (hMin + hMax) / 2) / ((hMax - hMin) / 2 || 1));
+
+        const raw = (0.55 * (rPos - pricePos)) + (0.45 * (hPos - pricePos));
+        return Math.round(clamp(raw, -1, 1) * 100);
+      }
+
+      function chgClass(p) {
+        if (p === null || p === undefined || Number.isNaN(p)) return "na";
+        if (p > 0) return "up";
+        if (p < 0) return "down";
+        return "na";
+      }
+
+      function renderMarketRow(instr, settings) {
+        const closes = instr.closes || [];
+        const rsiSeries = rsi(closes, settings.rsiPeriod);
+        const rsiVal = last(rsiSeries.filter(v => v !== null));
+        const m = macd(closes, settings.macdFast, settings.macdSlow, settings.macdSignal);
+        const macdVal = last(m.macd);
+        const macdSig = last(m.signal);
+        const macdText = (macdVal === null || macdVal === undefined) ? "-" : `${fmt.format(macdVal)} / ${fmt.format(macdSig)}`;
+        const div = divergenceIndex(closes, settings);
+        const divText = div === null ? "-" : (div > 0 ? `+${div}` : `${div}`);
+
+        const lastPrice = instr.last ?? last(closes);
+        const lastText = (lastPrice === null || lastPrice === undefined) ? "-" : fmt.format(lastPrice);
+        const chg = instr.changePct;
+        const chgText = (chg === null || chg === undefined) ? "-" : fmtPct.format(chg / 100);
+
+        return `
+          <tr>
+            <td>
+              <div><span class="mono">${instr.symbol}</span></div>
+              <div class="small">${instr.name ?? ""}</div>
+            </td>
+            <td class="right mono">${lastText}</td>
+            <td class="right mono chg ${chgClass(chg)}">${chgText}</td>
+            <td class="right mono">${rsiVal === null || rsiVal === undefined ? "-" : fmt.format(rsiVal)}</td>
+            <td class="right mono">${macdText}</td>
+            <td class="right mono ${div === null ? "na" : (div >= 20 ? "up" : (div <= -20 ? "down" : "na"))}">${divText}</td>
+            <td>${sparklineSvg(closes.slice(-40))}</td>
+          </tr>
+        `;
+      }
+
+      function renderCashRow(c) {
+        const amt = c.cashAmount;
+        const amtText = (amt === null || amt === undefined) ? "-" : fmt.format(amt);
+        const per = c.periodEnd ?? "-";
+        const src = c.source ? `<a href="${c.source}" target="_blank" rel="noreferrer">${c.source}</a>` : "-";
+        return `
+          <tr>
+            <td>
+              <div>${c.name ?? ""}</div>
+              <div class="small mono">${c.symbol}</div>
+            </td>
+            <td class="right mono">${amtText}</td>
+            <td class="right mono">${c.cashCurrency ?? "-"}</td>
+            <td class="right mono">${per}</td>
+            <td class="small">${src}</td>
+          </tr>
+        `;
+      }
+
+      function renderAll(data) {
+        document.getElementById("asOf").textContent = `asOf：${data.asOf ?? "-"}`;
+        const settings = data.settings ?? { rsiPeriod: 14, macdFast: 12, macdSlow: 26, macdSignal: 9, divergenceLookback: 20 };
+        const market = (data.instruments ?? []).map(i => renderMarketRow(i, settings)).join("");
+        document.getElementById("marketRows").innerHTML = market || `<tr><td colspan="7" class="warn">沒有 instruments 資料</td></tr>`;
+        const cash = (data.companiesCash ?? []).map(renderCashRow).join("");
+        document.getElementById("cashRows").innerHTML = cash || `<tr><td colspan="5" class="warn">沒有 companiesCash 資料</td></tr>`;
+      }
+
+      function showFileLoader(message) {
+        const holder = document.createElement("div");
+        holder.style.padding = "10px 12px";
+        holder.style.borderTop = "1px solid var(--border)";
+        holder.innerHTML = `
+          <div class="warn" style="margin-bottom:8px;">${message}</div>
+          <div class="small" style="margin-bottom:8px;">
+            你現在是用 <span class="mono">file://</span> 開啟，瀏覽器通常會阻擋 <span class="mono">fetch(./dashboard_data.json)</span>。
+            請用下面按鈕手動載入 <span class="mono">dashboard_data.json</span>（同資料夾即可）。
+          </div>
+          <input id="jsonFile" type="file" accept="application/json" />
+        `;
+        const card = document.querySelector("section.card");
+        card.appendChild(holder);
+        const input = holder.querySelector("#jsonFile");
+        input.addEventListener("change", async () => {
+          const file = input.files && input.files[0];
+          if (!file) return;
+          try {
+            const text = await file.text();
+            const data = JSON.parse(text);
+            renderAll(data);
+            holder.remove();
+          } catch (e) {
+            alert("JSON 解析失敗：" + String(e));
+          }
+        });
+      }
+
+      async function main() {
+        try {
+          const res = await fetch("./dashboard_data.json", { cache: "no-store" });
+          const data = await res.json();
+          renderAll(data);
+        } catch (err) {
+          document.getElementById("marketRows").innerHTML = `<tr><td colspan="7" class="warn">載入失敗：${String(err)}</td></tr>`;
+          showFileLoader(`載入失敗：${String(err)}`);
+        }
+      }
+      main();
+    </script>
+  </body>
+</html>
