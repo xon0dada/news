@@ -823,13 +823,6 @@
     </section>
 
     <section class="grid">
-      <h2>新聞與資料來源連結</h2>
-      <div class="link-audit" id="linkAudit"></div>
-      <div class="source-hub" id="sourceHub"></div>
-      <p class="source-line">新聞卡片、過熱股市新聞、供應鏈觀察、行情表、匯率與避險資產都保留可點擊來源；此區集中列出主要入口，方便快速核對。</p>
-    </section>
-
-    <section class="grid">
       <h2>一個月漲跌幅與過熱 / 低估看盤圖</h2>
       <p class="chart-note">每列是一個追蹤標的；中央橫條顯示近一月漲跌幅，右側顯示推薦觀察分數與狀態，避免多條折線擠在一起。</p>
       <div class="chart-wrap">
@@ -1657,53 +1650,6 @@
       `).join("");
     }
 
-    function renderSourceHub() {
-      const newsLinks = newsItems.map((item, index) => ({
-        label: `${String(index + 1).padStart(2, "0")}. ${item.source} - ${item.title}`,
-        url: item.url
-      }));
-      const heatLinks = heatNews.map((item, index) => ({
-        label: `${String(index + 1).padStart(2, "0")}. ${item.source} - ${item.title}`,
-        url: item.url
-      }));
-      const sourceGroups = [
-        { title: "最新重點新聞 20 項", links: newsLinks },
-        { title: "市場過熱股市新聞 20 項", links: heatLinks },
-        ...dataSourceGroups
-      ];
-
-      document.getElementById("sourceHub").innerHTML = sourceGroups.map(group => `
-        <article class="source-group">
-          <h3>${group.title}</h3>
-          <ul>
-            ${group.links.map(link => `
-              <li>
-                <a href="${link.url}" rel="noopener">${link.label}</a>
-                <div class="link-url">${formatDomain(link.url)}</div>
-              </li>
-            `).join("")}
-          </ul>
-        </article>
-      `).join("");
-    }
-
-    function renderLinkAudit() {
-      const marketSourceCount = dataSourceGroups.reduce((sum, group) => sum + group.links.length, 0);
-      const cards = [
-        { value: newsItems.filter(item => item.url).length, label: `重點新聞連結 / ${newsItems.length}` },
-        { value: heatNews.filter(item => item.url).length, label: `過熱新聞連結 / ${heatNews.length}` },
-        { value: marketSourceCount, label: "行情、匯率、避險資料來源" },
-        { value: "同頁", label: "外部連結開啟方式" }
-      ];
-
-      document.getElementById("linkAudit").innerHTML = cards.map(card => `
-        <article class="audit-card">
-          <strong>${card.value}</strong>
-          <span>${card.label}</span>
-        </article>
-      `).join("");
-    }
-
     function bindExternalLinks() {
       document.querySelectorAll('a[href^="http"]').forEach(anchor => {
         anchor.removeAttribute("target");
@@ -1948,8 +1894,6 @@
     renderFxBoard();
     renderSafeHavens();
     renderMarketTable();
-    renderLinkAudit();
-    renderSourceHub();
     renderNews();
     renderHeatNews();
     renderWatchLists();
@@ -2232,8 +2176,6 @@
       renderFxBoard();
       renderSafeHavens();
       renderMarketTable();
-      renderLinkAudit();
-      renderSourceHub();
       renderNews();
       renderHeatNews();
       renderWatchLists();
