@@ -213,8 +213,8 @@
 
     .safe-board {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
 
     .fx-board {
@@ -224,8 +224,8 @@
     }
 
     .safe-card {
-      min-height: 112px;
-      padding: 12px;
+      min-height: 0;
+      padding: 14px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: #fff;
@@ -245,9 +245,9 @@
     .fx-head,
     .safe-head {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      gap: 8px;
+      gap: 12px;
     }
 
     .fx-code {
@@ -279,19 +279,22 @@
 
     .safe-card {
       display: grid;
-      gap: 8px;
+      gap: 10px;
     }
 
     .safe-price {
-      font-size: 19px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: #f8fafc;
+      font-size: 20px;
       font-weight: 850;
       line-height: 1.15;
     }
 
     .safe-card p {
       color: #475467;
-      font-size: 13px;
-      line-height: 1.45;
+      font-size: 14px;
+      line-height: 1.55;
     }
 
     .heat {
@@ -692,7 +695,6 @@
       }
 
       .news-grid,
-      .safe-board,
       .source-hub,
       .legend {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -715,7 +717,6 @@
 
       .metric-row,
       .news-grid,
-      .safe-board,
       .source-hub,
       .link-audit,
       .legend,
@@ -1689,7 +1690,7 @@
               <h3><a href="${item.url}" rel="noopener">${item.asset}</a></h3>
               <div class="safe-role">${item.role}</div>
             </div>
-            <span class="${item.moveClass}">${item.move}</span>
+            <span class="tag ${item.moveClass === "up" ? "green" : item.moveClass === "down" ? "red" : "blue"}">${item.move}</span>
           </div>
           <div class="safe-price">${item.price}</div>
           <p>${item.signal}</p>
