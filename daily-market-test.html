@@ -778,7 +778,7 @@
         </div>
         <div class="fx-board" id="fxBoard"></div>
         <div class="source-line">
-          匯率為每 1 單位外幣約等於多少 TWD；USD 參考
+          本區每次自動化更新都重新查詢最新可見公開報價；本輪報價時間：2026-05-20 19:35 Asia/Taipei。匯率為每 1 單位外幣約等於多少 TWD；USD 參考
           <a href="https://usd.currencyrate.today/twd" target="_blank" rel="noopener">CurrencyRate</a>，
           主要交叉匯率參考
           <a href="https://en.findrate.tw/" target="_blank" rel="noopener">FindRate / Bank of Taiwan</a>、
@@ -887,7 +887,7 @@
 
   <script>
     const FX = {
-      USD_TWD: 31.41,
+      USD_TWD: 31.414,
       USD_CNY: 6.81063
     };
 
@@ -1978,12 +1978,12 @@
         return values;
       };
 
-      FX.USD_TWD = 31.407;
+      FX.USD_TWD = 31.414;
       FX.USD_CNY = 6.81063;
 
       fxRates.splice(0, fxRates.length,
         { code: "TWD", name: "新台幣", twd: 1, badge: "基準", badgeClass: "blue", note: "本頁報價基準" },
-        { code: "USD", name: "美元", twd: 31.407, badge: "5/8 快照", badgeClass: "green", note: "Forbes/Xe 可見最新 USD/TWD 快照" },
+        { code: "USD", name: "美元", twd: 31.414, badge: "本輪更新", badgeClass: "green", note: "Investing.com / CurrencyRate 最新可見 USD/TWD 公開報價" },
         { code: "JPY", name: "日圓", twd: 0.1975, badge: "AP 交叉", badgeClass: "amber", note: "美元兌日圓約 159.05 推算" },
         { code: "EUR", name: "歐元", twd: 36.40, badge: "AP 交叉", badgeClass: "amber", note: "EUR/USD 約 1.1591 推算" },
         { code: "CHF", name: "瑞郎", twd: 38.05, badge: "參考", badgeClass: "amber", note: "傳統避險貨幣，利率敏感" },
@@ -2000,7 +2000,7 @@
       safeHavenAssets.splice(0, safeHavenAssets.length,
         { asset: "Gold Spot", price: "約 US$4,484.90", move: "日內偏弱", moveClass: "down", role: "核心避險 / 實質利率", signal: "美債殖利率上行壓制金價，但 Iran 與油價風險仍支撐避險需求。", url: "https://www.investing.com/currencies/xau-usd" },
         { asset: "Silver Spot", price: "約 US$73.57", move: "高波動", moveClass: "down", role: "貴金屬 / 工業需求", signal: "白銀同時受工業需求與避險買盤影響，風險資產回檔時波動常大於黃金。", url: "https://www.marketscreener.com/quote/commodity/SILVER-16221/" },
-        { asset: "USD Cash", price: "USD/TWD 31.407", move: "窄幅", moveClass: "flat", role: "現金 / 匯率防守", signal: "美元受長端殖利率支撐，台幣換算報價以最新可見公開快照為準。", url: "https://www.forbes.com/advisor/money-transfer/currency-converter/usd-twd/" },
+        { asset: "USD Cash", price: "USD/TWD 31.414", move: "窄幅", moveClass: "flat", role: "現金 / 匯率防守", signal: "美元受長端殖利率支撐，台幣換算報價每輪更新重新查詢最新可見公開報價。", url: "https://www.investing.com/currencies/usd-twd" },
         { asset: "Short Bills / Cash", price: "短票利率高檔", move: "防守", moveClass: "up", role: "現金收益 / 再配置彈性", signal: "長端利率高檔時，短票與貨幣基金仍是等待波動落地的防守工具。", url: "https://www.treasurydirect.gov/" },
         { asset: "US 10Y Yield", price: ">4.60%", move: "上行", moveClass: "up", role: "折現率 / 風險資產壓力", signal: "AP 指出 10 年期美債殖利率升破 4.60%，成為壓抑科技股估值的核心變數。", url: "https://apnews.com/article/9ef90df1ae1cd1283f8cf04221611112" },
         { asset: "US 30Y Yield", price: ">5.00%", move: "高檔", moveClass: "up", role: "期限溢價 / 財政風險", signal: "30 年期殖利率重回金融危機前高檔，對長久期資產與政府融資成本不利。", url: "https://apnews.com/article/9ef90df1ae1cd1283f8cf04221611112" },
@@ -2033,7 +2033,7 @@
         {
           title: "匯率與避險資料",
           links: [
-            { label: "Forbes USD/TWD", url: "https://www.forbes.com/advisor/money-transfer/currency-converter/usd-twd/" },
+            { label: "Investing.com USD/TWD", url: "https://www.investing.com/currencies/usd-twd" },
             { label: "Exchange-Rates USD/TWD 30 days", url: "https://www.exchange-rates.org/converter/usd-twd" },
             { label: "X-Rates USD/TWD", url: "https://www.x-rates.com/calculator/?amount=1&from=USD&to=TWD" },
             { label: "AP bond market pressure", url: "https://apnews.com/article/9ef90df1ae1cd1283f8cf04221611112" },
@@ -2103,7 +2103,7 @@
         { title: "Luxshare revenue growth 強但波動大", text: "StockAnalysis 顯示 Luxshare Q1 revenue 年增 35.77%，但 30 日與 52 週波動偏大，需加入中國供應鏈風險折價。", url: "https://stockanalysis.com/quote/she/002475/revenue/" },
         { title: "India iPhone 組裝仍是 China+1 主軸", text: "India 產能擴張有助分散 China risk，Foxconn、Tata 與當地零組件供應商仍是 Apple 供應鏈重點。", url: "https://www.moneycontrol.com/news/business/india-to-assemble-28-of-global-iphones-in-2026-as-apple-deepens-supply-chain-shift-beyond-china-13920170.html" },
         { title: "Taiwan arms issue 牽動半導體風險溢價", text: "AP 報導 Lai 希望延續美國軍購，Trump 對 Taiwan 支持敘事仍讓台股供應鏈維持地緣折價。", url: "https://apnews.com/article/d52867fbbb34e66f414fb4a45929f7fc" },
-        { title: "USD/TWD 仍影響台系供應商毛利", text: "美元兌台幣約 31.407；台幣弱勢有利出口換算，但外資評價、進口成本與避險成本需一起看。", url: "https://www.forbes.com/advisor/money-transfer/currency-converter/usd-twd/" }
+        { title: "USD/TWD 仍影響台系供應商毛利", text: "美元兌台幣約 31.414；台幣弱勢有利出口換算，但外資評價、進口成本與避險成本需一起看。", url: "https://www.investing.com/currencies/usd-twd" }
       );
 
       teslaWatch.splice(0, teslaWatch.length,
