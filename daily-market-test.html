@@ -829,35 +829,33 @@
       <p class="source-line">新聞卡片、過熱股市新聞、供應鏈觀察、行情表、匯率與避險資產都保留可點擊來源；此區集中列出主要入口，方便快速核對。</p>
     </section>
 
-    <div class="grid two">
-      <section>
-        <h2>一個月漲跌幅與過熱 / 低估看盤圖</h2>
-        <p class="chart-note">每列是一個追蹤標的；中央橫條顯示近一月漲跌幅，右側顯示推薦觀察分數與狀態，避免多條折線擠在一起。</p>
-        <div class="chart-wrap">
-          <canvas id="trendChart" width="1180" height="720" aria-label="一個月漲跌幅與過熱低估看盤圖"></canvas>
-          <div class="legend" id="trendLegend"></div>
-        </div>
-      </section>
+    <section class="grid">
+      <h2>一個月漲跌幅與過熱 / 低估看盤圖</h2>
+      <p class="chart-note">每列是一個追蹤標的；中央橫條顯示近一月漲跌幅，右側顯示推薦觀察分數與狀態，避免多條折線擠在一起。</p>
+      <div class="chart-wrap">
+        <canvas id="trendChart" width="1180" height="720" aria-label="一個月漲跌幅與過熱低估看盤圖"></canvas>
+        <div class="legend" id="trendLegend"></div>
+      </div>
+    </section>
 
-      <section>
-        <h2>目前偏過熱 / 偏低估觀察資產</h2>
-        <h3 class="heat">偏過熱資產</h3>
-        <ul class="plain-list">
-          <li>GOOGL：一個月約 +17%，AI 與 Google I/O 敘事延續，但短線漲幅大。</li>
-          <li>TWSE:2317：一個月約 +21%，AI server 與 Apple/Tesla 供應鏈想像升溫。</li>
-          <li>SZSE:002475：30 日區間波動極大，從低點反彈後仍需觀察資金退潮。</li>
-          <li>TSLA：日線回落但估值仍高，SpaceX/AI/robotaxi 題材使情緒面偏熱。</li>
-        </ul>
-        <h3 class="cool">偏低估觀察資產</h3>
-        <ul class="plain-list">
-          <li>MSFT：一個月小跌，AI/雲端基本面仍強，較同族群沒有明顯追高。</li>
-          <li>ETHUSD：相對 BTC 與 AI 股弱勢，可觀察網路與 ETF 資金是否回流。</li>
-          <li>XAUUSD：一個月回落但仍具避險屬性，利率與美元走勢是關鍵。</li>
-          <li>TWSE:4938：價格相對平穩，Apple/AI server 受惠較慢反映。</li>
-        </ul>
-        <p class="disclaimer">以上「偏過熱 / 偏低估」為相對動能、估值與新聞熱度觀察，不構成投資建議。</p>
-      </section>
-    </div>
+    <section class="grid">
+      <h2>目前偏過熱 / 偏低估觀察資產</h2>
+      <h3 class="heat">偏過熱資產</h3>
+      <ul class="plain-list">
+        <li>GOOGL：一個月約 +17%，AI 與 Google I/O 敘事延續，但短線漲幅大。</li>
+        <li>TWSE:2317：一個月約 +21%，AI server 與 Apple/Tesla 供應鏈想像升溫。</li>
+        <li>SZSE:002475：30 日區間波動極大，從低點反彈後仍需觀察資金退潮。</li>
+        <li>TSLA：日線回落但估值仍高，SpaceX/AI/robotaxi 題材使情緒面偏熱。</li>
+      </ul>
+      <h3 class="cool">偏低估觀察資產</h3>
+      <ul class="plain-list">
+        <li>MSFT：一個月小跌，AI/雲端基本面仍強，較同族群沒有明顯追高。</li>
+        <li>ETHUSD：相對 BTC 與 AI 股弱勢，可觀察網路與 ETF 資金是否回流。</li>
+        <li>XAUUSD：一個月回落但仍具避險屬性，利率與美元走勢是關鍵。</li>
+        <li>TWSE:4938：價格相對平穩，Apple/AI server 受惠較慢反映。</li>
+      </ul>
+      <p class="disclaimer">以上「偏過熱 / 偏低估」為相對動能、估值與新聞熱度觀察，不構成投資建議。</p>
+    </section>
 
     <section class="grid">
       <h2>最新重點新聞 20 項</h2>
