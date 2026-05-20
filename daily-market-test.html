@@ -211,14 +211,18 @@
       white-space: nowrap;
     }
 
-    .fx-board,
     .safe-board {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
     }
 
-    .fx-card,
+    .fx-board {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+    }
+
     .safe-card {
       min-height: 112px;
       padding: 12px;
@@ -229,8 +233,13 @@
 
     .fx-card {
       display: grid;
-      gap: 7px;
+      gap: 4px;
       align-content: start;
+      min-height: 76px;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
     }
 
     .fx-head,
@@ -242,7 +251,7 @@
     }
 
     .fx-code {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 850;
     }
 
@@ -254,9 +263,18 @@
     }
 
     .fx-rate {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 850;
       line-height: 1.15;
+    }
+
+    .fx-note {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .safe-card {
@@ -674,11 +692,14 @@
       }
 
       .news-grid,
-      .fx-board,
       .safe-board,
       .source-hub,
       .legend {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .fx-board {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
     }
 
@@ -694,7 +715,6 @@
 
       .metric-row,
       .news-grid,
-      .fx-board,
       .safe-board,
       .source-hub,
       .link-audit,
@@ -705,6 +725,10 @@
 
       .fx-result {
         justify-content: flex-start;
+      }
+
+      .fx-board {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       table {
@@ -1625,7 +1649,7 @@
             <span class="tag ${item.badgeClass}">${item.badge}</span>
           </div>
           <div class="fx-rate">NT$${formatFx(item.twd)}</div>
-          <div class="fx-name">${item.note}</div>
+          <div class="fx-note" title="${item.note}">${item.note}</div>
         </article>
       `).join("");
 
