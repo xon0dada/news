@@ -399,22 +399,44 @@
     }
 
     .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 12px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
     }
 
-    .legend span::before {
-      content: "";
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      margin-right: 5px;
-      border-radius: 2px;
+    .legend-item {
+      display: grid;
+      grid-template-columns: 5px minmax(0, 1fr);
+      gap: 10px;
+      min-height: 66px;
+      padding: 10px 12px 10px 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .legend-swatch {
+      width: 5px;
+      min-height: 100%;
       background: var(--c);
+    }
+
+    .legend-label {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .legend-note {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
     }
 
     .chart-note {
@@ -654,7 +676,8 @@
       .news-grid,
       .fx-board,
       .safe-board,
-      .source-hub {
+      .source-hub,
+      .legend {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
@@ -675,6 +698,7 @@
       .safe-board,
       .source-hub,
       .link-audit,
+      .legend,
       .fx-toolbar {
         grid-template-columns: 1fr;
       }
@@ -1884,11 +1908,19 @@
       ctx.fillText("左側為下跌，右側為上漲；推薦分數越低越偏謹慎觀察。", margin.left, h - 16);
 
       document.getElementById("trendLegend").innerHTML = [
-        { color: "#c83f49", text: "過熱：追價風險高" },
-        { color: "#b7791f", text: "偏熱：等待回檔更清楚" },
-        { color: "#0f8f62", text: "偏低估觀察：修復候選" },
-        { color: "#2463eb", text: "中性：等待訊號" }
-      ].map(item => `<span style="--c:${item.color}">${item.text}</span>`).join("");
+        { color: "#c83f49", label: "過熱", note: "追價風險高" },
+        { color: "#b7791f", label: "偏熱", note: "等待回檔更清楚" },
+        { color: "#0f8f62", label: "偏低估觀察", note: "修復候選" },
+        { color: "#2463eb", label: "中性", note: "等待訊號" }
+      ].map(item => `
+        <span class="legend-item" style="--c:${item.color}">
+          <span class="legend-swatch" aria-hidden="true"></span>
+          <span>
+            <span class="legend-label">${item.label}</span>
+            <span class="legend-note">${item.note}</span>
+          </span>
+        </span>
+      `).join("");
     }
 
     renderFxBoard();
