@@ -131,6 +131,26 @@
       color: var(--ink);
     }
 
+    .title-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      margin-bottom: 10px;
+    }
+
+    .title-row h1 {
+      margin: 0;
+    }
+
+    .update-date {
+      min-height: 32px;
+      background: rgba(37, 87, 167, 0.10);
+      border-color: rgba(37, 87, 167, 0.28);
+      color: var(--blue);
+      font-size: 14px;
+    }
+
     .lead {
       max-width: 760px;
       margin: 0;
@@ -1175,7 +1195,10 @@
   <main class="shell">
     <section class="hero" aria-labelledby="page-title">
       <div class="hero-main">
-        <h1 id="page-title">每日新聞與行情快覽</h1>
+        <div class="title-row">
+          <h1 id="page-title">每日新聞與行情快覽</h1>
+          <span class="badge update-date" aria-label="更新日期">更新日期：2026-05-21</span>
+        </div>
         <p class="lead">今日市場摘要：油價與美債殖利率同步壓抑風險偏好，AI 股從高檔回落；Tesla robotaxi 監管、OpenAI / Apple 關係與中東能源風險仍是盤面主要變數。</p>
         <div class="market-summary" aria-label="今日市場摘要">
           <div class="summary-card">
