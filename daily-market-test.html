@@ -567,6 +567,88 @@
       color: #fff;
     }
 
+    .fx-toolbar {
+      display: grid;
+      grid-template-columns: minmax(96px, 0.8fr) minmax(120px, 1fr) auto minmax(120px, 1fr) minmax(150px, 1.2fr);
+      gap: 8px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid rgba(37, 87, 167, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.64);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
+    }
+
+    .fx-toolbar input,
+    .fx-toolbar select {
+      width: 100%;
+      min-height: 40px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+    }
+
+    .fx-result {
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 12px;
+      border-radius: 8px;
+      color: var(--blue);
+      background: #eef4ff;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .fx-board {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .fx-card {
+      display: grid;
+      gap: 5px;
+      min-height: 92px;
+      padding: 12px;
+      border: 1px solid rgba(37, 87, 167, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .fx-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .fx-code {
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .fx-name,
+    .fx-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .fx-rate {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.15;
+    }
+
     .price-value {
       font-weight: 850;
     }
@@ -856,7 +938,7 @@
       bottom: max(14px, env(safe-area-inset-bottom));
       z-index: 19;
       display: grid;
-      grid-template-columns: repeat(5, minmax(52px, 1fr));
+      grid-template-columns: repeat(6, minmax(48px, 1fr));
       gap: 5px;
       width: min(430px, calc(100% - 28px));
       padding: 6px;
@@ -1016,6 +1098,18 @@
         margin-bottom: 11px;
       }
 
+      .fx-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .fx-result {
+        justify-content: flex-start;
+      }
+
+      .fx-board {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
       .item-title {
         font-size: 15px;
         line-height: 1.42;
@@ -1104,6 +1198,10 @@
       .currency-toggle button {
         flex: 1;
         min-height: 36px;
+      }
+
+      .fx-board {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .table-wrap {
@@ -1246,6 +1344,7 @@
   <nav class="ios-dock" aria-label="快速導覽">
     <button class="dock-button" type="button" data-scroll-target="page-title" aria-current="true">總覽</button>
     <button class="dock-button" type="button" data-scroll-target="news-title">新聞</button>
+    <button class="dock-button" type="button" data-scroll-target="fx-title">貨幣</button>
     <button class="dock-button" type="button" data-scroll-target="prices-title">行情</button>
     <button class="dock-button" type="button" data-scroll-target="signals-title">訊號</button>
     <a class="dock-button" href="daily-market-crypto.html" target="_self">加密</a>
@@ -1549,6 +1648,24 @@
           </div>
         </div>
         <p class="mini-note">資金結構註記為定性判讀：需搭配成交量、ETF 流入、選擇權 Put/Call、融資餘額與法人買賣超確認；不代表買賣建議。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="fx-title" style="margin-top: 18px;">
+      <div class="section-head">
+        <h2 id="fx-title">貨幣換算與台幣匯率</h2>
+        <span class="badge">FX Converter</span>
+      </div>
+      <div class="section-body">
+        <div class="fx-toolbar" aria-label="貨幣換算器">
+          <input id="fxAmount" type="number" min="0" step="100" value="1000" aria-label="換算金額">
+          <select id="fxFrom" aria-label="來源貨幣"></select>
+          <span class="item-copy">換成</span>
+          <select id="fxTo" aria-label="目標貨幣"></select>
+          <div class="fx-result" id="fxResult">-</div>
+        </div>
+        <div class="fx-board" id="fxBoard" aria-label="主要貨幣兌台幣行情"></div>
+        <p class="mini-note">匯率為公開可見快照與頁面換算基準，非即時交易報價；實際換匯請以銀行或券商牌告為準。</p>
       </div>
     </section>
 
@@ -2019,6 +2136,71 @@
       USD_CNY: 6.803386
     };
 
+    const fxRates = [
+      { code: "TWD", name: "新台幣", twd: 1, badge: "基準", badgeClass: "badge", note: "本頁報價基準" },
+      { code: "USD", name: "美元", twd: 31.322, badge: "主要", badgeClass: "badge", note: "美元 / 台幣換算基準" },
+      { code: "JPY", name: "日圓", twd: 0.2023, badge: "避險", badgeClass: "badge", note: "受美日利差影響" },
+      { code: "EUR", name: "歐元", twd: 37.30, badge: "參考", badgeClass: "badge", note: "歐洲利率與景氣連動" },
+      { code: "CHF", name: "瑞郎", twd: 40.16, badge: "避險", badgeClass: "badge", note: "傳統避險貨幣" },
+      { code: "SGD", name: "新加坡幣", twd: 24.76, badge: "亞洲", badgeClass: "badge", note: "亞洲防守型貨幣" },
+      { code: "CNY", name: "人民幣", twd: 4.60, badge: "供應鏈", badgeClass: "badge", note: "中國供應鏈與政策敏感" },
+      { code: "HKD", name: "港幣", twd: 4.01, badge: "美元連動", badgeClass: "badge", note: "聯繫匯率制度" },
+      { code: "KRW", name: "韓元", twd: 0.023, badge: "科技鏈", badgeClass: "badge", note: "半導體與出口敏感" }
+    ];
+
+    function formatFx(value) {
+      return new Intl.NumberFormat("zh-TW", {
+        maximumFractionDigits: value >= 100 ? 2 : 4
+      }).format(value);
+    }
+
+    function renderFxBoard() {
+      const board = document.getElementById("fxBoard");
+      if (!board) return;
+      board.innerHTML = fxRates.filter((item) => item.code !== "TWD").map((item) => `
+        <article class="fx-card">
+          <div class="fx-head">
+            <div>
+              <div class="fx-code">${item.code}</div>
+              <div class="fx-name">${item.name}</div>
+            </div>
+            <span class="badge">${item.badge}</span>
+          </div>
+          <div class="fx-rate">${formatFx(item.twd)} TWD</div>
+          <div class="fx-note">${item.note}</div>
+        </article>
+      `).join("");
+    }
+
+    function setupFxConverter() {
+      const amountInput = document.getElementById("fxAmount");
+      const fromSelect = document.getElementById("fxFrom");
+      const toSelect = document.getElementById("fxTo");
+      const result = document.getElementById("fxResult");
+      if (!amountInput || !fromSelect || !toSelect || !result) return;
+
+      const options = fxRates.map((item) => `<option value="${item.code}">${item.code} - ${item.name}</option>`).join("");
+      fromSelect.innerHTML = options;
+      toSelect.innerHTML = options;
+      fromSelect.value = "USD";
+      toSelect.value = "TWD";
+
+      const convert = () => {
+        const amount = Number(amountInput.value || 0);
+        const fromRate = fxRates.find((item) => item.code === fromSelect.value);
+        const toRate = fxRates.find((item) => item.code === toSelect.value);
+        if (!fromRate || !toRate) return;
+        const converted = amount * fromRate.twd / toRate.twd;
+        result.textContent = `${formatFx(converted)} ${toRate.code}`;
+      };
+
+      [amountInput, fromSelect, toSelect].forEach((control) => {
+        control.addEventListener("input", convert);
+        control.addEventListener("change", convert);
+      });
+      convert();
+    }
+
     const currencyButtons = document.querySelectorAll("[data-currency]");
     const priceCells = document.querySelectorAll(".price-cell");
 
@@ -2250,7 +2432,7 @@
       });
     }, { rootMargin: "-35% 0px -55% 0px", threshold: 0 });
 
-    ["page-title", "news-title", "prices-title", "signals-title"].forEach((id) => {
+    ["page-title", "news-title", "fx-title", "prices-title", "signals-title"].forEach((id) => {
       const target = document.getElementById(id);
       if (target) dockObserver.observe(target);
     });
@@ -2270,6 +2452,8 @@
     });
 
     renderCurrency("USD");
+    renderFxBoard();
+    setupFxConverter();
     renderSignalTable();
     window.requestAnimationFrame(renderTrendChart);
   </script>
