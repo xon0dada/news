@@ -341,30 +341,88 @@
       overflow: hidden;
       border-radius: 8px;
       background:
-        linear-gradient(135deg, rgba(37, 87, 167, 0.16), rgba(0, 124, 137, 0.16)),
+        radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.48), transparent 30%),
+        linear-gradient(135deg, rgba(37, 87, 167, 0.22), rgba(0, 124, 137, 0.18)),
         #eef4ff;
+    }
+
+    .news-media::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.02), rgba(17, 24, 39, 0.28));
     }
 
     .news-media::after {
       content: attr(data-topic);
       position: absolute;
       inset: auto 12px 12px 12px;
-      display: none;
-      color: var(--blue);
+      z-index: 2;
+      display: inline-flex;
+      width: fit-content;
+      max-width: calc(100% - 24px);
+      padding: 5px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.62);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      color: #18345f;
       font-size: 13px;
       font-weight: 850;
-    }
-
-    .news-media.image-missing::after {
-      display: block;
+      box-shadow: 0 8px 22px rgba(17, 24, 39, 0.12);
+      backdrop-filter: blur(12px) saturate(1.35);
+      -webkit-backdrop-filter: blur(12px) saturate(1.35);
     }
 
     .news-media img {
+      position: relative;
+      z-index: 0;
       width: 100%;
       height: 100%;
       display: block;
       object-fit: cover;
       filter: saturate(0.94) contrast(1.02);
+    }
+
+    .news-item:nth-child(3n + 1) .news-media img { object-position: 50% 42%; }
+    .news-item:nth-child(3n + 2) .news-media img { object-position: 42% 50%; }
+    .news-item:nth-child(3n) .news-media img { object-position: 58% 48%; }
+
+    .news-item:nth-child(6n + 1) .news-media {
+      background: radial-gradient(circle at 20% 22%, rgba(255,255,255,0.58), transparent 30%), linear-gradient(135deg, #dceafe, #e7f7f4);
+    }
+
+    .news-item:nth-child(6n + 2) .news-media {
+      background: radial-gradient(circle at 72% 24%, rgba(255,255,255,0.55), transparent 28%), linear-gradient(135deg, #f3e8ff, #e0f2fe);
+    }
+
+    .news-item:nth-child(6n + 3) .news-media {
+      background: radial-gradient(circle at 22% 72%, rgba(255,255,255,0.52), transparent 30%), linear-gradient(135deg, #ecfdf5, #dbeafe);
+    }
+
+    .news-item:nth-child(6n + 4) .news-media {
+      background: radial-gradient(circle at 74% 68%, rgba(255,255,255,0.52), transparent 30%), linear-gradient(135deg, #fff7ed, #e0f2fe);
+    }
+
+    .news-item:nth-child(6n + 5) .news-media {
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.54), transparent 28%), linear-gradient(135deg, #eef2ff, #f0fdfa);
+    }
+
+    .news-item:nth-child(6n) .news-media {
+      background: radial-gradient(circle at 70% 24%, rgba(255,255,255,0.52), transparent 30%), linear-gradient(135deg, #fef3c7, #e0e7ff);
+    }
+
+    .news-media.image-missing {
+      display: grid;
+      place-items: center;
+      min-height: 172px;
+    }
+
+    .news-media.image-missing::before {
+      background:
+        radial-gradient(circle at 25% 22%, rgba(255,255,255,0.62), transparent 28%),
+        linear-gradient(135deg, rgba(37,87,167,0.18), rgba(0,124,137,0.18));
     }
 
     .item-title {
@@ -1910,9 +1968,42 @@
   </main>
   <script>
 
+    const topicFallbackImages = {
+      "US-China Trade": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=900&q=80",
+      "Trump-Xi Summit": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=900&q=80",
+      "Taiwan": "https://images.unsplash.com/photo-1470004914212-05527e49370b?auto=format&fit=crop&w=900&q=80",
+      "Boeing Orders": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
+      "Starship V3": "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?auto=format&fit=crop&w=900&q=80",
+      "Spaceports": "https://images.unsplash.com/photo-1517976547714-720226b864c1?auto=format&fit=crop&w=900&q=80",
+      "OpenAI": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80",
+      "AI Safety": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=900&q=80",
+      "Federal Reserve": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80",
+      "X Regulation": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=900&q=80",
+      "Iran Oil Risk": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=900&q=80",
+      "Hormuz": "https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=900&q=80",
+      "Bond Market": "https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80",
+      "US Futures": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80",
+      "Tech CEOs China": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80",
+      "Apple Supply Chain": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
+      "Tesla Robotaxi": "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=900&q=80",
+      "OpenAI Trial": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=900&q=80",
+      "Sam Altman": "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=900&q=80",
+      "Financial Juice": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80"
+    };
+
     document.querySelectorAll(".news-media img").forEach((image) => {
+      const media = image.closest(".news-media");
+      const topic = media?.dataset.topic || "";
+      if (topicFallbackImages[topic]) {
+        image.dataset.topicFallback = topicFallbackImages[topic];
+      }
+
       image.addEventListener("error", () => {
-        const media = image.closest(".news-media");
+        if (!image.dataset.usedTopicFallback && image.dataset.topicFallback && image.src !== image.dataset.topicFallback) {
+          image.dataset.usedTopicFallback = "true";
+          image.src = image.dataset.topicFallback;
+          return;
+        }
         if (!image.dataset.usedFallback && image.dataset.fallback && image.src !== image.dataset.fallback) {
           image.dataset.usedFallback = "true";
           image.src = image.dataset.fallback;
