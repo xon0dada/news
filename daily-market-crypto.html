@@ -114,6 +114,9 @@
     }
 
     .market-page-switch {
+      position: sticky;
+      top: 10px;
+      z-index: 18;
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
@@ -121,12 +124,16 @@
       padding: 8px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(255,255,255,0.95);
-      box-shadow: 0 4px 16px rgba(17,24,39,0.05);
+      background: rgba(255,255,255,0.86);
+      box-shadow: 0 12px 28px rgba(17,24,39,0.10);
+      backdrop-filter: blur(18px) saturate(1.35);
+      -webkit-backdrop-filter: blur(18px) saturate(1.35);
     }
 
     .market-page-switch a,
     .market-page-switch button {
+      flex: 1 1 150px;
+      justify-content: center;
       min-height: 38px;
       padding: 0 14px;
       border: 1px solid var(--line);
@@ -787,6 +794,11 @@
 
       header {
         grid-template-columns: 1fr;
+      }
+
+      .market-page-switch {
+        top: 8px;
+        margin-top: 10px;
       }
 
       .metric-row,
