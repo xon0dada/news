@@ -1,0 +1,2749 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>每日新聞與行情更新 | 加密貨幣</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --panel-strong: #edf2f7;
+      --ink: #18202c;
+      --muted: #667085;
+      --line: #d9e2ec;
+      --blue: #2463eb;
+      --green: #0f8f62;
+      --red: #c83f49;
+      --amber: #b7791f;
+      --violet: #6d5bd0;
+      --teal: #087d8f;
+      --shadow: 0 12px 30px rgba(17, 24, 39, 0.08);
+      --radius: 8px;
+      font-family: "Segoe UI", "Noto Sans TC", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.88), rgba(245,247,251,0.94)),
+        url("https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1800&q=78") center top / cover fixed;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .page {
+      width: min(1480px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.92);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 22px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .subhead {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .market-page-switch {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 4px 16px rgba(17,24,39,0.05);
+    }
+
+    .market-page-switch a,
+    .market-page-switch button {
+      min-height: 38px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .market-page-switch a {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .market-page-switch a:hover {
+      text-decoration: none;
+    }
+
+    .market-page-switch a.active,
+    .market-page-switch button.active {
+      color: #fff;
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    body.market-page-ready [data-market-page] {
+      display: none;
+    }
+
+    body.market-page-ready[data-active-market-page="stocks"] [data-market-page~="stocks"],
+    body.market-page-ready[data-active-market-page="crypto"] [data-market-page~="crypto"] {
+      display: grid;
+    }
+
+    .grid.two {
+      grid-template-columns: minmax(0, 1.2fr) minmax(360px, 0.8fr);
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .fx-safe-flow {
+      grid-template-columns: 1fr;
+    }
+
+    .fx-safe-flow .safe-board {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      align-items: stretch;
+    }
+
+    section {
+      padding: 18px;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid rgba(217,226,236,0.9);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 16px rgba(17,24,39,0.05);
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .summary-list li,
+    .plain-list li {
+      margin-bottom: 8px;
+      line-height: 1.55;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      min-height: 106px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfdff;
+    }
+
+    .metric .label {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .metric .value {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .metric .note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+      line-height: 1.35;
+    }
+
+    .fx-toolbar {
+      display: grid;
+      grid-template-columns: minmax(100px, 0.8fr) minmax(110px, 1fr) auto minmax(110px, 1fr) minmax(150px, 1.2fr);
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #f8fafc;
+    }
+
+    .fx-toolbar input,
+    .fx-toolbar select {
+      width: 100%;
+      height: 38px;
+      padding: 0 10px;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      font: inherit;
+    }
+
+    .fx-result {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 10px;
+      border-radius: 6px;
+      color: var(--blue);
+      background: #eef4ff;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .safe-board {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .fx-board {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .safe-card {
+      min-height: 0;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .fx-card {
+      display: grid;
+      gap: 4px;
+      align-content: start;
+      min-height: 76px;
+      padding: 9px 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .fx-head,
+    .safe-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .fx-code {
+      font-size: 16px;
+      font-weight: 850;
+    }
+
+    .fx-name,
+    .safe-role {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .fx-rate {
+      font-size: 18px;
+      font-weight: 850;
+      line-height: 1.15;
+    }
+
+    .fx-note {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .safe-card {
+      display: grid;
+      gap: 10px;
+    }
+
+    .safe-price {
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: #f8fafc;
+      font-size: 20px;
+      font-weight: 850;
+      line-height: 1.15;
+    }
+
+    .safe-card p {
+      color: #475467;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .heat {
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .cool {
+      color: var(--teal);
+      font-weight: 700;
+    }
+
+    .up {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .down {
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .flat {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 11px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      color: #344054;
+      background: #f8fafc;
+      font-size: 12px;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .tag.red {
+      color: #9b1c2b;
+      background: #ffe9ec;
+      border-color: #ffc8d0;
+    }
+
+    .tag.green {
+      color: #05603a;
+      background: #e9fbf3;
+      border-color: #b7efcf;
+    }
+
+    .tag.blue {
+      color: #1d4ed8;
+      background: #e8f0ff;
+      border-color: #c8d9ff;
+    }
+
+    .tag.amber {
+      color: #92400e;
+      background: #fff4d6;
+      border-color: #f6d887;
+    }
+
+    .score {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 8px;
+      align-items: center;
+      min-width: 130px;
+    }
+
+    .bar {
+      height: 8px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: var(--w);
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+    }
+
+    .chart-wrap {
+      min-height: 680px;
+      position: relative;
+    }
+
+    canvas {
+      width: 100%;
+      height: 620px;
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fbfdff;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .legend-item {
+      display: grid;
+      grid-template-columns: 5px minmax(0, 1fr);
+      gap: 10px;
+      min-height: 66px;
+      padding: 10px 12px 10px 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .legend-swatch {
+      width: 5px;
+      min-height: 100%;
+      background: var(--c);
+    }
+
+    .legend-label {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .legend-note {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .chart-note {
+      margin: -4px 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .news-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      overflow: hidden;
+      min-height: 355px;
+      display: grid;
+      grid-template-rows: 128px 1fr;
+    }
+
+    .news-card img {
+      width: 100%;
+      height: 128px;
+      object-fit: cover;
+      background: #e5e7eb;
+    }
+
+    .news-body {
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .news-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .news-card p {
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .news-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .source-button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      color: #fff;
+      background: var(--blue);
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .source-button:hover {
+      color: #fff;
+      text-decoration: none;
+      background: #1d4ed8;
+    }
+
+    .link-url {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .link-audit {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .audit-card {
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #f8fafc;
+    }
+
+    .audit-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 18px;
+    }
+
+    .audit-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .source-hub {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .source-group {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .source-group ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+
+    .source-group li {
+      margin-bottom: 7px;
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.42;
+    }
+
+    .heat-news {
+      display: grid;
+      gap: 10px;
+    }
+
+    .heat-item {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .heat-item .row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .supply-chain-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: stretch;
+    }
+
+    .supply-chain-grid > section {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-width: 0;
+    }
+
+    .watch-list {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      counter-reset: item;
+    }
+
+    .watch {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      min-height: 132px;
+    }
+
+    .watch::before {
+      counter-increment: item;
+      content: counter(item);
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: var(--blue);
+      border-radius: 50%;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .watch p {
+      color: #475467;
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    .source-line {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .disclaimer {
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.5;
+      border-left: 4px solid var(--amber);
+      padding: 10px 12px;
+      background: #fff9e8;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    footer {
+      margin-top: 16px;
+      padding: 16px 18px;
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.5;
+      background: rgba(255,255,255,0.95);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    @media (max-width: 1180px) {
+      .grid.two,
+      .grid.three,
+      .supply-chain-grid,
+      .columns {
+        grid-template-columns: 1fr;
+      }
+
+      .news-grid,
+      .source-hub,
+      .legend {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .fx-board {
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 18px, 720px);
+        padding-top: 12px;
+      }
+
+      header {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-row,
+      .news-grid,
+      .source-hub,
+      .link-audit,
+      .legend,
+      .fx-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .fx-result {
+        justify-content: flex-start;
+      }
+
+      .fx-board {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      table {
+        font-size: 13px;
+      }
+
+      th,
+      td {
+        padding: 9px 7px;
+      }
+
+      .hide-sm {
+        display: none;
+      }
+
+      .watch {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body class="market-page-ready" data-active-market-page="crypto">
+  <div class="page">
+    <header>
+      <div>
+        <h1>每日新聞與行情更新</h1>
+      </div>
+    </header>
+
+        <nav class="market-page-switch" id="marketPageSwitch" aria-label="市場頁面切換">
+      <a class="" data-market-page-link="stocks" href="daily-market-test.html">現實股市</a>
+      <a class="active" data-market-page-link="crypto" href="daily-market-crypto.html">加密貨幣</a>
+    </nav>
+
+    <div class="grid two" data-market-page="stocks">
+      <section>
+        <h2>今日市場摘要</h2>
+        <div class="metric-row">
+          <div class="metric">
+            <span class="label">市場溫度</span>
+            <div class="value heat">偏過熱</div>
+            <div class="note">AI/半導體與台股權值股仍高度集中，長債殖利率上行使風險資產估值承壓。</div>
+          </div>
+          <div class="metric">
+            <span class="label">宏觀</span>
+            <div class="value">通膨再定價</div>
+            <div class="note">油價與地緣政治讓市場重新評估通膨黏性，消費與科技股同步承壓。</div>
+          </div>
+          <div class="metric">
+            <span class="label">利率</span>
+            <div class="value">升息風險升</div>
+            <div class="note">Reuters 指出長端美債殖利率升至多年高點，期貨市場重新押注今年仍有升息可能。</div>
+          </div>
+          <div class="metric">
+            <span class="label">科技 AI</span>
+            <div class="value">擁擠交易</div>
+            <div class="note">晶片、AI 模型、資料中心與 IPO 預期仍是主線，但波動放大。</div>
+          </div>
+          <div class="metric">
+            <span class="label">加密貨幣</span>
+            <div class="value">高波動整理</div>
+            <div class="note">BTC 守 77K 附近，ETH 落在 2.1K 區間；ETF、預測市場監管與鏈上槓桿清算牽動風險偏好。</div>
+          </div>
+        </div>
+        <ul class="summary-list">
+          <li>美股從 AI 推動的高檔回落，晶片股與消費股承壓，焦點轉向通膨、殖利率與 Nvidia 財報。</li>
+          <li>Fed 相關預期轉鷹，長債殖利率上行使高本益比資產折現壓力增加。</li>
+          <li>OpenAI 在 Musk 訴訟中勝訴，AI 競爭焦點轉回產品、人才、企業導入與資本市場估值。</li>
+          <li>SpaceX Starship V3 Flight 12 目標 5 月 21 日發射，IPO 與 AI compute 敘事仍牽動 Tesla/Musk 系資產情緒。</li>
+          <li>Apple 供應鏈重點轉向 India、Intel foundry 測試與台灣供應商估值分化。</li>
+          <li>加密貨幣市場維持高波動：BTC 約 77K、ETH 約 2.1K，Solana ETF、預測市場監管與槓桿清算是本輪重點。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>利多 / 利空與風險提示</h2>
+        <div class="columns">
+          <div>
+            <h3 class="up">利多</h3>
+            <ul class="plain-list">
+              <li>AI 企業導入與資料中心支出仍支撐半導體需求。</li>
+              <li>OpenAI、Anthropic、SpaceX 等大型私有科技資產可能帶動 IPO 風險偏好。</li>
+              <li>Apple 供應鏈分散至 India/Intel 有助降低單一地緣集中度。</li>
+              <li>MSFT、AMZN、ETH、XAUUSD 出現相對回檔，可列入估值觀察名單。</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="down">利空 / 風險</h3>
+            <ul class="plain-list">
+              <li>美債殖利率與通膨預期上行，會壓縮高成長股估值倍數。</li>
+              <li>Iran、Taiwan、US-China 議題可能推升油價、航運與供應鏈風險溢價。</li>
+              <li>AI 交易集中度高，半導體或雲端 capex 若降溫，回撤會被動放大。</li>
+              <li>OpenAI 供應鏈安全事件提醒軟體與模型供應鏈仍有營運風險。</li>
+            </ul>
+          </div>
+        </div>
+        <p class="disclaimer">所有推薦指數、過熱 / 低估判斷與資產分類僅供觀察與資訊整理，不構成投資建議、招攬或買賣指示。行情來源與更新時間不同，可能有延遲或小幅差異。</p>
+      </section>
+    </div>
+
+    <div class="grid fx-safe-flow" data-market-page="stocks">
+      <section>
+        <h2>台幣匯率列表</h2>
+        <div class="fx-toolbar" aria-label="匯率換算器">
+          <input id="fxAmount" type="number" min="0" step="100" value="1000" aria-label="換算金額">
+          <select id="fxFrom" aria-label="來源貨幣"></select>
+          <span class="source-line">換成</span>
+          <select id="fxTo" aria-label="目標貨幣"></select>
+          <div class="fx-result" id="fxResult">-</div>
+        </div>
+        <div class="fx-board" id="fxBoard"></div>
+        <div class="source-line">
+          本區每次自動化更新都重新查詢最新可見公開報價；本輪報價時間：2026-05-21 00:27 Asia/Taipei。匯率為每 1 單位外幣約等於多少 TWD；USD 參考
+          <a href="https://usd.currencyrate.today/twd" target="_blank" rel="noopener">CurrencyRate</a>，
+          主要交叉匯率參考
+          <a href="https://en.findrate.tw/" target="_blank" rel="noopener">FindRate / Bank of Taiwan</a>、
+          <a href="https://www.investing.com/currencies/sgd-twd-historical-data" target="_blank" rel="noopener">Investing.com SGD/TWD</a>、
+          <a href="https://twelvedata.com/markets/674505/forex/chf-twd/historical-data" target="_blank" rel="noopener">TwelveData CHF/TWD</a>。
+        </div>
+      </section>
+
+      <section>
+        <h2>避險資產觀察</h2>
+        <div class="safe-board" id="safeHavenBoard"></div>
+        <p class="disclaimer">避險資產也會下跌或失效；此區僅整理市場壓力下可觀察的防守工具，不構成投資建議。</p>
+      </section>
+    </div>
+
+    <section class="grid" data-market-page="stocks">
+      <h2>追蹤標的最新行情、過熱 / 低估與買賣推薦指數</h2>
+      <div style="overflow-x:auto">
+        <table id="marketTable">
+          <thead>
+            <tr>
+              <th>標的</th>
+              <th>最新價</th>
+              <th>日漲跌</th>
+              <th>一個月</th>
+              <th>狀態</th>
+              <th>推薦指數</th>
+              <th class="hide-sm">觀察重點</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="source-line">
+        行情來源摘要：
+        <a href="https://www.financecharts.com/stocks/AAPL/summary/price" target="_blank" rel="noopener">FinanceCharts AAPL/美股</a>、
+        <a href="https://www.financecharts.com/stocks/TSLA/summary/price" target="_blank" rel="noopener">FinanceCharts TSLA</a>、
+        <a href="https://finance-pulse24.com/en/stocks/tsmc/" target="_blank" rel="noopener">Finance Pulse 2330.TW</a>、
+        <a href="https://coinmarketcap.com/currencies/bitcoin/" target="_blank" rel="noopener">CoinMarketCap BTC</a>、
+        <a href="https://www.priceofgold.today/" target="_blank" rel="noopener">Price of Gold Today XAU/USD</a>。
+      </div>
+    </section>
+
+    <section class="grid" data-market-page="stocks">
+      <h2>一個月漲跌幅與過熱 / 低估看盤圖</h2>
+      <p class="chart-note">每列是一個追蹤標的；中央橫條顯示近一月漲跌幅，右側顯示推薦觀察分數與狀態，避免多條折線擠在一起。</p>
+      <div class="chart-wrap">
+        <canvas id="trendChart" width="1180" height="720" aria-label="一個月漲跌幅與過熱低估看盤圖"></canvas>
+        <div class="legend" id="trendLegend"></div>
+      </div>
+    </section>
+
+    <section class="grid" data-market-page="stocks">
+      <h2>目前偏過熱 / 偏低估觀察資產</h2>
+      <h3 class="heat">偏過熱資產</h3>
+      <ul class="plain-list">
+        <li>GOOGL：一個月約 +17%，AI 與 Google I/O 敘事延續，但短線漲幅大。</li>
+        <li>TWSE:2317：一個月約 +21%，AI server 與 Apple/Tesla 供應鏈想像升溫。</li>
+        <li>SZSE:002475：30 日區間波動極大，從低點反彈後仍需觀察資金退潮。</li>
+        <li>TSLA：日線回落但估值仍高，SpaceX/AI/robotaxi 題材使情緒面偏熱。</li>
+      </ul>
+      <h3 class="cool">偏低估觀察資產</h3>
+      <ul class="plain-list">
+        <li>MSFT：一個月小跌，AI/雲端基本面仍強，較同族群沒有明顯追高。</li>
+        <li>ETHUSD：相對 BTC 與 AI 股弱勢，可觀察網路與 ETF 資金是否回流。</li>
+        <li>XAUUSD：一個月回落但仍具避險屬性，利率與美元走勢是關鍵。</li>
+        <li>TWSE:4938：價格相對平穩，Apple/AI server 受惠較慢反映。</li>
+      </ul>
+      <p class="disclaimer">以上「偏過熱 / 偏低估」為相對動能、估值與新聞熱度觀察，不構成投資建議。</p>
+    </section>
+
+    <section class="grid" data-market-page="stocks">
+      <h2>最新重點新聞 20 項</h2>
+      <div class="news-grid" id="newsGrid"></div>
+    </section>
+
+    <section class="grid" id="cryptoHoldingsRank" data-market-page="crypto">
+      <h2>前 10 大加密貨幣持有量與價格</h2>
+      <p class="chart-note">本表依公開市值排名整理；「持有量」指流通供給量 / 市場可流通枚數，不是個人帳戶持倉。價格與市值會因交易所與更新時間不同而有差異，僅供觀察，不構成投資建議。</p>
+      <div style="overflow-x:auto">
+        <table class="crypto-rank-table">
+          <thead>
+            <tr>
+              <th>排名</th>
+              <th>幣種</th>
+              <th>價格 USD</th>
+              <th>持有量 / 流通供給</th>
+              <th>估算市值</th>
+              <th class="hide-sm">觀察重點</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td><strong>Bitcoin</strong><br><span class="source-line">BTC</span></td><td>US$76,403<br><span class="source-line">約 NT$2,393,902</span></td><td>20.03M BTC</td><td>約 US$1.53T</td><td class="hide-sm">固定上限 21M，仍是加密市場主要風險錨與 ETF 核心資產。</td></tr>
+            <tr><td>2</td><td><strong>Ethereum</strong><br><span class="source-line">ETH</span></td><td>US$2,136<br><span class="source-line">約 NT$66,924</span></td><td>120.69M ETH</td><td>約 US$258B</td><td class="hide-sm">智能合約與 L2 生態核心，近期相對 BTC 與 AI 股偏落後。</td></tr>
+            <tr><td>3</td><td><strong>Tether</strong><br><span class="source-line">USDT</span></td><td>約 US$1.00<br><span class="source-line">約 NT$31.32</span></td><td>約 189.5B USDT</td><td>約 US$189.5B</td><td class="hide-sm">最大穩定幣，交易所流動性與跨境結算需求仍是主要支撐。</td></tr>
+            <tr><td>4</td><td><strong>XRP</strong><br><span class="source-line">XRP</span></td><td>約 US$1.43<br><span class="source-line">約 NT$44.79</span></td><td>約 61.8B XRP</td><td>約 US$88.5B</td><td class="hide-sm">支付與 ETF 題材支撐排名，但監管與解鎖供給仍需追蹤。</td></tr>
+            <tr><td>5</td><td><strong>BNB</strong><br><span class="source-line">BNB</span></td><td>約 US$669<br><span class="source-line">約 NT$20,954</span></td><td>約 130M BNB</td><td>約 US$87B</td><td class="hide-sm">交易所與 BNB Chain 生態代幣，受交易量、監管與平台風險影響大。</td></tr>
+            <tr><td>6</td><td><strong>Solana</strong><br><span class="source-line">SOL</span></td><td>約 US$91.14<br><span class="source-line">約 NT$2,855</span></td><td>約 578M SOL</td><td>約 US$52.7B</td><td class="hide-sm">高吞吐鏈與 Solana ETF 題材升溫，但波動與鏈上交易熱度連動高。</td></tr>
+            <tr><td>7</td><td><strong>USD Coin</strong><br><span class="source-line">USDC</span></td><td>約 US$1.00<br><span class="source-line">約 NT$31.32</span></td><td>約 77.4B USDC</td><td>約 US$77.4B</td><td class="hide-sm">合規穩定幣代表，機構結算與 DeFi 抵押需求是觀察重點。</td></tr>
+            <tr><td>8</td><td><strong>TRON</strong><br><span class="source-line">TRX</span></td><td>約 US$0.354<br><span class="source-line">約 NT$11.09</span></td><td>94.80B TRX</td><td>約 US$33.6B</td><td class="hide-sm">USDT 轉帳與低費用支付網路是核心敘事，集中化折價仍在。</td></tr>
+            <tr><td>9</td><td><strong>Dogecoin</strong><br><span class="source-line">DOGE</span></td><td>約 US$0.103<br><span class="source-line">約 NT$3.23</span></td><td>154.3B DOGE</td><td>約 US$16.0B</td><td class="hide-sm">迷因與支付題材並存，供給持續增加使價格高度依賴情緒。</td></tr>
+            <tr><td>10</td><td><strong>Cardano</strong><br><span class="source-line">ADA</span></td><td>約 US$0.270<br><span class="source-line">約 NT$8.46</span></td><td>36.08B ADA</td><td>約 US$9.7B</td><td class="hide-sm">供給龐大，價格上行需要實際鏈上使用與 DeFi/RWA 採用改善。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="source-line">資料參考：CoinMarketCap、CoinGecko、Forbes Advisor、USDC.org、crypto.news、CoinLore、DeFiLlama / stablecoin market references；本表為手動整理快照。</div>
+    </section>
+    <section class="grid" data-market-page="crypto">
+      <h2>加密貨幣新聞 20 項</h2>
+      <p class="chart-note">本區整理來自 Blockcast 與 BlockTempo 的最新可用加密貨幣新聞，僅供資訊追蹤，不構成投資建議。</p>
+      <div class="news-grid" id="cryptoNewsGrid">
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="押寶大行情慘遭血洗！幣市上演黑色星期一，多頭爆倉逾 6 億美元" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 18</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/18/crypto-traders-betting-on-a-rally-lose-600-million-in-liquidations/" rel="noopener">押寶大行情慘遭血洗！幣市上演黑色星期一，多頭爆倉逾 6 億美元</a></h3>
+            <p>槓桿多單集中清算，反映加密市場對總體與殖利率變化仍相當敏感。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/18/crypto-traders-betting-on-a-rally-lose-600-million-in-liquidations/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="ZachXBT 揭 $LAB 暴跌黑幕：團隊掌控 95% 代幣、與 KOL 聯手割韭菜" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 16</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/16/zachxbt-exposes-lab-crash-team-controlled-95prcnt-of-supply/" rel="noopener">ZachXBT 揭 $LAB 暴跌黑幕：團隊掌控 95% 代幣、與 KOL 聯手割韭菜</a></h3>
+            <p>鏈上調查再次提醒小型代幣的持幣集中與宣傳風險。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/16/zachxbt-exposes-lab-crash-team-controlled-95prcnt-of-supply/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="沃許接掌 Fed！解析鮑爾卸任後，美債、貨幣政策新走向" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 15</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/15/warsh-takes-over-fed-whats-next-for-rates-and-treasuries/" rel="noopener">沃許接掌 Fed！解析鮑爾卸任後，美債、貨幣政策新走向</a></h3>
+            <p>加密市場持續把聯準會人事與利率路徑視為風險資產的關鍵變數。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/15/warsh-takes-over-fed-whats-next-for-rates-and-treasuries/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="達利歐：比特幣避險不如黃金，當不了央行儲備" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 14</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/14/ray-dalio-doubts-bitcoin-will-become-central-bank-reserve/" rel="noopener">達利歐：比特幣避險不如黃金，當不了央行儲備</a></h3>
+            <p>數位黃金敘事再遭質疑，BTC 與黃金的避險角色比較重新升溫。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/14/ray-dalio-doubts-bitcoin-will-become-central-bank-reserve/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Circle 完成 2.22 億美元 ARC 代幣預售！項目估值衝上 30 億美元" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 11</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/11/circle-raises-222-million-for-arc-blockchain-token-sale-at-3-billion-valuation/" rel="noopener">Circle 完成 2.22 億美元 ARC 代幣預售！項目估值衝上 30 億美元</a></h3>
+            <p>大型資本持續流入鏈上基建與新代幣發行，顯示機構興趣未退。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/11/circle-raises-222-million-for-arc-blockchain-token-sale-at-3-billion-valuation/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Kalshi 獲 10 億美元融資！預測市場龍頭估值 220 億美元" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 11</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/11/prediction-market-giant-kalshi-raises-1b-hits-22b-valuation/" rel="noopener">Kalshi 獲 10 億美元融資！預測市場龍頭估值 220 億美元</a></h3>
+            <p>預測市場與鏈上投機基礎設施繼續吸引華爾街與科技資本。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/11/prediction-market-giant-kalshi-raises-1b-hits-22b-valuation/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="華爾街神算子 Tom Lee 開示：比特幣 5 月若站穩 7.6 萬美元，大牛市將全面啟動" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 8</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/08/bitcoin-ending-may-above-76000-would-confirm-new-bull-market-according-to-tom-lee/" rel="noopener">華爾街神算子 Tom Lee 開示：比特幣 5 月若站穩 7.6 萬美元，大牛市將全面啟動</a></h3>
+            <p>BTC 價格區間仍是市場情緒與牛熊切換的重要錨點。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/08/bitcoin-ending-may-above-76000-would-confirm-new-bull-market-according-to-tom-lee/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="32 億美元募資背後，a16z 與 Haun 正押注誰能穿越監管週期" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 8</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/08/behind-3-2b-in-new-funds-a16z-and-haun-bet-on-crypto-survivors/" rel="noopener">32 億美元募資背後，a16z 與 Haun 正押注誰能穿越監管週期</a></h3>
+            <p>Crypto VC 更偏向穩定幣、RWA 與鏈上金融等可長期存活的基建。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/08/behind-3-2b-in-new-funds-a16z-and-haun-bet-on-crypto-survivors/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="a16z 砸 22 億美元成立新基金，堅信加密貨幣基本面達歷史高點" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 7</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/07/a16z-raises-2-2-billion-for-fifth-crypto-fund/" rel="noopener">a16z 砸 22 億美元成立新基金，堅信加密貨幣基本面達歷史高點</a></h3>
+            <p>VC 資金重新加碼，顯示機構仍看好加密基礎設施的長期擴張。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/07/a16z-raises-2-2-billion-for-fifth-crypto-fund/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Coinbase 研究：第二季加密市場展望中性，地緣政治衝突主導全局" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 6</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/06/coinbase-crypto-markets-outlook-q2-2026/" rel="noopener">Coinbase 研究：第二季加密市場展望中性，地緣政治衝突主導全局</a></h3>
+            <p>Coinbase 與 Glassnode 將加密風險定價重點放在地緣政治與宏觀波動。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/06/coinbase-crypto-markets-outlook-q2-2026/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Hyperliquid 殺入預測市場，Outcome 能打敗 Polymarket 嗎？" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 6</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/06/hyperliquid-enters-prediction-markets-can-outcome-beat-polymarket/" rel="noopener">Hyperliquid 殺入預測市場，Outcome 能打敗 Polymarket 嗎？</a></h3>
+            <p>鏈上交易所與預測市場的邊界持續模糊，競爭轉向流動性與產品體驗。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/06/hyperliquid-enters-prediction-markets-can-outcome-beat-polymarket/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="美國期中選舉》民調：逾 6 成選民不信任川普監管加密貨幣" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>Blockcast</span>
+              <span>May 5</span>
+            </div>
+            <h3><a href="https://blockcast.it/2026/05/05/u-s-voters-dont-trust-trump-administration-to-oversee-crypto-sector/" rel="noopener">美國期中選舉》民調：逾 6 成選民不信任川普監管加密貨幣</a></h3>
+            <p>監管可信度與政治風險仍是美國加密政策路徑的重要變數。</p>
+            <div class="news-actions">
+              <span class="link-url">blockcast.it</span>
+              <a class="source-button" href="https://blockcast.it/2026/05/05/u-s-voters-dont-trust-trump-administration-to-oversee-crypto-sector/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="摩根士丹利提交 Solana ETF 修訂申請！代號 MSOL、支援質押收益" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>BlockTempo</span>
+              <span>May 20</span>
+            </div>
+            <h3><a href="https://www.blocktempo.com/morgan-stanley-files-amended-s1-for-solana-etf-msol/" rel="noopener">摩根士丹利提交 Solana ETF 修訂申請！代號 MSOL、支援質押收益</a></h3>
+            <p>傳統金融正把 Solana 納入 ETF 管道，鏈上資產機構化再往前一步。</p>
+            <div class="news-actions">
+              <span class="link-url">blocktempo.com</span>
+              <a class="source-button" href="https://www.blocktempo.com/morgan-stanley-files-amended-s1-for-solana-etf-msol/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="川普 Truth Social 撤回比特幣 ETF 申請，分析師：市場已是紅海競爭難有肉吃" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>BlockTempo</span>
+              <span>May 20</span>
+            </div>
+            <h3><a href="https://www.blocktempo.com/truth-social-withdraws-spot-bitcoin-etf-seyffart-morgan-stanley-msbt-competition/" rel="noopener">川普 Truth Social 撤回比特幣 ETF 申請，分析師：市場已是紅海競爭難有肉吃</a></h3>
+            <p>現貨 BTC ETF 市場競爭加劇，後進者切入空間正在收斂。</p>
+            <div class="news-actions">
+              <span class="link-url">blocktempo.com</span>
+              <a class="source-button" href="https://www.blocktempo.com/truth-social-withdraws-spot-bitcoin-etf-seyffart-morgan-stanley-msbt-competition/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="明尼蘇達州新法封殺預測市場：經營或廣告均屬重罪" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>BlockTempo</span>
+              <span>May 20</span>
+            </div>
+            <h3><a href="https://www.blocktempo.com/cftc-doj-sue-minnesota-walz-prediction-markets-ban-first-state/" rel="noopener">明尼蘇達州新法封殺預測市場：經營或廣告均屬重罪</a></h3>
+            <p>美國州法與聯邦監管對預測市場的管轄權衝突再度升高。</p>
+            <div class="news-actions">
+              <span class="link-url">blocktempo.com</span>
+              <a class="source-button" href="https://www.blocktempo.com/cftc-doj-sue-minnesota-walz-prediction-markets-ban-first-state/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="IOTA 宣布肯亞、摩洛哥和奈及利亞成為首批實施 ADAPT 計畫國家" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>BlockTempo</span>
+              <span>May 20</span>
+            </div>
+            <h3><a href="https://www.blocktempo.com/iota-announces-the-first-countries-to-implement-adapt-program/" rel="noopener">IOTA 宣布肯亞、摩洛哥和奈及利亞成為首批實施 ADAPT 計畫國家</a></h3>
+            <p>區塊鏈在跨境支付與數位身分基建的落地案例持續增加。</p>
+            <div class="news-actions">
+              <span class="link-url">blocktempo.com</span>
+              <a class="source-button" href="https://www.blocktempo.com/iota-announces-the-first-countries-to-implement-adapt-program/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="趁 ETH 跌穿 2,200 美元掃貨！Bitmine 狂買 71,672 枚" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>BlockTempo</span>
+              <span>May 19</span>
+            </div>
+            <h3><a href="https://www.blocktempo.com/bitmine-buys-71672-eth-pullback-tom-lee/" rel="noopener">趁 ETH 跌穿 2,200 美元掃貨！Bitmine 狂買 71,672 枚</a></h3>
+            <p>機構型財庫公司持續擴大 ETH 部位，顯示 2,100 至 2,200 區間有資金承接。</p>
+            <div class="news-actions">
+              <span class="link-url">blocktempo.com</span>
+              <a class="source-button" href="https://www.blocktempo.com/bitmine-buys-71672-eth-pullback-tom-lee/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="又有 2 名以太坊基金會資深研究員離職，人才缺口警報響起" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>BlockTempo</span>
+              <span>May 19</span>
+            </div>
+            <h3><a href="https://www.blocktempo.com/ethereum-foundation-carl-beek-julian-ma-resign-crops-talent-exodus/" rel="noopener">又有 2 名以太坊基金會資深研究員離職，人才缺口警報響起</a></h3>
+            <p>以太坊基金會人才流失，市場開始關注核心研發傳承與治理能力。</p>
+            <div class="news-actions">
+              <span class="link-url">blocktempo.com</span>
+              <a class="source-button" href="https://www.blocktempo.com/ethereum-foundation-carl-beek-julian-ma-resign-crops-talent-exodus/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="BlockTempo 專訪 Maelstrom 共同創辦人 Akshat Vaidya" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>BlockTempo</span>
+              <span>May 6</span>
+            </div>
+            <h3><a href="https://www.blocktempo.com/interview-with-maelstrom-cofounder-akshat-vaidya/" rel="noopener">BlockTempo 專訪 Maelstrom 共同創辦人 Akshat Vaidya</a></h3>
+            <p>Arthur Hayes 陣營對 DeFi、基建與耐心資本的看法，反映機構投資人的配置邏輯。</p>
+            <div class="news-actions">
+              <span class="link-url">blocktempo.com</span>
+              <a class="source-button" href="https://www.blocktempo.com/interview-with-maelstrom-cofounder-akshat-vaidya/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+        <article class="news-card" data-static-crypto-news>
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="伊朗荷姆茲海峽收通行費：全球分 5 級，禁用美元改收人民幣與穩定幣" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>BlockTempo</span>
+              <span>May 1</span>
+            </div>
+            <h3><a href="https://www.blocktempo.com/iran-hormuz-strait-toll-rmb-stablecoin-ban-usd-japan-ship/" rel="noopener">伊朗荷姆茲海峽收通行費：全球分 5 級，禁用美元改收人民幣與穩定幣</a></h3>
+            <p>穩定幣與跨境支付敘事延伸到地緣政治與能源航運場景。</p>
+            <div class="news-actions">
+              <span class="link-url">blocktempo.com</span>
+              <a class="source-button" href="https://www.blocktempo.com/iran-hormuz-strait-toll-rmb-stablecoin-ban-usd-japan-ship/" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="grid" data-market-page="stocks">
+      <h2>市場過熱股市新聞 20 項：大家都在討論的過熱題材</h2>
+      <div class="heat-news" id="heatNews"></div>
+    </section>
+
+    <div class="grid two supply-chain-grid" data-market-page="stocks">
+      <section>
+        <h2>Apple 供應鏈觀察 10 項</h2>
+        <div class="watch-list" id="appleWatch"></div>
+      </section>
+      <section>
+        <h2>Tesla / Musk 供應鏈觀察 10 項</h2>
+        <div class="watch-list" id="teslaWatch"></div>
+      </section>
+    </div>
+
+    <footer>
+      <strong>資料說明：</strong>本頁為自動化新聞與行情整理。市場價格採可查得之最新公開資料與延遲報價，部分標的因交易所、資料商或時區不同會有差異；「推薦指數」是 0-100 的觀察分數，綜合短線動能、估值壓力、基本面敘事、資金擁擠度與風險事件，並非投資建議。
+    </footer>
+  </div>
+
+  <script>
+    const FX = {
+      USD_TWD: 31.414,
+      USD_CNY: 6.81063
+    };
+
+    const fxRates = [
+      { code: "TWD", name: "新台幣", twd: 1, badge: "基準", badgeClass: "blue", note: "本頁報價基準" },
+      { code: "USD", name: "美元", twd: 31.41, badge: "即時", badgeClass: "green", note: "美元 / 台幣主匯率" },
+      { code: "JPY", name: "日圓", twd: 0.2023, badge: "參考", badgeClass: "amber", note: "避險貨幣，利差敏感" },
+      { code: "EUR", name: "歐元", twd: 37.30, badge: "參考", badgeClass: "amber", note: "歐洲景氣與利率連動" },
+      { code: "CHF", name: "瑞郎", twd: 40.16, badge: "參考", badgeClass: "amber", note: "傳統避險貨幣" },
+      { code: "SGD", name: "新加坡幣", twd: 24.76, badge: "參考", badgeClass: "amber", note: "亞洲防守型貨幣" },
+      { code: "GBP", name: "英鎊", twd: 43.30, badge: "參考", badgeClass: "amber", note: "高波動主要貨幣" },
+      { code: "CNY", name: "人民幣", twd: 4.706, badge: "參考", badgeClass: "amber", note: "中國政策與貿易敏感" },
+      { code: "HKD", name: "港幣", twd: 4.077, badge: "參考", badgeClass: "amber", note: "美元聯繫匯率" },
+      { code: "AUD", name: "澳幣", twd: 23.02, badge: "參考", badgeClass: "amber", note: "商品與中國需求連動" },
+      { code: "CAD", name: "加幣", twd: 23.38, badge: "參考", badgeClass: "amber", note: "能源與美加利差連動" },
+      { code: "KRW", name: "韓元", twd: 0.0234, badge: "參考", badgeClass: "amber", note: "科技出口與風險偏好敏感" },
+      { code: "THB", name: "泰銖", twd: 1.0316, badge: "參考", badgeClass: "amber", note: "東南亞觀光與資金流向" }
+    ];
+
+    const safeHavenAssets = [
+      { asset: "Gold Spot", price: "US$4,476.50", move: "-1.11% 日", moveClass: "down", role: "核心避險 / 實質利率", signal: "一個月回檔約 7.3%，仍適合觀察避險需求是否回升。", url: "https://www.priceofgold.today/" },
+      { asset: "Silver Spot", price: "約 US$73.57", move: "高波動", moveClass: "down", role: "貴金屬 / 工業需求", signal: "白銀受殖利率與工業需求雙重影響，避險屬性比黃金不穩。", url: "https://www.marketscreener.com/quote/commodity/SILVER-16221/" },
+      { asset: "USD Cash", price: "USD/TWD 31.41", move: "防守", moveClass: "up", role: "美元現金", signal: "風險資產回撤時具流動性優勢，但台幣升值會壓縮報酬。", url: "https://usd.currencyrate.today/twd" },
+      { asset: "Short Bills / Cash", price: "短天期票券", move: "低波動", moveClass: "up", role: "現金替代", signal: "高利率環境下可降低久期風險，重點是再投資利率。", url: "https://www.treasurydirect.gov/" },
+      { asset: "US 10Y Yield", price: "約 4.27%", move: "殖利率升", moveClass: "down", role: "折現率指標", signal: "殖利率上行通常壓抑長債與高估值科技股，避險效果會打折。", url: "https://www.marketscreener.com/news/us-treasury-yields-extend-rise-across-the-curve-10-year-yield-last-up-2-6-bps-at-4-27-ce7f59dadb89f22c" },
+      { asset: "TLT", price: "約 US$86.08", move: "+0.76% 參考", moveClass: "up", role: "長天期美債 ETF", signal: "利率若回落會受惠；若長端利率續升，久期風險仍大。", url: "https://stockanalysis.com/etf/tlt/history/" },
+      { asset: "JPY", price: "0.2023 TWD", move: "避險貨幣", moveClass: "up", role: "日圓", signal: "市場壓力升高時常被買入，但仍受日本利率與美元走勢牽動。", url: "https://en.findrate.tw/" },
+      { asset: "CHF", price: "40.16 TWD", move: "避險貨幣", moveClass: "up", role: "瑞郎", signal: "傳統防守貨幣，適合作為地緣風險觀察指標。", url: "https://twelvedata.com/markets/674505/forex/chf-twd/historical-data" },
+      { asset: "SGD", price: "24.76 TWD", move: "亞洲防守", moveClass: "up", role: "新加坡幣", signal: "相對穩健的亞洲貨幣，可觀察亞洲資金避險流向。", url: "https://www.investing.com/currencies/sgd-twd-historical-data" },
+      { asset: "VIX", price: "約 18.43", move: "+6.78% 參考", moveClass: "up", role: "波動率避險", signal: "不是長持資產，但能提示股票市場保護需求是否升高。", url: "https://liveindex.org/vix/" },
+      { asset: "IG Bonds", price: "投資級債", move: "利差觀察", moveClass: "flat", role: "信用防守", signal: "信用利差若擴大，投資級債也會承壓；適合搭配利率方向觀察。", url: "https://www.ishares.com/us/products/239566/ishares-iboxx-investment-grade-corporate-bond-etf" },
+      { asset: "TWD Cash", price: "台幣現金", move: "高流動性", moveClass: "flat", role: "本幣防守", signal: "避免匯率波動，但若全球避險美元走強，購買力會相對下降。", url: "https://www.cbc.gov.tw/" }
+    ];
+
+    const dataSourceGroups = [
+      {
+        title: "行情資料來源",
+        links: [
+          { label: "FinanceCharts AAPL", url: "https://www.financecharts.com/stocks/AAPL/summary/price" },
+          { label: "FinanceCharts TSLA", url: "https://www.financecharts.com/stocks/TSLA/summary/price" },
+          { label: "FinanceCharts GOOGL", url: "https://www.financecharts.com/stocks/GOOGL/summary/price" },
+          { label: "FinanceCharts MSFT", url: "https://www.financecharts.com/stocks/MSFT/summary/price" },
+          { label: "FinanceCharts AMZN", url: "https://www.financecharts.com/stocks/AMZN/summary/price" },
+          { label: "Finance Pulse 2330.TW", url: "https://finance-pulse24.com/en/stocks/tsmc/" },
+          { label: "StockAnalysis 2317.TW", url: "https://stockanalysis.com/quote/tpe/2317/history/" },
+          { label: "Coindataflow 4938.TW", url: "https://coindataflow.com/en/stock/4938.TW" },
+          { label: "StockInvest 002475.SZ", url: "https://stockinvest.us/stock-price/002475.SZ" },
+          { label: "CoinMarketCap BTC", url: "https://coinmarketcap.com/currencies/bitcoin/" },
+          { label: "CoinMarketCap ETH", url: "https://coinmarketcap.com/currencies/ethereum/" },
+          { label: "Price of Gold Today XAU/USD", url: "https://www.priceofgold.today/" }
+        ]
+      },
+      {
+        title: "匯率與避險資料",
+        links: [
+          { label: "CurrencyRate USD/TWD", url: "https://usd.currencyrate.today/twd" },
+          { label: "FindRate / Bank of Taiwan", url: "https://en.findrate.tw/" },
+          { label: "Investing.com SGD/TWD", url: "https://www.investing.com/currencies/sgd-twd-historical-data" },
+          { label: "TwelveData CHF/TWD", url: "https://twelvedata.com/markets/674505/forex/chf-twd/historical-data" },
+          { label: "MarketScreener Silver", url: "https://www.marketscreener.com/quote/commodity/SILVER-16221/" },
+          { label: "TreasuryDirect", url: "https://www.treasurydirect.gov/" },
+          { label: "US 10Y Yield reference", url: "https://www.marketscreener.com/news/us-treasury-yields-extend-rise-across-the-curve-10-year-yield-last-up-2-6-bps-at-4-27-ce7f59dadb89f22c" },
+          { label: "StockAnalysis TLT", url: "https://stockanalysis.com/etf/tlt/history/" },
+          { label: "LiveIndex VIX", url: "https://liveindex.org/vix/" },
+          { label: "iShares LQD", url: "https://www.ishares.com/us/products/239566/ishares-iboxx-investment-grade-corporate-bond-etf" }
+        ]
+      }
+    ];
+
+    const marketData = [
+      {
+        symbol: "OANDA:XAUUSD",
+        name: "Gold Spot",
+        native: "USD",
+        price: 4476.50,
+        day: -1.11,
+        month: -7.3,
+        status: "偏低估觀察",
+        statusClass: "green",
+        score: 61,
+        note: "一個月回檔但 1Y 仍強，避險需求與實質利率是主軸。",
+        trend: [100, 101, 98, 97, 95, 96, 94, 92.7],
+        color: "#b7791f"
+      },
+      {
+        symbol: "BTCUSD",
+        name: "Bitcoin",
+        native: "USD",
+        price: 76403.15,
+        day: -0.09,
+        month: 3.5,
+        status: "中性偏穩",
+        statusClass: "blue",
+        score: 60,
+        note: "價格守在 2026 年均價附近，未見明顯追高。",
+        trend: [100, 103, 106, 105, 108, 110, 106, 103.5],
+        color: "#f59e0b"
+      },
+      {
+        symbol: "ETHUSD",
+        name: "Ethereum",
+        native: "USD",
+        price: 2100.96,
+        day: 0.40,
+        month: -9.7,
+        status: "偏低估觀察",
+        statusClass: "green",
+        score: 58,
+        note: "相對 BTC 弱勢，觀察鏈上與 ETF 資金回流。",
+        trend: [100, 98, 97, 100, 101, 99, 95, 90.3],
+        color: "#6d5bd0"
+      },
+      {
+        symbol: "TWSE:2330",
+        name: "台積電",
+        native: "TWD",
+        price: 2200,
+        day: -0.23,
+        month: 7.3,
+        status: "偏熱",
+        statusClass: "amber",
+        score: 52,
+        note: "AI 晶圓代工核心，但近期從高檔回落。",
+        trend: [100, 101, 106, 110, 111, 113, 109, 107.3],
+        color: "#0f8f62"
+      },
+      {
+        symbol: "NASDAQ:AAPL",
+        name: "Apple",
+        native: "USD",
+        price: 298.97,
+        day: 0.38,
+        month: 12.3,
+        status: "偏熱",
+        statusClass: "amber",
+        score: 55,
+        note: "供應鏈分散與 AI 手機期待推升，追價風險升高。",
+        trend: [100, 102, 105, 107, 110, 112, 113, 112.3],
+        color: "#111827"
+      },
+      {
+        symbol: "NASDAQ:TSLA",
+        name: "Tesla",
+        native: "USD",
+        price: 404.11,
+        day: -1.43,
+        month: 4.6,
+        status: "過熱",
+        statusClass: "red",
+        score: 38,
+        note: "估值仍高，Musk/SpaceX 題材與基本面分歧大。",
+        trend: [100, 99, 101, 104, 115, 109, 106, 104.6],
+        color: "#c83f49"
+      },
+      {
+        symbol: "NASDAQ:GOOGL",
+        name: "Alphabet",
+        native: "USD",
+        price: 389.93,
+        day: -1.76,
+        month: 17.3,
+        status: "過熱",
+        statusClass: "red",
+        score: 43,
+        note: "AI 與雲端題材強，一個月漲幅已偏高。",
+        trend: [100, 102, 105, 115, 116, 119, 121, 117.3],
+        color: "#2463eb"
+      },
+      {
+        symbol: "NASDAQ:MSFT",
+        name: "Microsoft",
+        native: "USD",
+        price: 417.42,
+        day: -1.44,
+        month: -1.6,
+        status: "偏低估觀察",
+        statusClass: "green",
+        score: 62,
+        note: "AI/雲端基本面仍在，但股價未跟上 AI 熱度。",
+        trend: [100, 98, 102, 97, 98, 99, 100, 98.4],
+        color: "#087d8f"
+      },
+      {
+        symbol: "NASDAQ:AMZN",
+        name: "Amazon",
+        native: "USD",
+        price: 259.34,
+        day: -2.08,
+        month: 3.8,
+        status: "中性",
+        statusClass: "blue",
+        score: 56,
+        note: "AWS/AI 受惠，但消費與殖利率壓力仍在。",
+        trend: [100, 102, 107, 109, 110, 108, 106, 103.8],
+        color: "#7c3aed"
+      },
+      {
+        symbol: "TWSE:2317",
+        name: "鴻海",
+        native: "TWD",
+        price: 252,
+        day: -0.59,
+        month: 21.4,
+        status: "過熱",
+        statusClass: "red",
+        score: 45,
+        note: "AI server 與 Apple/Tesla 供應鏈想像已快速反映。",
+        trend: [100, 105, 119, 122, 124, 123, 121, 121.4],
+        color: "#dc2626"
+      },
+      {
+        symbol: "TWSE:4938",
+        name: "和碩",
+        native: "TWD",
+        price: 84.3,
+        day: 0.84,
+        month: 2.4,
+        status: "偏低估觀察",
+        statusClass: "green",
+        score: 60,
+        note: "價格相對平穩，Apple/AI server 題材反映慢。",
+        trend: [100, 99, 102, 101, 102, 101, 102, 102.4],
+        color: "#16a34a"
+      },
+      {
+        symbol: "SZSE:002475",
+        name: "立訊精密",
+        native: "CNY",
+        price: 74.0,
+        day: -1.86,
+        month: 12.6,
+        status: "過熱",
+        statusClass: "red",
+        score: 44,
+        note: "30 日區間波動大，Apple 組裝題材與中國風險並存。",
+        trend: [100, 85, 100, 108, 124, 113, 119, 112.6],
+        color: "#db2777"
+      }
+    ];
+
+    const sourceImages = {
+      markets: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80",
+      rates: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80",
+      ai: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80",
+      chip: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+      rocket: "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?auto=format&fit=crop&w=900&q=80",
+      apple: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
+      car: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=900&q=80",
+      gold: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=900&q=80",
+      crypto: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=900&q=80",
+      world: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
+    };
+
+    const newsItems = [
+      {
+        source: "Reuters / Yahoo Finance",
+        time: "May 19",
+        title: "S&P 500 與 Nasdaq 開低，晶片股下跌與通膨疑慮壓抑風險偏好",
+        summary: "Reuters 指出重磅晶片股回落、Treasury yields 續升，市場開始重新計入宏觀與地緣政治風險。",
+        url: "https://finance.yahoo.com/markets/stocks/articles/p-500-nasdaq-open-lower-133516585.html",
+        image: sourceImages.markets
+      },
+      {
+        source: "Reuters / Investing.com",
+        time: "May 19",
+        title: "Wall Street 下跌，10 年期美債殖利率升至一年多高點",
+        summary: "消費股與科技股承壓；CME FedWatch 顯示市場重新押注未來升息機率。",
+        url: "https://au.investing.com/news/economy-news/us-stock-futures-fall-as-chips-extend-slide-inflation-worries-persist-4444053",
+        image: sourceImages.rates
+      },
+      {
+        source: "Reuters / Investing.com",
+        time: "May 19",
+        title: "長端殖利率與 Nvidia 財報成為本週市場壓力點",
+        summary: "Reuters Trading Day 稱 30 年期美債殖利率逼近 5.20%，投資人等候 Nvidia 釋出 AI 需求能否延續。",
+        url: "https://www.investing.com/news/economy-news/trading-day-inflation-palpitations-4699755",
+        image: sourceImages.chip
+      },
+      {
+        source: "AP",
+        time: "May 18",
+        title: "Trump 取消原訂對 Iran 的打擊，稱保留談判空間",
+        summary: "AP 報導指出 Iran 談判與油價波動仍是全球股市與通膨預期的重要風險。",
+        url: "https://apnews.com/article/2b46d8b6a1710f596965797ac867ecfa",
+        image: sourceImages.world
+      },
+      {
+        source: "AP",
+        time: "May 15",
+        title: "Trump 權衡 Taiwan 軍售包，US-China 峰會後關係仍脆弱",
+        summary: "台灣、Iran 與中國議題交錯，半導體與台股供應鏈風險溢價需要維持關注。",
+        url: "https://apnews.com/article/e7a3cdf161c608de152ac1c6e5755452",
+        image: sourceImages.chip
+      },
+      {
+        source: "Axios",
+        time: "May 18",
+        title: "Altman、OpenAI 在 landmark AI trial 擊敗 Musk",
+        summary: "聯邦陪審團認定 Musk 起訴太晚，OpenAI、Microsoft 與高層免於剩餘責任。",
+        url: "https://www.axios.com/2026/05/18/musk-loses-ai-trial-openai-altman",
+        image: sourceImages.ai
+      },
+      {
+        source: "AP",
+        time: "May 19",
+        title: "OpenAI 勝訴後仍面臨 IPO、成本與競爭壓力",
+        summary: "AP 指出 OpenAI 在法院勝利後仍朝大型 IPO 敘事前進，但資本支出與競爭仍是估值考驗。",
+        url: "https://apnews.com/article/c93da9d391ac03b88f987950197f28eb",
+        image: sourceImages.ai
+      },
+      {
+        source: "TechCrunch",
+        time: "May 19",
+        title: "OpenAI co-founder Andrej Karpathy 加入 Anthropic pre-training 團隊",
+        summary: "Anthropic 吸收關鍵 AI 人才，顯示 frontier lab 競爭不只在算力，也在訓練方法與研究能力。",
+        url: "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
+        image: sourceImages.ai
+      },
+      {
+        source: "TechCrunch",
+        time: "May 16",
+        title: "Greg Brockman 接掌 OpenAI 產品策略，ChatGPT 與 Codex 走向整合",
+        summary: "OpenAI 將消費、企業與程式代理產品整合，反映 AI super app 與 agentic workflow 競爭加速。",
+        url: "https://techcrunch.com/2026/05/16/openai-co-founder-greg-brockman-reportedly-takes-charge-of-product-strategy/",
+        image: sourceImages.ai
+      },
+      {
+        source: "TechCrunch",
+        time: "May 14",
+        title: "OpenAI 確認員工裝置受開源供應鏈攻擊影響",
+        summary: "公司稱未見用戶資料、產線系統或 IP 被入侵，但軟體供應鏈風險再度浮現。",
+        url: "https://techcrunch.com/2026/05/14/openai-says-hackers-stole-some-data-after-latest-code-security-issue/",
+        image: sourceImages.ai
+      },
+      {
+        source: "TechCrunch",
+        time: "May 5",
+        title: "OpenAI 發布 GPT-5.5 Instant，成為 ChatGPT 新預設模型",
+        summary: "新模型主打敏感領域 hallucination 降低、低延遲與更強 context management。",
+        url: "https://techcrunch.com/2026/05/05/openai-releases-gpt-5-5-instant-a-new-default-model-for-chatgpt/",
+        image: sourceImages.ai
+      },
+      {
+        source: "Axios",
+        time: "May 13",
+        title: "Everything is chips now：半導體成為全球經濟與市場核心",
+        summary: "Axios 指出 AI build-out 讓晶片需求、供給短缺、投資熱潮與地緣政治集中到同一交易主線。",
+        url: "https://www.axios.com/2026/05/13/chips-ai-stocks-china",
+        image: sourceImages.chip
+      },
+      {
+        source: "Space.com",
+        time: "May 18",
+        title: "SpaceX Starship V3 Flight 12 目標 5 月 21 日發射",
+        summary: "SpaceX 計畫在 90 分鐘窗口內發射 Starship V3，這將是 2026 年首次 Starship 測試飛行。",
+        url: "https://www.space.com/space-exploration/launches-spacecraft/what-time-is-spacex-starship-v3-launch-starship-flight-12-timeline",
+        image: sourceImages.rocket
+      },
+      {
+        source: "Space.com",
+        time: "May 14",
+        title: "Starship Flight 12 將測試自我檢查 heat shield 的新任務設計",
+        summary: "SpaceX 將部署 dummy Starlink，並用後兩顆衛星檢查 Starship 熱防護瓦狀態。",
+        url: "https://www.space.com/space-exploration/launches-spacecraft/spacexs-starship-v3-megarocket-will-do-something-completely-new-on-flight-12-take-a-good-look-at-itself",
+        image: sourceImages.rocket
+      },
+      {
+        source: "Axios",
+        time: "May 7",
+        title: "Musk 與 Anthropic compute deal 顯示 AI 算力供需快速重組",
+        summary: "Axios 稱 Musk 將閒置 compute 轉為收入，也幫 Anthropic 緩解算力短缺。",
+        url: "https://www.axios.com/2026/05/07/musk-anthropic-compute-spacex-ai",
+        image: sourceImages.rocket
+      },
+      {
+        source: "Moneycontrol / Reuters photo",
+        time: "May 15",
+        title: "India 2026 年可望組裝 28% 全球 iPhone，Apple 加速去中國集中",
+        summary: "Apple 供應鏈重心向 India 轉移，Foxconn、Tata 與台系 ODM 的產能配置將受影響。",
+        url: "https://www.moneycontrol.com/news/business/india-to-assemble-28-of-global-iphones-in-2026-as-apple-deepens-supply-chain-shift-beyond-china-13920170.html",
+        image: sourceImages.apple
+      },
+      {
+        source: "AppleInsider",
+        time: "May 8",
+        title: "Apple 可能與 Intel 簽署 Apple Silicon 製造協議",
+        summary: "AppleInsider 報導 Apple may have signed a deal with Intel，市場關注美國先進製程與 TSMC 份額影響。",
+        url: "https://appleinsider.com/articles/26/05/08/apple-may-have-signed-a-deal-with-intel-to-make-apple-silicon",
+        image: sourceImages.apple
+      },
+      {
+        source: "9to5Mac / Ming-Chi Kuo",
+        time: "May 14",
+        title: "Intel 已開始為 Apple 測試部分 iPhone、iPad、Mac 晶片生產",
+        summary: "Kuo 稱 Intel 進入小量測試，TSMC 仍預期保有逾 90% 供應份額，供應鏈短期重排有限。",
+        url: "https://9to5mac.com/2026/05/14/intel-is-now-making-iphone-chips-for-apple-per-report/",
+        image: sourceImages.chip
+      },
+      {
+        source: "CoinMarketCap",
+        time: "May 20",
+        title: "Bitcoin 最新報價約 76,403 美元，24 小時小跌 0.09%",
+        summary: "BTC 市值約 1.53 兆美元，價格接近 2026 年平均水位，尚未呈現與 AI 股同級別的追高。",
+        url: "https://coinmarketcap.com/currencies/bitcoin/",
+        image: sourceImages.crypto
+      },
+      {
+        source: "Price of Gold Today",
+        time: "May 19",
+        title: "XAU/USD 報 4,476.50 美元，一個月回檔 7.3%",
+        summary: "黃金回落但一年仍大漲，避險需求與實質利率對後續走勢更關鍵。",
+        url: "https://www.priceofgold.today/",
+        image: sourceImages.gold
+      }
+    ];
+
+    const cryptoNewsItems = [
+      { source: "Blockcast", time: "May 18", title: "押寶大行情慘遭血洗！幣市上演黑色星期一，多頭爆倉逾 6 億美元", summary: "槓桿多單集中清算，反映加密市場對總體與殖利率變化仍相當敏感。", url: "https://blockcast.it/2026/05/18/crypto-traders-betting-on-a-rally-lose-600-million-in-liquidations/", image: sourceImages.crypto },
+      { source: "Blockcast", time: "May 16", title: "ZachXBT 揭 $LAB 暴跌黑幕：團隊掌控 95% 代幣、與 KOL 聯手割韭菜", summary: "鏈上調查再次提醒小型代幣的持幣集中與宣傳風險。", url: "https://blockcast.it/2026/05/16/zachxbt-exposes-lab-crash-team-controlled-95prcnt-of-supply/", image: sourceImages.crypto },
+      { source: "Blockcast", time: "May 15", title: "沃許接掌 Fed！解析鮑爾卸任後，美債、貨幣政策新走向", summary: "加密市場持續把聯準會人事與利率路徑視為風險資產的關鍵變數。", url: "https://blockcast.it/2026/05/15/warsh-takes-over-fed-whats-next-for-rates-and-treasuries/", image: sourceImages.rates },
+      { source: "Blockcast", time: "May 14", title: "達利歐：比特幣避險不如黃金，當不了央行儲備", summary: "數位黃金敘事再遭質疑，BTC 與黃金的避險角色比較重新升溫。", url: "https://blockcast.it/2026/05/14/ray-dalio-doubts-bitcoin-will-become-central-bank-reserve/", image: sourceImages.gold },
+      { source: "Blockcast", time: "May 11", title: "Circle 完成 2.22 億美元 ARC 代幣預售！項目估值衝上 30 億美元", summary: "大型資本持續流入鏈上基建與新代幣發行，顯示機構興趣未退。", url: "https://blockcast.it/2026/05/11/circle-raises-222-million-for-arc-blockchain-token-sale-at-3-billion-valuation/", image: sourceImages.crypto },
+      { source: "Blockcast", time: "May 11", title: "Kalshi 獲 10 億美元融資！預測市場龍頭估值 220 億美元", summary: "預測市場與鏈上投機基礎設施繼續吸引華爾街與科技資本。", url: "https://blockcast.it/2026/05/11/prediction-market-giant-kalshi-raises-1b-hits-22b-valuation/", image: sourceImages.markets },
+      { source: "Blockcast", time: "May 8", title: "華爾街神算子 Tom Lee 開示：比特幣 5 月若站穩 7.6 萬美元，大牛市將全面啟動", summary: "BTC 價格區間仍是市場情緒與牛熊切換的重要錨點。", url: "https://blockcast.it/2026/05/08/bitcoin-ending-may-above-76000-would-confirm-new-bull-market-according-to-tom-lee/", image: sourceImages.crypto },
+      { source: "Blockcast", time: "May 8", title: "32 億美元募資背後，a16z 與 Haun 正押注誰能穿越監管週期", summary: "Crypto VC 更偏向穩定幣、RWA 與鏈上金融等可長期存活的基建。", url: "https://blockcast.it/2026/05/08/behind-3-2b-in-new-funds-a16z-and-haun-bet-on-crypto-survivors/", image: sourceImages.markets },
+      { source: "Blockcast", time: "May 7", title: "a16z 砸 22 億美元成立新基金，堅信加密貨幣基本面達歷史高點", summary: "VC 資金重新加碼，顯示機構仍看好加密基礎設施的長期擴張。", url: "https://blockcast.it/2026/05/07/a16z-raises-2-2-billion-for-fifth-crypto-fund/", image: sourceImages.crypto },
+      { source: "Blockcast", time: "May 6", title: "Coinbase 研究：第二季加密市場展望中性，地緣政治衝突主導全局", summary: "Coinbase 與 Glassnode 將加密風險定價重點放在地緣政治與宏觀波動。", url: "https://blockcast.it/2026/05/06/coinbase-crypto-markets-outlook-q2-2026/", image: sourceImages.world },
+      { source: "Blockcast", time: "May 6", title: "Hyperliquid 殺入預測市場，Outcome 能打敗 Polymarket 嗎？", summary: "鏈上交易所與預測市場的邊界持續模糊，競爭轉向流動性與產品體驗。", url: "https://blockcast.it/2026/05/06/hyperliquid-enters-prediction-markets-can-outcome-beat-polymarket/", image: sourceImages.crypto },
+      { source: "Blockcast", time: "May 5", title: "美國期中選舉》民調：逾 6 成選民不信任川普監管加密貨幣", summary: "監管可信度與政治風險仍是美國加密政策路徑的重要變數。", url: "https://blockcast.it/2026/05/05/u-s-voters-dont-trust-trump-administration-to-oversee-crypto-sector/", image: sourceImages.world },
+      { source: "BlockTempo", time: "May 20", title: "摩根士丹利提交 Solana ETF 修訂申請！代號 MSOL、支援質押收益", summary: "傳統金融正把 Solana 納入 ETF 管道，鏈上資產機構化再往前一步。", url: "https://www.blocktempo.com/morgan-stanley-files-amended-s1-for-solana-etf-msol/", image: sourceImages.markets },
+      { source: "BlockTempo", time: "May 20", title: "川普 Truth Social 撤回比特幣 ETF 申請，分析師：市場已是紅海競爭難有肉吃", summary: "現貨 BTC ETF 市場競爭加劇，後進者切入空間正在收斂。", url: "https://www.blocktempo.com/truth-social-withdraws-spot-bitcoin-etf-seyffart-morgan-stanley-msbt-competition/", image: sourceImages.crypto },
+      { source: "BlockTempo", time: "May 20", title: "明尼蘇達州新法封殺預測市場：經營或廣告均屬重罪", summary: "美國州法與聯邦監管對預測市場的管轄權衝突再度升高。", url: "https://www.blocktempo.com/cftc-doj-sue-minnesota-walz-prediction-markets-ban-first-state/", image: sourceImages.world },
+      { source: "BlockTempo", time: "May 20", title: "IOTA 宣布肯亞、摩洛哥和奈及利亞成為首批實施 ADAPT 計畫國家", summary: "區塊鏈在跨境支付與數位身分基建的落地案例持續增加。", url: "https://www.blocktempo.com/iota-announces-the-first-countries-to-implement-adapt-program/", image: sourceImages.crypto },
+      { source: "BlockTempo", time: "May 19", title: "趁 ETH 跌穿 2,200 美元掃貨！Bitmine 狂買 71,672 枚", summary: "機構型財庫公司持續擴大 ETH 部位，顯示 2,100 至 2,200 區間有資金承接。", url: "https://www.blocktempo.com/bitmine-buys-71672-eth-pullback-tom-lee/", image: sourceImages.crypto },
+      { source: "BlockTempo", time: "May 19", title: "又有 2 名以太坊基金會資深研究員離職，人才缺口警報響起", summary: "以太坊基金會人才流失，市場開始關注核心研發傳承與治理能力。", url: "https://www.blocktempo.com/ethereum-foundation-carl-beek-julian-ma-resign-crops-talent-exodus/", image: sourceImages.ai },
+      { source: "BlockTempo", time: "May 6", title: "BlockTempo 專訪 Maelstrom 共同創辦人 Akshat Vaidya", summary: "Arthur Hayes 陣營對 DeFi、基建與耐心資本的看法，反映機構投資人的配置邏輯。", url: "https://www.blocktempo.com/interview-with-maelstrom-cofounder-akshat-vaidya/", image: sourceImages.crypto },
+      { source: "BlockTempo", time: "May 1", title: "伊朗荷姆茲海峽收通行費：全球分 5 級，禁用美元改收人民幣與穩定幣", summary: "穩定幣與跨境支付敘事延伸到地緣政治與能源航運場景。", url: "https://www.blocktempo.com/iran-hormuz-strait-toll-rmb-stablecoin-ban-usd-japan-ship/", image: sourceImages.world }
+    ];
+
+    const heatNews = [
+      {
+        title: "AI 與晶片權重過度集中，半導體成為 S&P 500 核心風險",
+        source: "Axios",
+        url: "https://www.axios.com/2026/05/13/chips-ai-stocks-china",
+        buyer: "偏機構買盤",
+        reason: "ETF、量化與大型主動基金集中配置 AI/半導體權重，散戶追單跟隨但主導權仍偏機構。"
+      },
+      {
+        title: "美股高檔遇通膨與殖利率壓力，AI 交易被迫降溫",
+        source: "Reuters / Investing.com",
+        url: "https://www.investing.com/news/economy-news/trading-day-inflation-palpitations-4699755",
+        buyer: "混合買盤",
+        reason: "大型基金與散戶同時參與高 beta AI 股；殖利率上升時兩邊都可能快速降槓桿。"
+      },
+      {
+        title: "S&P 500 衝高後市場討論 AI mania 與 momentum machine",
+        source: "Investing.com",
+        url: "https://m.investing.com/analysis/sp-500-storms-above-7500-as-ai-mania-turns-wall-street-into-a-momentum-machine-200680352?ampMode=1",
+        buyer: "偏散戶買盤",
+        reason: "題材與短線動能驅動強，散戶與短線交易帳戶容易在高檔追逐敘事。"
+      },
+      {
+        title: "Burry 加碼 AI 泡沫警告，市場重新討論 Nvidia、Palantir、SOXX 與 QQQ 風險",
+        source: "Investing.com",
+        url: "https://www.investing.com/news/stock-market-news/burry-adds-to-beatendown-stocks-buys-lululemon-warns-of-ai-bubble-93CH-4699009",
+        buyer: "偏機構買盤",
+        reason: "核心訊號來自知名空方與衍生品避險，對機構部位與大型科技權重影響較大。"
+      },
+      {
+        title: "Alphabet 暴衝引發泡沫比較，Burry 指向 1999-2000 年最後階段感",
+        source: "The Motley Fool",
+        url: "https://www.fool.com/investing/breakfast-news/2026/05/11/breakfast-news-alphabet-surge-brings-bubble-fears/",
+        buyer: "偏機構買盤",
+        reason: "Alphabet 是指數權重與大型基金核心持倉，漲幅過快時主要風險來自機構再平衡。"
+      },
+      {
+        title: "S&P 500 廣度轉弱，只有少數 mega-cap 與 AI 股撐住指數",
+        source: "FXEmpire",
+        url: "https://www.fxempire.com/forecasts/article/weak-breadth-and-mega-cap-tech-declines-signal-sp-500-index-rally-needs-repair-1598895",
+        buyer: "偏機構買盤",
+        reason: "指數廣度惡化通常反映 ETF/大型權重集中，機構風控與被動資金再平衡會主導波動。"
+      },
+      {
+        title: "AI frenzy 推升美股新高，但窄基礎 rally 讓泡沫辯論升溫",
+        source: "Investing.com",
+        url: "https://uk.investing.com/news/economy-news/ai-frenzy-propels-markets-to-record-highs-fueling-bubble-debate-4629901",
+        buyer: "混合買盤",
+        reason: "大型基金買 AI 權重，散戶與選擇權資金追逐敘事，兩邊一起把估值推高。"
+      },
+      {
+        title: "Michael Burry 稱科技跳漲像 2000 年高點，半導體指數短期漲幅過快",
+        source: "Bloomberg",
+        url: "https://www.bloomberg.com/news/articles/2026-05-11/michael-burry-warns-of-stock-crash-as-tech-jump-echoes-2000-peak",
+        buyer: "偏機構買盤",
+        reason: "半導體指數大漲牽動 ETF、期權與避險部位，主要是大型資金倉位風險。"
+      },
+      {
+        title: "Nvidia 一週市值增加逾 9000 億美元，散戶社群高度討論是否拋物線化",
+        source: "Reddit / StockMarket",
+        url: "https://www.reddit.com/r/StockMarket/comments/1tfgeoq/nvda_adding_over_906b_in_market_cap_over_past_7/",
+        buyer: "偏散戶買盤",
+        reason: "討論熱度集中在市值神話與 FOMO，社群推動的追價與短線選擇權情緒更明顯。"
+      },
+      {
+        title: "Palantir 被市場稱為 AI cult stock，估值可持續性成為爭議核心",
+        source: "Stockchase",
+        url: "https://stockchase.com/PLTR-Q",
+        buyer: "偏散戶買盤",
+        reason: "Palantir 有高忠誠散戶社群，估值風險往往被 AI 敘事與信仰型買盤放大。"
+      },
+      {
+        title: "CoreWeave 受 AI 雲端需求支撐，但 capex、元件成本與債務壓力被放大檢視",
+        source: "Reuters / WSAU",
+        url: "https://wsau.com/2026/05/07/coreweave-tops-revenue-estimates-as-ai-boom-supercharges-cloud-demand/",
+        buyer: "偏機構買盤",
+        reason: "AI 雲端基建主要由合約、融資與大型客戶支撐，機構會用債務與現金流壓力重新定價。"
+      },
+      {
+        title: "Oracle AI debt debate 升溫，市場爭論它是在建 AI backbone 還是債務泡沫",
+        source: "Benzinga",
+        url: "https://www.benzinga.com/markets/tech/26/05/52521440/oracles-ai-debt-fears-havent-stopped-dan-ives-from-seeing-40-upside/",
+        buyer: "偏機構買盤",
+        reason: "Oracle 的焦點在信用市場、AI 資本支出與大型合約，機構債券與股票資金互相影響。"
+      },
+      {
+        title: "Oracle 股價與 OpenAI 資料中心敘事綁得太緊，集中度風險成為熱議",
+        source: "The Next Web",
+        url: "https://thenextweb.com/news/oracle-openai-wall-street-disconnect",
+        buyer: "偏機構買盤",
+        reason: "單一大型 AI 客戶敘事拉高估值，若合約或融資節奏改變，機構折現假設會快速重估。"
+      },
+      {
+        title: "Micron AI memory trade 太熱，獲利了結與中國 H200 變數讓股價震盪",
+        source: "Invezz",
+        url: "https://invezz.com/news/2026/05/15/why-is-micron-stock-stumbling-today/",
+        buyer: "混合買盤",
+        reason: "HBM 基本面吸引機構，散戶也追逐記憶體 supercycle，回撤時兩邊都會鎖利。"
+      },
+      {
+        title: "Broadcom AI chip pullback 被視為漲多後獲利了結，六大 AI 客戶敘事仍在",
+        source: "Invezz",
+        url: "https://invezz.com/sg/news/2026/05/12/why-analysts-are-bullish-on-broadcom-stock-despite-a-4percent-fall-today/",
+        buyer: "偏機構買盤",
+        reason: "Broadcom 的 custom AI ASIC 客戶結構多由機構研究與目標價驅動，散戶追隨但不是主導。"
+      },
+      {
+        title: "AMD AI rally 延續，但市場開始追問 data-center demand 是否足以支撐漲幅",
+        source: "TS2 Tech",
+        url: "https://ts2.tech/en/amd-stock-extends-ai-rally-but-wall-streets-next-test-is-already-here/",
+        buyer: "混合買盤",
+        reason: "AMD 同時有機構 AI server 論文與活躍散戶社群，漲幅驗證依賴後續訂單。"
+      },
+      {
+        title: "Super Micro 仍是 AI server 熱門純概念，但會計、毛利與執行風險仍被討論",
+        source: "Stockchase",
+        url: "https://stockchase.com/SMCI-Q",
+        buyer: "偏散戶買盤",
+        reason: "SMCI 的純 AI server 概念容易吸引短線題材資金，風險在毛利與信任折價。"
+      },
+      {
+        title: "Tesla 遭 SpaceX IPO 與 robotaxi 預期拉扯，散戶可能在 Musk 生態內輪動",
+        source: "FXEmpire",
+        url: "https://www.fxempire.com/forecasts/article/tesla-stock-faces-rotation-risk-as-spacex-ipo-hype-builds-1598826",
+        buyer: "偏散戶買盤",
+        reason: "Tesla 是散戶可交易的 Musk AI/robotics proxy，SpaceX IPO 若受限反而會讓資金回流 TSLA。"
+      },
+      {
+        title: "Tesla 在 445 美元附近被討論是否估值過高，robotaxi/Optimus 仍未產生實質收入",
+        source: "24/7 Wall St.",
+        url: "https://247wallst.com/investing/2026/05/14/tesla-at-445-buy-sell-or-hold/",
+        buyer: "偏散戶買盤",
+        reason: "股價更多反映未來可選擇權，散戶對 robotaxi 與 Optimus 的想像是主要溢價來源。"
+      },
+      {
+        title: "TSMC 在 AI demand 下提高資本支出，但自身也警惕 careless investment 風險",
+        source: "Reuters / Investing.com",
+        url: "https://www.investing.com/news/stock-market-news/tsmc-lifts-revenue-forecast-pledges-more-capital-spending-to-meet-ai-chip-demand-4616954",
+        buyer: "偏機構買盤",
+        reason: "TSMC 是全球 AI 供應鏈核心權重，外資與機構資金主導定價，台股散戶追隨情緒升高。"
+      }
+    ];
+
+    const appleWatch = [
+      {
+        title: "India iPhone 組裝份額預估升至 28%",
+        text: "India 成為 Apple China+1 的主要落點，Foxconn、Tata 與當地零組件供應商是產能擴張焦點。",
+        url: "https://www.moneycontrol.com/news/business/india-to-assemble-28-of-global-iphones-in-2026-as-apple-deepens-supply-chain-shift-beyond-china-13920170.html"
+      },
+      {
+        title: "Intel 進入 Apple Silicon 測試供應鏈",
+        text: "AppleInsider 與 Kuo 相關報導指向 Intel foundry 小量測試，短期不取代 TSMC，但強化美國供應鏈選項。",
+        url: "https://appleinsider.com/articles/26/05/08/apple-may-have-signed-a-deal-with-intel-to-make-apple-silicon"
+      },
+      {
+        title: "TSMC 仍是高階製程主軸",
+        text: "2330.TW 最新 2,200 TWD，日跌 0.23%，一個月約 +7.3%；仍是 Apple 與 AI 晶片核心供應風險集中點。",
+        url: "https://finance-pulse24.com/en/stocks/tsmc/"
+      },
+      {
+        title: "Foxconn/Hon Hai AI server 敘事升溫",
+        text: "2317.TW 約 252 TWD，一個月約 +21.4%；AI server、Apple 裝配與 EV 供應鏈想像已快速反映。",
+        url: "https://stockanalysis.com/quote/tpe/2317/history/"
+      },
+      {
+        title: "Pegatron 價格相對平穩",
+        text: "4938.TW 約 84.3 TWD，月線變化不大；若 Apple India 與 server 業務改善，市場可能重新評估折價。",
+        url: "https://coindataflow.com/en/stock/4938.TW"
+      },
+      {
+        title: "Luxshare 仍是高波動 Apple 組裝觀察標的",
+        text: "002475.SZ 近期報 74 CNY，30 日區間 55.42-81.78，反映資金與中國供應鏈風險雙向拉扯。",
+        url: "https://stockinvest.us/stock-price/002475.SZ"
+      },
+      {
+        title: "US-China / Taiwan 風險仍未解除",
+        text: "AP 報導 Trump 權衡 Taiwan 軍售包；供應鏈若遇制裁、軍演或出口管制，台灣電子鏈波動會升高。",
+        url: "https://apnews.com/article/e7a3cdf161c608de152ac1c6e5755452"
+      },
+      {
+        title: "匯率對台系供應商獲利有雙向影響",
+        text: "USD/TWD 約 31.41，台幣若走弱可支撐出口換算收入，但也會影響進口成本與外資評價。",
+        url: "https://tradingeconomics.com/taiwan/currency"
+      },
+      {
+        title: "Intel 量產良率是 2027-2028 的關鍵驗證",
+        text: "Kuo 相關報導指出 Intel 測試可能逐步擴大，但 TSMC 仍預期保留超過 90% 的 Apple 晶片份額。",
+        url: "https://9to5mac.com/2026/05/14/intel-is-now-making-iphone-chips-for-apple-per-report/"
+      },
+      {
+        title: "Apple 供應鏈目前偏重分散而非單點替代",
+        text: "India、Intel、TSMC、Foxconn、Pegatron、Luxshare 形成分散化組合；短期更像風險管理，不是全面遷移。",
+        url: "https://en.wikipedia.org/wiki/Apple_supply_chain"
+      }
+    ];
+
+    const teslaWatch = [
+      {
+        title: "TSLA 估值仍偏熱",
+        text: "TSLA 報 404.11 美元，日跌 1.43%；FinanceCharts 顯示 trailing P/E 仍極高，題材與基本面落差需監控。",
+        url: "https://www.financecharts.com/stocks/TSLA/summary/price"
+      },
+      {
+        title: "Musk 敗訴降低 OpenAI 訴訟勝利情境",
+        text: "Axios/AP 報導 OpenAI 勝訴，Musk 取得巨額賠償或干預 OpenAI 的可能性降低。",
+        url: "https://www.axios.com/2026/05/18/musk-loses-ai-trial-openai-altman"
+      },
+      {
+        title: "SpaceX Starship V3 Flight 12 是情緒催化",
+        text: "Space.com 指出 Flight 12 目標 5 月 21 日發射，若順利可支撐 SpaceX IPO 與 Musk 生態敘事。",
+        url: "https://www.space.com/space-exploration/launches-spacecraft/what-time-is-spacex-starship-v3-launch-starship-flight-12-timeline"
+      },
+      {
+        title: "Starship 熱防護檢查任務攸關可重複使用節奏",
+        text: "Flight 12 計畫用 dummy Starlink 檢查 heat shield，這是未來高頻發射與成本曲線的重要驗證。",
+        url: "https://www.space.com/space-exploration/launches-spacecraft/spacexs-starship-v3-megarocket-will-do-something-completely-new-on-flight-12-take-a-good-look-at-itself"
+      },
+      {
+        title: "Anthropic compute deal 使 SpaceX 算力資產金融化",
+        text: "Axios 稱 Musk 可把閒置 compute 轉化為收入，Anthropic 則取得算力，顯示 AI supply chain 不只晶片，也包含電力與機房。",
+        url: "https://www.axios.com/2026/05/07/musk-anthropic-compute-spacex-ai"
+      },
+      {
+        title: "Terafab / 自研 GPU 敘事牽動供應鏈",
+        text: "若 Tesla/SpaceX 推進自研晶片與大規模製造，TSMC、Samsung、Micron、Nvidia 與電力供應鏈都會受影響。",
+        url: "https://www.tomshardware.com/tech-industry/artificial-intelligence/spacex-says-it-is-going-to-begin-manufacturing-gpus-usd1-75-trillion-ipo-listing-reportedly-includes-in-house-gpu-production"
+      },
+      {
+        title: "EV 消費需求遇高利率阻力",
+        text: "Reuters 市場報導顯示 consumer discretionary 承壓；高利率會壓抑汽車融資與高估值 EV 股。",
+        url: "https://au.investing.com/news/economy-news/us-stock-futures-fall-as-chips-extend-slide-inflation-worries-persist-4444053"
+      },
+      {
+        title: "Taiwan 與 China 風險影響電子與電動車零組件",
+        text: "US-China / Taiwan 軍售議題若升溫，車用電子、電池材料、伺服器與晶片供應都可能面臨再定價。",
+        url: "https://apnews.com/article/e7a3cdf161c608de152ac1c6e5755452"
+      },
+      {
+        title: "Musk 生態 IPO 熱度可能放大 TSLA beta",
+        text: "SpaceX、OpenAI、Anthropic 等大型 IPO 預期使風險偏好上升，但若上市定價失敗，連帶壓力也會放大。",
+        url: "https://www.kiplinger.com/investing/stocks/spacex-stock-should-you-buy-the-biggest-ipo-ever"
+      },
+      {
+        title: "供應鏈觀察重點轉向晶片、電力與算力",
+        text: "Tesla 已不只是 EV 供應鏈，AI training、robotics、Dojo/自研晶片與資料中心電力才是市場重新估值來源。",
+        url: "https://www.axios.com/2026/05/13/chips-ai-stocks-china"
+      }
+    ];
+
+    let selectedCurrency = "USD";
+
+    function convertPrice(item) {
+      if (selectedCurrency === "USD") {
+        if (item.native === "USD") return item.price;
+        if (item.native === "TWD") return item.price / FX.USD_TWD;
+        if (item.native === "CNY") return item.price / FX.USD_CNY;
+      }
+      if (item.native === "USD") return item.price * FX.USD_TWD;
+      if (item.native === "TWD") return item.price;
+      if (item.native === "CNY") return (item.price / FX.USD_CNY) * FX.USD_TWD;
+      return item.price;
+    }
+
+    function formatMoney(value) {
+      const prefix = selectedCurrency === "USD" ? "$" : "NT$";
+      const abs = Math.abs(value);
+      const digits = abs >= 1000 ? 0 : abs >= 100 ? 2 : 2;
+      return `${prefix}${value.toLocaleString("en-US", {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      })}`;
+    }
+
+    function formatPct(value) {
+      const cls = value > 0 ? "up" : value < 0 ? "down" : "flat";
+      const sign = value > 0 ? "+" : "";
+      return `<span class="${cls}">${sign}${value.toFixed(2)}%</span>`;
+    }
+
+    function formatFx(value) {
+      if (value >= 100) return value.toLocaleString("en-US", { maximumFractionDigits: 2 });
+      if (value >= 10) return value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (value >= 1) return value.toLocaleString("en-US", { minimumFractionDigits: 3, maximumFractionDigits: 4 });
+      return value.toLocaleString("en-US", { minimumFractionDigits: 4, maximumFractionDigits: 5 });
+    }
+
+    function formatDomain(url) {
+      try {
+        return new URL(url).hostname.replace(/^www\./, "");
+      } catch (error) {
+        return url;
+      }
+    }
+
+    function renderFxBoard() {
+      const board = document.getElementById("fxBoard");
+      board.innerHTML = fxRates.filter(item => item.code !== "TWD").map(item => `
+        <article class="fx-card">
+          <div class="fx-head">
+            <div>
+              <div class="fx-code">${item.code}</div>
+              <div class="fx-name">${item.name}</div>
+            </div>
+            <span class="tag ${item.badgeClass}">${item.badge}</span>
+          </div>
+          <div class="fx-rate">NT$${formatFx(item.twd)}</div>
+          <div class="fx-note" title="${item.note}">${item.note}</div>
+        </article>
+      `).join("");
+
+      const from = document.getElementById("fxFrom");
+      const to = document.getElementById("fxTo");
+      const options = fxRates.map(item => `<option value="${item.code}">${item.code} - ${item.name}</option>`).join("");
+      from.innerHTML = options;
+      to.innerHTML = options;
+      from.value = "USD";
+      to.value = "TWD";
+      updateFxResult();
+    }
+
+    function updateFxResult() {
+      const amount = Number(document.getElementById("fxAmount").value || 0);
+      const fromCode = document.getElementById("fxFrom").value;
+      const toCode = document.getElementById("fxTo").value;
+      const fromRate = fxRates.find(item => item.code === fromCode);
+      const toRate = fxRates.find(item => item.code === toCode);
+      if (!fromRate || !toRate) return;
+      const converted = amount * fromRate.twd / toRate.twd;
+      document.getElementById("fxResult").textContent = `${formatFx(converted)} ${toCode}`;
+    }
+
+    function bindFxConverter() {
+      ["fxAmount", "fxFrom", "fxTo"].forEach(id => {
+        document.getElementById(id).addEventListener("input", updateFxResult);
+        document.getElementById(id).addEventListener("change", updateFxResult);
+      });
+    }
+
+    function renderSafeHavens() {
+      document.getElementById("safeHavenBoard").innerHTML = safeHavenAssets.map(item => `
+        <article class="safe-card">
+          <div class="safe-head">
+            <div>
+              <h3><a href="${item.url}" rel="noopener">${item.asset}</a></h3>
+              <div class="safe-role">${item.role}</div>
+            </div>
+            <span class="tag ${item.moveClass === "up" ? "green" : item.moveClass === "down" ? "red" : "blue"}">${item.move}</span>
+          </div>
+          <div class="safe-price">${item.price}</div>
+          <p>${item.signal}</p>
+          <div class="link-url">${formatDomain(item.url)}</div>
+        </article>
+      `).join("");
+    }
+
+    function bindExternalLinks() {
+      document.querySelectorAll('a[href^="http"]').forEach(anchor => {
+        anchor.removeAttribute("target");
+        if (anchor.dataset.boundSamePage === "true") return;
+        anchor.dataset.boundSamePage = "true";
+        anchor.addEventListener("click", event => {
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          event.preventDefault();
+          window.location.assign(anchor.href);
+        });
+      });
+    }
+
+    function renderMarketTable() {
+      const tbody = document.querySelector("#marketTable tbody");
+      tbody.innerHTML = marketData.map(item => {
+        const price = convertPrice(item);
+        return `
+          <tr>
+            <td><strong>${item.symbol}</strong><br><span class="source-line">${item.name}</span></td>
+            <td>${formatMoney(price)} <span class="source-line">${selectedCurrency}</span></td>
+            <td>${formatPct(item.day)}</td>
+            <td>${formatPct(item.month)}</td>
+            <td><span class="tag ${item.statusClass}">${item.status}</span></td>
+            <td>
+              <div class="score">
+                <strong>${item.score}</strong>
+                <span class="bar" title="${item.score}/100"><span style="--w:${item.score}%"></span></span>
+              </div>
+            </td>
+            <td class="hide-sm">${item.note}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderNews() {
+      document.getElementById("newsGrid").innerHTML = newsItems.map(item => `
+        <article class="news-card">
+          <img src="${item.image}" alt="${item.title}" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>${item.source}</span>
+              <span>${item.time}</span>
+            </div>
+            <h3><a href="${item.url}" rel="noopener">${item.title}</a></h3>
+            <p>${item.summary}</p>
+            <div class="news-actions">
+              <span class="link-url">${formatDomain(item.url)}</span>
+              <a class="source-button" href="${item.url}" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+    function renderCryptoNews() {
+      const cryptoGrid = document.getElementById("cryptoNewsGrid");
+      if (!cryptoGrid) return;
+      cryptoGrid.innerHTML = cryptoNewsItems.map(item => `
+        <article class="news-card">
+          <img src="${item.image}" alt="${item.title}" loading="lazy">
+          <div class="news-body">
+            <div class="news-meta">
+              <span>${item.source}</span>
+              <span>${item.time}</span>
+            </div>
+            <h3><a href="${item.url}" rel="noopener">${item.title}</a></h3>
+            <p>${item.summary}</p>
+            <div class="news-actions">
+              <span class="link-url">${formatDomain(item.url)}</span>
+              <a class="source-button" href="${item.url}" rel="noopener">來源連結</a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderHeatNews() {
+      document.getElementById("heatNews").innerHTML = heatNews.map(item => `
+        <article class="heat-item">
+          <div class="row">
+            <span class="tag amber">${item.buyer}</span>
+            <span class="source-line">${item.source}</span>
+          </div>
+          <h3><a href="${item.url}" rel="noopener">${item.title}</a></h3>
+          <p>${item.reason}</p>
+          <div class="link-url">${formatDomain(item.url)}</div>
+        </article>
+      `).join("");
+    }
+
+    function renderWatchLists() {
+      const watchTemplate = item => `
+        <article class="watch">
+          <div>
+            <h3><a href="${item.url}" rel="noopener">${item.title}</a></h3>
+            <p>${item.text}</p>
+            <div class="link-url">${formatDomain(item.url)}</div>
+          </div>
+        </article>
+      `;
+      document.getElementById("appleWatch").innerHTML = appleWatch.map(watchTemplate).join("");
+      document.getElementById("teslaWatch").innerHTML = teslaWatch.map(watchTemplate).join("");
+    }
+
+    function drawTrendChart() {
+      const canvas = document.getElementById("trendChart");
+      const ctx = canvas.getContext("2d");
+      const rect = canvas.getBoundingClientRect();
+      const pixelRatio = Math.max(1, window.devicePixelRatio || 1);
+      const w = Math.max(720, Math.round(rect.width || canvas.clientWidth || 980));
+      const h = Math.max(660, 132 + marketData.length * 46);
+      canvas.width = Math.round(w * pixelRatio);
+      canvas.height = Math.round(h * pixelRatio);
+      canvas.style.height = `${h}px`;
+      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      const compact = w < 820;
+      const margin = {
+        top: 88,
+        right: compact ? 126 : 208,
+        bottom: 48,
+        left: compact ? 118 : 172
+      };
+      const plotWidth = w - margin.left - margin.right;
+      const plotHeight = h - margin.top - margin.bottom;
+      const rows = [...marketData].sort((a, b) => b.month - a.month);
+      const monthValues = rows.map(item => item.month);
+      const min = Math.floor(Math.min(-10, ...monthValues) / 5) * 5;
+      const max = Math.ceil(Math.max(25, ...monthValues) / 5) * 5;
+      const scaleX = value => margin.left + ((value - min) / (max - min)) * plotWidth;
+      const zeroX = scaleX(0);
+      const rowHeight = plotHeight / rows.length;
+      const statusColors = {
+        red: "#c83f49",
+        amber: "#b7791f",
+        green: "#0f8f62",
+        blue: "#2463eb"
+      };
+
+      function drawPill(x, y, text, fill, color) {
+        ctx.font = compact ? "700 11px Segoe UI, Arial" : "700 12px Segoe UI, Arial";
+        const width = Math.min(compact ? 70 : 96, ctx.measureText(text).width + 20);
+        const height = 24;
+        ctx.fillStyle = fill;
+        if (ctx.roundRect) {
+          ctx.beginPath();
+          ctx.roundRect(x, y - height / 2, width, height, 12);
+          ctx.fill();
+        } else {
+          ctx.fillRect(x, y - height / 2, width, height);
+        }
+        ctx.fillStyle = color;
+        ctx.fillText(text, x + 10, y + 4);
+      }
+
+      ctx.fillStyle = "#18202c";
+      ctx.font = compact ? "700 16px Segoe UI, Arial" : "700 18px Segoe UI, Arial";
+      ctx.fillText("近一月漲跌幅排序", 18, 32);
+      ctx.fillStyle = "#667085";
+      ctx.font = compact ? "12px Segoe UI, Arial" : "13px Segoe UI, Arial";
+      ctx.fillText("中央以 0% 為基準，右側保留推薦觀察分數與狀態，方便掃描過熱與修復標的。", 18, 56);
+
+      ctx.font = "12px Segoe UI, Arial";
+      ctx.strokeStyle = "#d9e2ec";
+      ctx.fillStyle = "#667085";
+      ctx.lineWidth = 1;
+      for (let value = min; value <= max; value += 5) {
+        const x = scaleX(value);
+        ctx.beginPath();
+        ctx.moveTo(x, margin.top - 18);
+        ctx.lineTo(x, h - margin.bottom + 6);
+        ctx.stroke();
+        ctx.fillText(`${value > 0 ? "+" : ""}${value}%`, x - 14, margin.top - 28);
+      }
+
+      ctx.strokeStyle = "#98a2b3";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(zeroX, margin.top - 24);
+      ctx.lineTo(zeroX, h - margin.bottom + 10);
+      ctx.stroke();
+
+      ctx.fillStyle = "#344054";
+      ctx.font = "700 12px Segoe UI, Arial";
+      ctx.fillText("標的", 18, margin.top - 28);
+      ctx.fillText("一個月", margin.left, margin.top - 52);
+      ctx.fillText("推薦", w - margin.right + 18, margin.top - 28);
+      if (!compact) ctx.fillText("狀態", w - 96, margin.top - 28);
+
+      rows.forEach((item, index) => {
+        const rowTop = margin.top + rowHeight * index;
+        const y = rowTop + rowHeight / 2;
+        const barHeight = Math.min(20, rowHeight - 14);
+        const color = statusColors[item.statusClass] || item.color;
+        const monthX = scaleX(item.month);
+        const barX = Math.min(zeroX, monthX);
+        const barW = Math.max(3, Math.abs(monthX - zeroX));
+
+        ctx.fillStyle = index % 2 === 0 ? "#f8fafc" : "#ffffff";
+        ctx.fillRect(8, rowTop + 2, w - 16, rowHeight - 4);
+
+        ctx.fillStyle = "#18202c";
+        ctx.font = compact ? "700 12px Segoe UI, Arial" : "700 14px Segoe UI, Arial";
+        const symbol = compact
+          ? item.symbol.replace("NASDAQ:", "").replace("TWSE:", "TW ").replace("SZSE:", "SZ ").replace("OANDA:", "")
+          : item.symbol;
+        ctx.fillText(symbol, 18, y - 4);
+        ctx.fillStyle = "#667085";
+        ctx.font = compact ? "11px Segoe UI, Arial" : "12px Segoe UI, Arial";
+        ctx.fillText(item.name, 18, y + 14);
+
+        ctx.fillStyle = color;
+        if (ctx.roundRect) {
+          ctx.beginPath();
+          ctx.roundRect(barX, y - barHeight / 2, barW, barHeight, 5);
+          ctx.fill();
+        } else {
+          ctx.fillRect(barX, y - barHeight / 2, barW, barHeight);
+        }
+
+        ctx.fillStyle = "#18202c";
+        ctx.font = "700 12px Segoe UI, Arial";
+        const monthLabel = `${item.month > 0 ? "+" : ""}${item.month.toFixed(1)}%`;
+        const labelX = item.month >= 0 ? Math.min(monthX + 8, margin.left + plotWidth - 42) : Math.max(monthX - 48, margin.left);
+        ctx.fillText(monthLabel, labelX, y + 4);
+
+        const scoreX = w - margin.right + 18;
+        const scoreWidth = compact ? 52 : 86;
+        const scoreColor = item.score >= 60 ? "#0f8f62" : item.score >= 50 ? "#2463eb" : item.score >= 45 ? "#b7791f" : "#c83f49";
+        ctx.fillStyle = "#e5e7eb";
+        ctx.fillRect(scoreX, y - 5, scoreWidth, 10);
+        ctx.fillStyle = scoreColor;
+        ctx.fillRect(scoreX, y - 5, scoreWidth * (item.score / 100), 10);
+        ctx.fillStyle = "#18202c";
+        ctx.font = "700 12px Segoe UI, Arial";
+        ctx.fillText(String(item.score), scoreX + scoreWidth + 8, y + 4);
+
+        if (!compact) {
+          drawPill(w - 98, y, item.status, `${color}22`, color);
+        }
+      });
+
+      ctx.strokeStyle = "#d9e2ec";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(margin.left, h - margin.bottom + 10);
+      ctx.lineTo(w - margin.right, h - margin.bottom + 10);
+      ctx.stroke();
+      ctx.fillStyle = "#667085";
+      ctx.font = "12px Segoe UI, Arial";
+      ctx.fillText("左側為下跌，右側為上漲；推薦分數越低越偏謹慎觀察。", margin.left, h - 16);
+
+      document.getElementById("trendLegend").innerHTML = [
+        { color: "#c83f49", label: "過熱", note: "追價風險高" },
+        { color: "#b7791f", label: "偏熱", note: "等待回檔更清楚" },
+        { color: "#0f8f62", label: "偏低估觀察", note: "修復候選" },
+        { color: "#2463eb", label: "中性", note: "等待訊號" }
+      ].map(item => `
+        <span class="legend-item" style="--c:${item.color}">
+          <span class="legend-swatch" aria-hidden="true"></span>
+          <span>
+            <span class="legend-label">${item.label}</span>
+            <span class="legend-note">${item.note}</span>
+          </span>
+        </span>
+      `).join("");
+    }
+
+    renderFxBoard();
+    renderSafeHavens();
+    renderMarketTable();
+    renderNews();
+    renderHeatNews();
+    renderWatchLists();
+    drawTrendChart();
+    bindFxConverter();
+    bindExternalLinks();
+
+    window.addEventListener("resize", drawTrendChart);
+  </script>
+  <script>
+    (() => {
+      const updateTime = "2026-05-21 00:27 Asia/Taipei";
+
+      const makeTrendOverride = month => {
+        const points = 8;
+        const values = [];
+        for (let i = 0; i < points; i += 1) {
+          const t = i / (points - 1);
+          const wobble = Math.sin(i * 1.7 + month / 5) * Math.min(3.2, Math.abs(month) / 5 + 0.8);
+          values.push(Number((100 + month * t + wobble * (1 - Math.abs(t - 0.55))).toFixed(1)));
+        }
+        values[0] = 100;
+        values[points - 1] = Number((100 + month).toFixed(1));
+        return values;
+      };
+
+      FX.USD_TWD = 31.323;
+      FX.USD_CNY = 7.205;
+
+      fxRates.splice(0, fxRates.length,
+        { code: "TWD", name: "新台幣", twd: 1, badge: "基準", badgeClass: "blue", note: "本頁報價基準" },
+        { code: "USD", name: "美元", twd: 31.323, badge: "本輪更新", badgeClass: "green", note: "USD/TWD 最新可見公開報價" },
+        { code: "JPY", name: "日圓", twd: 0.201, badge: "參考", badgeClass: "amber", note: "避險貨幣，受利差與殖利率影響" },
+        { code: "EUR", name: "歐元", twd: 35.08, badge: "參考", badgeClass: "amber", note: "歐洲景氣與 ECB 路徑連動" },
+        { code: "CHF", name: "瑞郎", twd: 37.92, badge: "參考", badgeClass: "amber", note: "傳統避險貨幣" },
+        { code: "SGD", name: "新加坡幣", twd: 24.19, badge: "參考", badgeClass: "amber", note: "亞洲防守型貨幣" },
+        { code: "GBP", name: "英鎊", twd: 41.59, badge: "參考", badgeClass: "amber", note: "高波動主要貨幣" },
+        { code: "CNY", name: "人民幣", twd: 4.35, badge: "參考", badgeClass: "amber", note: "中國政策與貿易敏感" },
+        { code: "HKD", name: "港幣", twd: 4.01, badge: "參考", badgeClass: "amber", note: "美元聯繫匯率" },
+        { code: "AUD", name: "澳幣", twd: 20.09, badge: "參考", badgeClass: "amber", note: "商品與中國需求連動" },
+        { code: "CAD", name: "加幣", twd: 22.52, badge: "參考", badgeClass: "amber", note: "能源與美加利差連動" },
+        { code: "KRW", name: "韓元", twd: 0.0228, badge: "參考", badgeClass: "amber", note: "科技出口與風險偏好敏感" },
+        { code: "THB", name: "泰銖", twd: 0.954, badge: "參考", badgeClass: "amber", note: "東南亞觀光與資金流向" }
+      );
+
+      safeHavenAssets.splice
+
+      safeHavenAssets.splice(0, safeHavenAssets.length,
+        { asset: "Gold Spot", price: "US$4,700.22", move: "+0.20% 日", moveClass: "up", role: "核心避險 / 實質利率", signal: "殖利率壓力仍在，但 Iran 與通膨風險讓黃金保持防守價值。", url: "https://www.investing.com/currencies/xau-usd" },
+        { asset: "USD Cash", price: "USD/TWD 31.323", move: "高流動性", moveClass: "up", role: "美元現金", signal: "風險資產回撤時仍是主要停泊地，但若台幣轉強會壓縮報酬。", url: "https://www.forbes.com/advisor/money-transfer/currency-converter/usd-twd/" },
+        { asset: "Short Bills / Cash", price: "4%~5% 區間", move: "低波動", moveClass: "up", role: "現金替代", signal: "高利率環境下比長債更穩，重點是再投資利率與通膨。", url: "https://www.treasurydirect.gov/" },
+        { asset: "JPY", price: "1 JPY ≈ NT$0.201", move: "防守", moveClass: "flat", role: "避險貨幣", signal: "若全球風險事件升級，日圓通常先受惠，但也受日本殖利率政策牽動。", url: "https://en.findrate.tw/" },
+        { asset: "CHF", price: "1 CHF ≈ NT$37.92", move: "防守", moveClass: "flat", role: "歐洲避險", signal: "相較商品貨幣更偏防守，但流動性與成本需一起評估。", url: "https://twelvedata.com/markets/674505/forex/chf-twd/historical-data" },
+        { asset: "TWD Cash", price: "本幣部位", move: "高流動性", moveClass: "flat", role: "本幣防守", signal: "避免匯率波動，但若美元繼續走強，海外購買力會相對下降。", url: "https://www.cbc.gov.tw/" }
+      );
+
+      marketData.splice
+
+      marketData.splice(0, marketData.length,
+        { symbol: "OANDA:XAUUSD", name: "Gold Spot", native: "USD", price: 4700.22, day: 0.2, month: -0.9, status: "偏低估觀察", statusClass: "green", score: 63, note: "高檔整理，但地緣與通膨風險仍提供避險需求。", trend: makeTrendOverride(-0.9), color: "#b7791f" },
+        { symbol: "BTCUSD", name: "Bitcoin", native: "USD", price: 77106.85, day: -0.45, month: 1.7, status: "中性偏穩", statusClass: "blue", score: 58, note: "接近 77K，ETF 與風險情緒仍主導短線。", trend: makeTrendOverride(1.7), color: "#f59e0b" },
+        { symbol: "ETHUSD", name: "Ethereum", native: "USD", price: 2128.99, day: -0.29, month: 3.8, status: "偏低估觀察", statusClass: "green", score: 60, note: "落後 AI 股與 BTC，若風險偏好回升有補漲空間。", trend: makeTrendOverride(3.8), color: "#6d5bd0" },
+        { symbol: "TWSE:2330", name: "台積電", native: "TWD", price: 2310, day: -2.22, month: 12.7, status: "偏熱", statusClass: "amber", score: 50, note: "AI 代工主軸沒變，但高檔已受殖利率與地緣風險壓制。", trend: makeTrendOverride(12.7), color: "#0f8f62" },
+        { symbol: "NASDAQ:AAPL", name: "Apple", native: "USD", price: 300.3, day: 1.86, month: 12.9, status: "偏熱", statusClass: "amber", score: 53, note: "供應鏈分散與 AI 裝置敘事已反映不少利多。", trend: makeTrendOverride(12.9), color: "#111827" },
+        { symbol: "NASDAQ:TSLA", name: "Tesla", native: "USD", price: 411.79, day: 3.28, month: 6.6, status: "過熱", statusClass: "red", score: 39, note: "估值仍仰賴 Musk 生態與 AI/robotaxi 題材。", trend: makeTrendOverride(6.6), color: "#c83f49" },
+        { symbol: "NASDAQ:GOOGL", name: "Alphabet", native: "USD", price: 396.6, day: -0.36, month: 20.0, status: "過熱", statusClass: "red", score: 41, note: "Google I/O 帶動 AI 敘事升溫，但漲幅已偏擁擠。", trend: makeTrendOverride(20), color: "#2463eb" },
+        { symbol: "NASDAQ:MSFT", name: "Microsoft", native: "USD", price: 422.25, day: 2.0, month: -0.5, status: "偏低估觀察", statusClass: "green", score: 66, note: "AI 現金流能見度高，但股價未追上其他 AI 權值股。", trend: makeTrendOverride(-0.5), color: "#087d8f" },
+        { symbol: "NASDAQ:AMZN", name: "Amazon", native: "USD", price: 257.32, day: -2.85, month: 23.5, status: "偏熱", statusClass: "amber", score: 46, note: "AWS 與 AI 基建利多強，但一個月漲幅已大。", trend: makeTrendOverride(23.5), color: "#fb923c" },
+        { symbol: "TWSE:2317", name: "鴻海", native: "TWD", price: 248.5, day: 1.64, month: 17.0, status: "過熱", statusClass: "red", score: 44, note: "AI server 與 Apple 組裝雙題材，外資與 ETF 擁擠度偏高。", trend: makeTrendOverride(17), color: "#2563eb" },
+        { symbol: "TWSE:4938", name: "和碩", native: "TWD", price: 76.5, day: -0.65, month: -0.8, status: "偏低估觀察", statusClass: "green", score: 64, note: "評價相對平穩，若 Apple/AI server 訂單回升較有補漲空間。", trend: makeTrendOverride(-0.8), color: "#0ea5a4" },
+        { symbol: "SZSE:002475", name: "立訊精密", native: "CNY", price: 69.52, day: 3.64, month: 25.4, status: "過熱", statusClass: "red", score: 37, note: "Apple 中國組裝與連接件題材火熱，但波動與中國風險並存。", trend: makeTrendOverride(25.4), color: "#db2777" }
+      );
+
+      newsItems.splice
+
+      newsItems.splice(0, newsItems.length,
+        { source: "AP", time: "May 20", title: "美股反彈，殖利率與油價壓力暫時緩和", summary: "AP 指出 10 年期美債殖利率從 4.67% 回落到 4.60%，油價回吐漲幅後帶動風險資產短線喘息。", url: "https://apnews.com/article/351c7434b9875516e61e8917f960fc13", image: sourceImages.markets },
+        { source: "Reuters / Yahoo Finance", time: "May 19", title: "S&P 500 與 Nasdaq 開低，晶片股與通膨疑慮壓抑風險偏好", summary: "Reuters 指出高殖利率與晶片股回落讓 AI 交易降溫，市場等待 Nvidia 給出新方向。", url: "https://finance.yahoo.com/markets/stocks/articles/p-500-nasdaq-open-lower-133516585.html", image: sourceImages.rates },
+        { source: "Reuters / Investing.com", time: "May 20", title: "Morning Bid：市場屏息等待 Nvidia 財報", summary: "Reuters 指出選擇權市場預期 Nvidia 財報後可能出現約 6.5% 波動，成為 AI 交易本週核心事件。", url: "https://au.investing.com/news/commodities-news/morning-bid-nvidia-vigil-4446803", image: sourceImages.chip },
+        { source: "Reuters / LSE", time: "May 20", title: "全球股市在高殖利率下暫穩，Nvidia 前夕氣氛保守", summary: "Reuters 稱債券殖利率仍接近多年高位，足以繼續壓抑高估值股票的折現倍數。", url: "https://www.lse.co.uk/news/global-markets-bond-yields-pause-near-recent-peak-stocks-steady-ahead-of-nvidia-results-csulitninatwffp.html", image: sourceImages.rates },
+        { source: "Axios", time: "May 20", title: "Nvidia 不再是晶片股唯一焦點，AI 資金開始分流", summary: "Axios 指出 Intel 等晶片股漲幅更猛，代表 AI 資金正從單一龍頭擴散到次主線。", url: "https://www.axios.com/2026/05/20/nvidia-ai-intel-chips", image: sourceImages.chip },
+        { source: "AP", time: "May 18", title: "Trump 暫停原定對 Iran 的打擊，保留談判空間", summary: "中東風險暫未失控，但油價、航運與通膨預期仍容易被突發消息拉動。", url: "https://apnews.com/article/2b46d8b6a1710f596965797ac867ecfa", image: sourceImages.world },
+        { source: "AP", time: "May 15", title: "Trump 權衡 Taiwan 軍售包，美中穩定敘事仍脆弱", summary: "台灣議題持續影響半導體與台股供應鏈估值，市場不宜完全移除地緣折價。", url: "https://apnews.com/article/e7a3cdf161c608de152ac1c6e5755452", image: sourceImages.world },
+        { source: "Axios", time: "May 18", title: "Altman 與 OpenAI 在重大 AI 訴訟擊敗 Musk", summary: "陪審團認定 Musk 提告太晚，OpenAI 解除一項重大法律尾端風險。", url: "https://www.axios.com/2026/05/18/musk-loses-ai-trial-openai-altman", image: sourceImages.ai },
+        { source: "Axios", time: "May 19", title: "Musk v. Altman 雖落幕，AI 治理與資本集中爭議仍在", summary: "Axios 認為訴訟結束不代表結構問題消失，AI 產業仍需面對治理與權力集中。", url: "https://www.axios.com/2026/05/19/musk-altman-openai-trial", image: sourceImages.ai },
+        { source: "TechCrunch", time: "May 18", title: "TechCrunch：Elon Musk 已在訴訟中敗給 OpenAI", summary: "Musk 陣營表示將上訴，但短線市場更關注 OpenAI 商業化與 IPO 路徑。", url: "https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/", image: sourceImages.ai },
+        { source: "TechCrunch", time: "May 19", title: "Karpathy 加入 Anthropic pre-training 團隊", summary: "Frontier AI 競爭再度升級，焦點從單純模型發布延伸到核心研究人才搶奪。", url: "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/", image: sourceImages.ai },
+        { source: "TechCrunch", time: "May 19", title: "Google 在 I/O 宣布進軍 AI 設計工具戰場", summary: "Google 推出 Pics，代表 AI 圖像與設計工具正從聊天延伸到工作流生產力。", url: "https://techcrunch.com/2026/05/19/ai-design-tools-are-the-next-big-battleground-and-google-is-going-all-in/", image: sourceImages.ai },
+        { source: "TechCrunch", time: "May 19", title: "Gemini 3.5 Flash 將重點轉向 agents，不再只是聊天機器人", summary: "Google 正把 AI 競賽推向 agentic workflows，直接挑戰企業內部代理工作流市場。", url: "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/", image: sourceImages.ai },
+        { source: "TechCrunch", time: "May 19", title: "Google 更新 Gemini app，正面對打 ChatGPT 與 Claude", summary: "Gemini app 增加 Daily Brief 與個人 agent，讓 AI 應用更靠近日常操作層。", url: "https://techcrunch.com/2026/05/19/google-updates-its-gemini-app-to-take-on-chatgpt-and-claude-at-io-2026/", image: sourceImages.ai },
+        { source: "Reuters / Investing.com", time: "May 13", title: "Apple 批評歐盟要求 Google 協助 AI 競爭對手存取服務", summary: "Apple 認為相關措施會增加隱私與安全風險，也反映大型平台正重新劃分 AI 邊界。", url: "https://www.investing.com/news/stock-market-news/apple-criticises-eu-measures-to-help-ai-rivals-access-google-services-4684861", image: sourceImages.apple },
+        { source: "AppleInsider", time: "May 14", title: "Apple Silicon production testing begins at Intel", summary: "Apple 供應鏈分散不再只是傳聞，Intel 測試案讓 TSMC 以外的美國產能更具存在感。", url: "https://appleinsider.com/articles/26/05/14/apple-silicon-production-testing-begins-at-intel-with-2027-mass-shipment-target", image: sourceImages.apple },
+        { source: "AppleInsider", time: "May 12", title: "Foxconn 再遭駭客攻擊，Apple 暫未見明顯外溢風險", summary: "事件提醒硬體供應鏈的網路安全風險並未減弱。", url: "https://appleinsider.com/articles/26/05/12/hackers-attack-foxconn-again-apple-doesnt-appear-to-be-at-risk", image: sourceImages.apple },
+        { source: "Space.com", time: "May 20", title: "SpaceX Starship Flight 12 將於 5 月 21 日嘗試發射", summary: "這將是 Starship V3 首飛與 2026 年首個 Starship 任務，牽動 SpaceX 與 Musk 生態情緒。", url: "https://www.space.com/space-exploration/launches-spacecraft/what-time-is-spacex-starship-v3-launch-starship-flight-12-timeline", image: sourceImages.rocket },
+        { source: "Space.com", time: "May 19", title: "Starship Flight 12 live updates：首個 V3 測試任務改至 5 月 21 日", summary: "Space.com 持續更新任務窗口與測試重點，是航太與 Musk 題材的即時焦點。", url: "https://www.space.com/news/live/spacex-starship-flight-12-launch-updates-may-18-2026", image: sourceImages.rocket },
+        { source: "TechCrunch", time: "May 19", title: "Google AI Studio 現在能更快生成 Android app", summary: "Google 把 AI 從模型競賽推到開發者工具層，意味著 AI 軟體棧商業化節奏加快。", url: "https://techcrunch.com/2026/05/19/googles-ai-studio-now-lets-anyone-build-android-apps-in-minutes/", image: sourceImages.ai }
+      );
+
+      heatNews.splice
+
+      heatNews.splice(0, heatNews.length,
+        { title: "Nvidia 財報前夕，AI 交易再次成為全球股市風險樞紐", source: "Reuters / Investing.com", url: "https://au.investing.com/news/commodities-news/morning-bid-nvidia-vigil-4446803", buyer: "混合買盤", reason: "大型基金透過指數與權值股布局，散戶則用選擇權與短線題材追逐；財報若不夠強，雙方可能同步降槓桿。" },
+        { title: "半導體股主導大盤，但資金正從 Nvidia 擴散到其他晶片股", source: "Axios", url: "https://www.axios.com/2026/05/20/nvidia-ai-intel-chips", buyer: "偏機構買盤", reason: "這類輪動主要由大型主動基金、ETF 與產業配置主導，屬於典型機構擁擠交易。" },
+        { title: "Google I/O 帶動 Alphabet AI 敘事升溫，GOOGL 一個月大漲約兩成", source: "TechCrunch", url: "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/", buyer: "偏機構買盤", reason: "Alphabet 是大型基金核心持股，AI roadmap 被重新定價時通常由機構先推升權重。" },
+        { title: "Tesla / SpaceX / Starship 題材讓 TSLA 維持高 beta 過熱狀態", source: "Space.com", url: "https://www.space.com/space-exploration/launches-spacecraft/what-time-is-spacex-starship-v3-launch-starship-flight-12-timeline", buyer: "偏散戶買盤", reason: "Musk 生態長期吸引散戶與選擇權資金，題材升溫時更容易出現情緒性追價。" },
+        { title: "Apple 供應鏈中的鴻海與立訊漲幅擴大，AI/手機雙題材進入擁擠區", source: "StockAnalysis / AppleInsider", url: "https://stockanalysis.com/quote/tpe/2317/", buyer: "混合買盤", reason: "外資與本地 ETF 配置鴻海，中國動能資金追逐立訊，形成跨市場混合買盤。" },
+        { title: "AI 與晶片權重過度集中，半導體成為 S&P 500 核心風險", source: "Axios", url: "https://www.axios.com/2026/05/13/chips-ai-stocks-china", buyer: "偏機構買盤", reason: "ETF、量化與大型主動基金集中配置 AI/半導體權重，散戶追單跟隨但主導權仍偏機構。" },
+        { title: "美股高檔遇通膨與殖利率壓力，AI 交易被迫降溫", source: "Reuters / Investing.com", url: "https://www.investing.com/news/economy-news/trading-day-inflation-palpitations-4699755", buyer: "混合買盤", reason: "大型基金與散戶同時參與高 beta AI 股；殖利率上升時兩邊都可能快速降槓桿。" },
+        { title: "S&P 500 衝高後市場討論 AI mania 與 momentum machine", source: "Investing.com", url: "https://m.investing.com/analysis/sp-500-storms-above-7500-as-ai-mania-turns-wall-street-into-a-momentum-machine-200680352?ampMode=1", buyer: "偏散戶買盤", reason: "題材與短線動能驅動強，散戶與短線交易帳戶容易在高檔追逐敘事。" },
+        { title: "Burry 加碼 AI 泡沫警告，市場重新討論 Nvidia、Palantir、SOXX 與 QQQ 風險", source: "Investing.com", url: "https://www.investing.com/news/stock-market-news/burry-adds-to-beatendown-stocks-buys-lululemon-warns-of-ai-bubble-93CH-4699009", buyer: "偏機構買盤", reason: "核心訊號來自知名空方與衍生品避險，對機構部位與大型科技權重影響較大。" },
+        { title: "Alphabet 暴衝引發泡沫比較，Burry 指向 1999-2000 年最後階段感", source: "The Motley Fool", url: "https://www.fool.com/investing/breakfast-news/2026/05/11/breakfast-news-alphabet-surge-brings-bubble-fears/", buyer: "偏機構買盤", reason: "Alphabet 是指數權重與大型基金核心持倉，漲幅過快時主要風險來自機構再平衡。" },
+        { title: "S&P 500 廣度轉弱，少數 mega-cap 與 AI 股撐住指數", source: "FXEmpire", url: "https://www.fxempire.com/forecasts/article/weak-breadth-and-mega-cap-tech-declines-signal-sp-500-index-rally-needs-repair-1598895", buyer: "偏機構買盤", reason: "指數廣度惡化通常反映 ETF/大型權重集中，機構風控與被動資金再平衡會主導波動。" },
+        { title: "AI frenzy 推升美股新高，但窄基礎 rally 讓泡沫辯論升溫", source: "Investing.com", url: "https://uk.investing.com/news/economy-news/ai-frenzy-propels-markets-to-record-highs-fueling-bubble-debate-4629901", buyer: "混合買盤", reason: "大型基金買 AI 權重，散戶與選擇權資金追逐敘事，兩邊一起把估值推高。" },
+        { title: "Michael Burry 稱科技跳漲像 2000 年高點，半導體指數短期漲幅過快", source: "Bloomberg", url: "https://www.bloomberg.com/news/articles/2026-05-11/michael-burry-warns-of-stock-crash-as-tech-jump-echoes-2000-peak", buyer: "偏機構買盤", reason: "半導體指數大漲牽動 ETF、期權與避險部位，主要是大型資金倉位風險。" },
+        { title: "TSMC 上調營收展望與資本支出，AI 晶片需求繼續推升台股權重", source: "Investing.com", url: "https://www.investing.com/news/stock-market-news/tsmc-lifts-revenue-forecast-pledges-more-capital-spending-to-meet-ai-chip-demand-4616954", buyer: "偏機構買盤", reason: "TSMC 是全球 AI 供應鏈核心權重，外資與機構資金主導定價，台股散戶追隨情緒升高。" },
+        { title: "Amazon 近月大漲，AWS 與 AI 基建利多快速反映", source: "Yahoo Finance", url: "https://finance.yahoo.com/quote/AMZN/", buyer: "偏機構買盤", reason: "AMZN 是大型基金與雲端主題核心持股，AWS AI capex 敘事升溫時資金集中度提高。" },
+        { title: "Microsoft 相對落後但 AI 現金流預期穩，資金可能轉向補漲", source: "Yahoo Finance", url: "https://finance.yahoo.com/quote/MSFT/", buyer: "偏機構買盤", reason: "MSFT 受企業 AI 與雲端現金流支撐，若高 beta AI 股退燒，機構可能轉向品質型 AI 部位。" },
+        { title: "Apple 股價接近高檔，供應鏈分散與 AI 裝置敘事同步升溫", source: "AppleInsider", url: "https://appleinsider.com/articles/26/05/14/apple-silicon-production-testing-begins-at-intel-with-2027-mass-shipment-target", buyer: "混合買盤", reason: "AAPL 同時吸引機構配置與散戶追逐產品週期，供應鏈新聞容易放大短線情緒。" },
+        { title: "Luxshare 一個月漲幅偏大，中國 Apple 供應鏈動能需防回吐", source: "StockAnalysis", url: "https://stockanalysis.com/quote/she/002475/", buyer: "混合買盤", reason: "中國本地動能資金與供應鏈成長基金同時參與；營收成長強但波動區間過大。" },
+        { title: "Bitcoin 維持高位震盪，ETF 與風險偏好讓加密 beta 仍偏熱", source: "CoinMarketCap", url: "https://coinmarketcap.com/currencies/bitcoin/", buyer: "混合買盤", reason: "機構 ETF 部位與散戶槓桿同時影響 BTC，宏觀轉弱時容易跟隨風險資產回撤。" },
+        { title: "Solana ETF 與加密 ETF 競爭升溫，鏈上資產機構化題材偏熱", source: "BlockTempo", url: "https://www.blocktempo.com/morgan-stanley-files-amended-s1-for-solana-etf-msol/", buyer: "混合買盤", reason: "傳統金融推動 ETF 包裝，散戶則追逐鏈上 beta，題材熱度高但監管和流動性風險仍在。" }
+      );
+
+      appleWatch.splice
+
+      appleWatch.splice(0, appleWatch.length,
+        { title: "Intel 已進入 Apple Silicon 生產測試", text: "AppleInsider 指出 Intel 正為 Apple 晶片進行 production testing，代表 Apple 供應鏈分散策略正在落地。", url: "https://appleinsider.com/articles/26/05/14/apple-silicon-production-testing-begins-at-intel-with-2027-mass-shipment-target" },
+        { title: "TSMC Arizona 再獲 200 億美元擴產資本", text: "Arizona Fab 21 擴產讓 Apple 的美國晶片供應路徑更清楚，但水、勞動與簽證仍是瓶頸。", url: "https://www.tomshardware.com/tech-industry/semiconductors/tsmc-allocates-usd20-billion-to-arizona-expansion-project-faces-water-and-labor-shortages-complicated-by-visa-rules" },
+        { title: "Foxconn 再遭駭客攻擊，供應鏈資安風險需持續折價", text: "AppleInsider 認為 Apple 暫未明顯受波及，但 EMS 廠商的資安事故已成估值常態風險。", url: "https://appleinsider.com/articles/26/05/12/hackers-attack-foxconn-again-apple-doesnt-appear-to-be-at-risk" },
+        { title: "Mac mini / Mac Studio 供給仍吃緊", text: "AppleInsider 報導記憶體與 SSD 緊缺仍在，代表 Apple 本地 AI 硬體需求強但零組件約束未解。", url: "https://appleinsider.com/articles/26/05/04/more-than-just-ram-and-ssd-shortages-are-keeping-mac-supplies-low" },
+        { title: "台積電 2330.TW 仍是 Apple 與 AI 晶片最核心風險點", text: "最新可見價格約 2310 TWD、近月漲約 12.7%，雖基本面強，但市場已部分提前反映。", url: "https://finance-pulse24.com/en/stocks/tsmc/" },
+        { title: "鴻海 2317.TW 處於 AI server 與 Apple 組裝雙重擁擠區", text: "最新可見價格約 248.5 TWD；若外資轉向降槓桿，鴻海可能先受波動衝擊。", url: "https://stockanalysis.com/quote/tpe/2317/" },
+        { title: "和碩 4938.TW 屬相對落後補漲觀察", text: "最新可見價格約 76.5 TWD，與熱門供應鏈相比更平穩，可觀察訂單修復。", url: "https://stockanalysis.com/quote/tpe/4938/" },
+        { title: "立訊 002475.SZ 一個月漲幅逾兩成，熱度已高", text: "最新可見價格約 69.52 CNY，Apple 中國鏈受惠明確，但波動度與政策風險也同步升高。", url: "https://stockanalysis.com/quote/she/002475/" },
+        { title: "India 仍是 Apple China+1 主軸", text: "Foxconn、Tata 與當地零組件廠仍是中期受惠者，供應鏈風險管理重於一次性遷移。", url: "https://www.moneycontrol.com/news/business/india-to-assemble-28-of-global-iphones-in-2026-as-apple-deepens-supply-chain-shift-beyond-china-13920170.html" },
+        { title: "USD/TWD 與 Taiwan 軍售議題持續影響台系供應商評價", text: "台幣與地緣風險一起影響獲利換算與風險溢價，不能只看營收成長。", url: "https://apnews.com/article/e7a3cdf161c608de152ac1c6e5755452" }
+      );
+
+      teslaWatch.splice
+
+      teslaWatch.splice(0, teslaWatch.length,
+        { title: "TSLA 仍處高 beta 高估值區", text: "最新可見價格約 411.79 美元；即使日線反彈，估值仍明顯仰賴題材而非傳統汽車現金流。", url: "https://stockanalysis.com/stocks/tsla/market-cap/" },
+        { title: "Starship Flight 12 將於 5 月 21 日嘗試升空", text: "V3 首飛若順利，會強化 Musk 生態的技術敘事與資本市場想像。", url: "https://www.space.com/space-exploration/launches-spacecraft/what-time-is-spacex-starship-v3-launch-starship-flight-12-timeline" },
+        { title: "Starship live updates 是當前 Musk 題材最直接催化", text: "任務窗口與測試細節被市場高度關注，任何延後或異常都可能影響情緒 beta。", url: "https://www.space.com/news/live/spacex-starship-flight-12-launch-updates-may-18-2026" },
+        { title: "Musk 在 OpenAI 訴訟中敗訴", text: "重大法律不確定性下降，但也削弱 Musk 對 OpenAI 敘事的影響力，市場焦點回到 xAI / Tesla / SpaceX 自身執行。", url: "https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/" },
+        { title: "高殖利率仍壓抑 EV 融資與高估值成長股", text: "10 年期美債殖利率雖從高點回落，但仍在 4.6% 附近，對 Tesla 這類高估值股不友善。", url: "https://apnews.com/article/351c7434b9875516e61e8917f960fc13" },
+        { title: "Nvidia 與晶片股輪動會影響 Tesla AI 估值框架", text: "AI 主線若從 Nvidia 擴散或轉弱，Tesla 的 AI/robotics 敘事也會被重新估值。", url: "https://www.axios.com/2026/05/20/nvidia-ai-intel-chips" },
+        { title: "Taiwan / China 風險仍可能衝擊車用電子與算力供應鏈", text: "軍售、出口管制與區域緊張若再升級，Tesla 的晶片與電子零組件都可能被重新定價。", url: "https://apnews.com/article/e7a3cdf161c608de152ac1c6e5755452" },
+        { title: "SpaceX 與 Anthropic 的算力交易顯示算力也能資產化", text: "Musk 生態不只靠汽車，還在把計算資源、火箭與 AI 服務一體化商業化。", url: "https://www.axios.com/2026/05/07/musk-anthropic-compute-spacex-ai" },
+        { title: "Tesla 供應鏈觀察重點已從整車延伸到晶片、電力、資料中心", text: "市場現在更在意 Dojo、自研晶片、機器人與電力基建，而不只是車輛出貨。", url: "https://www.axios.com/2026/05/13/chips-ai-stocks-china" },
+        { title: "散戶與選擇權仍是 Tesla 波動的重要放大器", text: "一旦 Starship、robotaxi 或 AI 題材升溫，Tesla 常比其他 mega-cap 更容易出現情緒放大。", url: "https://www.marketbeat.com/stocks/NASDAQ/TSLA/" }
+      );
+
+      const findSection =
+
+      const findSection = title => Array.from(document.querySelectorAll("section")).find(section => section.querySelector("h2")?.textContent.trim() === title);
+      const replaceSection = (title, body) => {
+        const section = findSection(title);
+        if (section) section.innerHTML = body;
+      };
+
+      replaceSection("今日市場摘要", `
+        <h2>今日市場摘要</h2>
+        <div class="metric-row">
+          <div class="metric"><span class="label">市場溫度</span><div class="value heat">偏過熱但降溫中</div><div class="note">AI 與 mega-cap 仍擁擠，但殖利率與油價壓力讓追價意願下降。</div></div>
+          <div class="metric"><span class="label">宏觀</span><div class="value">油價與地緣拉扯</div><div class="note">Trump 暫停對 Iran 打擊讓油價稍降，但中東與 Taiwan 風險仍在。</div></div>
+          <div class="metric"><span class="label">利率</span><div class="value">10Y 約 4.60%</div><div class="note">雖較前一日高點回落，但仍足以壓縮高本益比成長股的折現倍數。</div></div>
+          <div class="metric"><span class="label">科技 AI</span><div class="value">等 Nvidia 驗證</div><div class="note">Nvidia 財報、Google I/O agents、OpenAI 訴訟落幕與 Starship 發射共同主導 AI 敘事。</div></div>
+          <div class="metric"><span class="label">加密貨幣</span><div class="value">高波動整理</div><div class="note">BTC 守 77K 附近，ETH 落在 2.1K 區間；ETF、預測市場監管與鏈上槓桿清算牽動風險偏好。</div></div>
+        </div>
+        <ul class="summary-list">
+          <li>美股 5 月 20 日出現技術性反彈，主因是美債殖利率與油價壓力暫時緩和，但這更像喘息，不是風險全面解除。</li>
+          <li>全球資金仍高度集中在 AI、晶片與 mega-cap；Nvidia 財報是本輪多頭最重要的基本面驗證。</li>
+          <li>Google I/O 2026 顯示 AI 競爭已從聊天走向 agents、設計工具與實際工作流，利多 Alphabet，但也推高市場預期。</li>
+          <li>OpenAI 在 Musk 訴訟中勝訴後，市場焦點轉回資本支出、人才流動、企業導入與可能的 IPO 敘事。</li>
+          <li>Apple 與 Tesla 供應鏈都需要同時面對利率、資安、地緣與評價過熱四個維度，不宜只看單一成長敘事。</li>
+          <li>加密貨幣市場維持高波動：BTC 約 77K、ETH 約 2.1K，Solana ETF、預測市場監管與槓桿清算是本輪重點。</li>
+        </ul>
+      `);
+
+      replaceSection("利多 / 利空與風險提示", `
+        <h2>利多 / 利空與風險提示</h2>
+        <div class="columns">
+          <div>
+            <h3 class="up">利多</h3>
+            <ul class="plain-list">
+              <li>若 Nvidia 再次證明 AI capex 延續，晶片、雲端、電力與資料中心供應鏈仍有基本面支撐。</li>
+              <li>Google I/O 顯示 agentic AI 正加速落地，GOOGL、MSFT、AMZN 等平台型公司受惠程度較高。</li>
+              <li>OpenAI 訴訟風險下降，有利 AI 產業把焦點拉回產品化、企業採用與募資能力。</li>
+              <li>Apple 供應鏈分散到 Intel、Arizona 與 India，有助降低單點製造風險。</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="down">利空 / 風險</h3>
+            <ul class="plain-list">
+              <li>美債殖利率仍高，任何 Fed 偏鷹或通膨再加速都會直接壓縮高估值資產。</li>
+              <li>Iran、Hormuz、Taiwan 與 US-China 關係都可能快速推升油價、航運與供應鏈風險溢價。</li>
+              <li>AI 交易集中度偏高，若 Nvidia 或大廠 capex 指引失速，ETF 與選擇權去槓桿會放大回撤。</li>
+              <li>Foxconn 類型的資安事件提醒硬體與軟體供應鏈都存在營運中斷風險。</li>
+            </ul>
+          </div>
+        </div>
+        <p class="disclaimer">所有推薦指數、過熱 / 低估判斷與資產分類僅供觀察與資訊整理，不構成投資建議、招攬或買賣指示。行情來源與更新時間不同，可能有延遲或小幅差異。</p>
+      `);
+
+      replaceSection("目前偏過熱 / 偏低估觀察資產", `
+        <h2>目前偏過熱 / 偏低估觀察資產</h2>
+        <h3 class="heat">偏過熱資產</h3>
+        <ul class="plain-list">
+          <li>GOOGL：近月漲幅約 20%，I/O 與 agent 敘事強，但期待已高。</li>
+          <li>AMZN：近月漲幅逾兩成，AWS 與 AI 基建利多已快速反映。</li>
+          <li>TWSE:2317：AI server 與 Apple 組裝雙主題擁擠，籌碼容易受外資再平衡影響。</li>
+          <li>SZSE:002475：一個月漲幅逾 25%，Apple 中國鏈熱度高但政策與波動風險也高。</li>
+        </ul>
+        <h3 class="cool">偏低估觀察資產</h3>
+        <ul class="plain-list">
+          <li>MSFT：近月表現相對落後，AI 現金流與 backlog 仍具基本面支撐。</li>
+          <li>XAUUSD：金價從高檔整理，但若通膨與地緣風險再升溫，防守屬性會回來。</li>
+          <li>ETHUSD：相對 BTC 與 AI 權值股表現保守，可觀察資金是否回流。</li>
+          <li>TWSE:4938：和碩波動較低，若 Apple/AI server 訂單改善，較具補漲觀察空間。</li>
+        </ul>
+        <p class="disclaimer">以上「偏過熱 / 偏低估」為相對動能、估值與新聞熱度觀察，不構成投資建議。</p>
+      `);
+
+      const marketSection =
+      `);
+
+      const marketSection = findSection("追蹤標的最新行情、過熱 / 低估與買賣推薦指數");
+      if (marketSection && !marketSection.querySelector(".currency-switch")) {
+        marketSection.querySelector("h2").insertAdjacentHTML("afterend", `
+          <div class="currency-switch" aria-label="行情幣別切換">
+            <span>行情顯示</span>
+            <button type="button" class="active" data-market-currency="USD">USD</button>
+            <button type="button" data-market-currency="TWD">TWD</button>
+          </div>
+        `);
+      }
+      const style = document.createElement("style");
+      style.textContent = `
+        .currency-switch {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          margin: 0 0 12px;
+          padding: 6px;
+          border: 1px solid var(--line);
+          border-radius: var(--radius);
+          background: #f8fafc;
+          color: var(--muted);
+          font-size: 13px;
+        }
+        .currency-switch button {
+          min-width: 54px;
+          height: 32px;
+          border: 1px solid var(--line);
+          border-radius: 6px;
+          background: #fff;
+          color: var(--ink);
+          font-weight: 800;
+          cursor: pointer;
+        }
+        .currency-switch button.active {
+          color: #fff;
+          background: var(--blue);
+          border-color: var(--blue);
+        }
+      `;
+      document.head.appendChild(style);
+
+      const currentHeatTitle = Array.from(document.querySelectorAll("h2")).find(title => title.textContent.includes("市場過熱股市新聞"));
+      if (currentHeatTitle) currentHeatTitle.textContent = "市場過熱股市新聞 20 項：大家都在討論的過熱題材";
+      renderFxBoard();
+      renderSafeHavens();
+      renderMarketTable();
+      renderNews();
+      renderCryptoNews();
+      renderHeatNews();
+      renderWatchLists();
+      drawTrendChart();
+
+      if (marketSection) {
+        const directSourceLine = Array.from(marketSection.children).find(el => el.classList?.contains("source-line"));
+        if (directSourceLine) {
+          directSourceLine.innerHTML = `
+            行情來源摘要：
+            <a href="https://www.marketscreener.com/quote/stock/APPLE-INC-4849/" rel="noopener">MarketScreener AAPL</a>、
+            <a href="https://www.marketbeat.com/stocks/NASDAQ/TSLA/" rel="noopener">MarketBeat TSLA</a>、
+            <a href="https://www.marketscreener.com/quote/stock/ALPHABET-INC-24203373/" rel="noopener">MarketScreener GOOGL</a>、
+            <a href="https://finance.yahoo.com/quote/MSFT/" rel="noopener">Yahoo Finance MSFT</a>、
+            <a href="https://finance-pulse24.com/en/stocks/tsmc/" rel="noopener">Finance Pulse 2330.TW</a>、
+            <a href="https://coinmarketcap.com/currencies/bitcoin/" rel="noopener">CoinMarketCap BTC</a>、
+            <a href="https://www.investing.com/currencies/xau-usd" rel="noopener">Investing.com XAU/USD</a>。
+          `;
+        }
+      }
+
+      document.querySelectorAll(".source-group h3").forEach(title => {
+        if (title.textContent.includes("市場過熱股市新聞")) title.textContent = "市場過熱股市新聞 5 項";
+      });
+
+      document.querySelectorAll("[data-market-currency]").forEach(button => {
+        button.classList.toggle("active", button.dataset.marketCurrency === selectedCurrency);
+        button.addEventListener("click", () => {
+          selectedCurrency = button.dataset.marketCurrency;
+          document.querySelectorAll("[data-market-currency]").forEach(btn => {
+            btn.classList.toggle("active", btn.dataset.marketCurrency === selectedCurrency);
+          });
+          renderMarketTable();
+        });
+      });
+
+      const footer = document.querySelector("footer");
+      if (footer) {
+        footer.innerHTML = `<strong>資料說明：</strong>本頁為自動化新聞與行情整理，最後更新：2026-05-21 00:30 Asia/Taipei。市場價格採可查得之最新公開資料與延遲報價，部分標的因交易所、資料商、資料延遲或時區不同會有差異；「推薦指數」是 0-100 的觀察分數，綜合短線動能、估值壓力、基本面敘事、資金擁擠度與風險事件，並非投資建議。`;
+      }
+
+      bindExternalLinks();
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
