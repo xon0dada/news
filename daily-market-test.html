@@ -649,6 +649,113 @@
       line-height: 1.15;
     }
 
+    .fx-animate {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fx-animate::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 22% 35%, rgba(37, 87, 167, 0.20), transparent 24%),
+        radial-gradient(circle at 78% 58%, rgba(0, 124, 137, 0.18), transparent 26%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .fx-animate.is-exchanging::before {
+      animation: fxGlow 1100ms ease-out;
+    }
+
+    .fx-anim-card {
+      position: absolute;
+      left: 50%;
+      top: 18px;
+      z-index: 5;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 8px 13px;
+      border: 1px solid rgba(37, 87, 167, 0.24);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--blue);
+      font-weight: 950;
+      box-shadow: 0 18px 40px rgba(32, 45, 73, 0.20);
+      backdrop-filter: blur(16px) saturate(1.35);
+      -webkit-backdrop-filter: blur(16px) saturate(1.35);
+      transform: translate(-50%, -6px) scale(0.96);
+      pointer-events: none;
+    }
+
+    .fx-anim-card::before,
+    .fx-anim-card::after {
+      display: inline-grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 12px;
+    }
+
+    .fx-anim-card::before {
+      content: "USD";
+      background: var(--blue);
+    }
+
+    .fx-anim-card::after {
+      content: "TWD";
+      background: var(--cyan);
+    }
+
+    .fx-animate.is-exchanging .fx-anim-card {
+      display: inline-flex;
+      animation: fxCard 1100ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .fx-animate.is-exchanging .fx-result {
+      animation: fxPulse 900ms ease-out;
+    }
+
+    .fx-animate.is-exchanging .fx-card {
+      animation: fxTile 900ms ease-out;
+    }
+
+    .fx-animate.is-exchanging .fx-card:nth-child(2n) {
+      animation-delay: 80ms;
+    }
+
+    @keyframes fxGlow {
+      0% { opacity: 0; transform: scale(0.98); }
+      25% { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.02); }
+    }
+
+    @keyframes fxCard {
+      0% { opacity: 0; transform: translate(-50%, 8px) scale(0.92); }
+      25% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+      70% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -14px) scale(0.98); }
+    }
+
+    @keyframes fxPulse {
+      0% { box-shadow: 0 0 0 rgba(37, 87, 167, 0); transform: scale(1); }
+      40% { box-shadow: 0 0 0 7px rgba(37, 87, 167, 0.12); transform: scale(1.025); }
+      100% { box-shadow: 0 0 0 rgba(37, 87, 167, 0); transform: scale(1); }
+    }
+
+    @keyframes fxTile {
+      0% { transform: translateY(0); border-color: rgba(37, 87, 167, 0.14); }
+      45% { transform: translateY(-4px); border-color: rgba(0, 124, 137, 0.36); }
+      100% { transform: translateY(0); border-color: rgba(37, 87, 167, 0.14); }
+    }
+
     .price-value {
       font-weight: 850;
     }
@@ -1651,12 +1758,13 @@
       </div>
     </section>
 
-    <section class="section" aria-labelledby="fx-title" style="margin-top: 18px;">
+    <section class="section fx-animate" id="fxSection" aria-labelledby="fx-title" style="margin-top: 18px;">
       <div class="section-head">
         <h2 id="fx-title">貨幣換算與台幣匯率</h2>
         <span class="badge">FX Converter</span>
       </div>
       <div class="section-body">
+        <div class="fx-anim-card" aria-hidden="true">換匯中</div>
         <div class="fx-toolbar" aria-label="貨幣換算器">
           <input id="fxAmount" type="number" min="0" step="100" value="1000" aria-label="換算金額">
           <select id="fxFrom" aria-label="來源貨幣"></select>
@@ -2417,9 +2525,22 @@
     updateScrollProgress();
 
     const dockButtons = document.querySelectorAll("[data-scroll-target]");
+
+    function playFxAnimation() {
+      const fxSection = document.getElementById("fxSection");
+      if (!fxSection) return;
+      fxSection.classList.remove("is-exchanging");
+      void fxSection.offsetWidth;
+      fxSection.classList.add("is-exchanging");
+      window.setTimeout(() => fxSection.classList.remove("is-exchanging"), 1150);
+    }
+
     dockButtons.forEach((button) => {
       button.addEventListener("click", () => {
         document.getElementById(button.dataset.scrollTarget)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (button.dataset.scrollTarget === "fx-title") {
+          window.setTimeout(playFxAnimation, 280);
+        }
       });
     });
 
