@@ -162,6 +162,56 @@
       border-color: var(--blue);
     }
 
+    .ios-dock {
+      position: fixed;
+      left: 50%;
+      bottom: max(14px, env(safe-area-inset-bottom));
+      z-index: 30;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(48px, 1fr));
+      gap: 5px;
+      width: min(520px, calc(100% - 28px));
+      padding: 6px;
+      border: 1px solid rgba(255,255,255,0.78);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.66);
+      box-shadow: 0 18px 46px rgba(17,24,39,0.18), inset 0 1px 0 rgba(255,255,255,0.84);
+      backdrop-filter: blur(22px) saturate(1.45);
+      -webkit-backdrop-filter: blur(22px) saturate(1.45);
+      transform: translateX(-50%);
+    }
+
+    .dock-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 850;
+      text-decoration: none;
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+
+    .dock-button:hover {
+      text-decoration: none;
+    }
+
+    .dock-button[aria-current="true"] {
+      background: rgba(255,255,255,0.94);
+      color: var(--blue);
+      box-shadow: 0 9px 22px rgba(36,99,235,0.14);
+    }
+
+    .dock-button:active {
+      transform: scale(0.95);
+    }
+
     body.market-page-ready [data-market-page] {
       display: none;
     }
@@ -758,6 +808,7 @@
 
     footer {
       margin-top: 16px;
+      margin-bottom: 78px;
       padding: 16px 18px;
       color: #475467;
       font-size: 13px;
@@ -838,6 +889,14 @@
   </style>
 </head>
 <body class="market-page-ready" data-active-market-page="crypto">
+  <nav class="ios-dock" aria-label="快速導覽">
+    <button class="dock-button" type="button" data-scroll-target="marketPageSwitch" aria-current="true">總覽</button>
+    <button class="dock-button" type="button" data-scroll-target="cryptoHoldingsRank">持有</button>
+    <button class="dock-button" type="button" data-scroll-target="cryptoNewsTitle">新聞</button>
+    <button class="dock-button" type="button" data-scroll-target="cryptoMarketTitle">行情</button>
+    <button class="dock-button" type="button" data-scroll-target="cryptoTrendTitle">訊號</button>
+    <a class="dock-button" href="daily-market-test.html" target="_self">現實</a>
+  </nav>
   <div class="page">
     <header>
       <div>
@@ -945,7 +1004,7 @@
     </div>
 
     <section class="grid" data-market-page="stocks">
-      <h2>追蹤標的最新行情、過熱 / 低估與買賣推薦指數</h2>
+      <h2 id="cryptoMarketTitle">追蹤標的最新行情、過熱 / 低估與買賣推薦指數</h2>
       <div style="overflow-x:auto">
         <table id="marketTable">
           <thead>
@@ -973,7 +1032,7 @@
     </section>
 
     <section class="grid" data-market-page="stocks">
-      <h2>一個月漲跌幅與過熱 / 低估看盤圖</h2>
+      <h2 id="cryptoTrendTitle">一個月漲跌幅與過熱 / 低估看盤圖</h2>
       <p class="chart-note">每列是一個追蹤標的；中央橫條顯示近一月漲跌幅，右側顯示推薦觀察分數與狀態，避免多條折線擠在一起。</p>
       <div class="chart-wrap">
         <canvas id="trendChart" width="1180" height="720" aria-label="一個月漲跌幅與過熱低估看盤圖"></canvas>
@@ -1037,7 +1096,7 @@
       <div class="source-line">資料參考：CoinMarketCap、CoinGecko、Forbes Advisor、USDC.org、crypto.news、CoinLore、DeFiLlama / stablecoin market references；本表為手動整理快照。</div>
     </section>
     <section class="grid" data-market-page="crypto">
-      <h2>加密貨幣新聞 20 項</h2>
+      <h2 id="cryptoNewsTitle">加密貨幣新聞 20 項</h2>
       <p class="chart-note">本區整理來自 Blockcast 與 BlockTempo 的最新可用加密貨幣新聞，僅供資訊追蹤，不構成投資建議。</p>
       <div class="news-grid" id="cryptoNewsGrid">
         <article class="news-card" data-static-crypto-news>
@@ -2751,6 +2810,48 @@
       }
 
       bindExternalLinks();
+    })();
+  </script>
+  <script>
+    (() => {
+      const dockButtons = document.querySelectorAll(".ios-dock [data-scroll-target]");
+      const pageLinks = document.querySelectorAll("[data-market-page-link]");
+
+      function setActiveMarketPage(page) {
+        document.body.dataset.activeMarketPage = page;
+        pageLinks.forEach((link) => {
+          link.classList.toggle("active", link.dataset.marketPageLink === page);
+        });
+      }
+
+      function pageForTarget(targetId) {
+        if (targetId === "cryptoMarketTitle" || targetId === "cryptoTrendTitle") return "stocks";
+        return "crypto";
+      }
+
+      dockButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const targetId = button.dataset.scrollTarget;
+          setActiveMarketPage(pageForTarget(targetId));
+          window.setTimeout(() => {
+            document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 40);
+        });
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          dockButtons.forEach((button) => {
+            button.setAttribute("aria-current", String(button.dataset.scrollTarget === entry.target.id));
+          });
+        });
+      }, { rootMargin: "-35% 0px -55% 0px", threshold: 0 });
+
+      ["marketPageSwitch", "cryptoHoldingsRank", "cryptoNewsTitle", "cryptoMarketTitle", "cryptoTrendTitle"].forEach((id) => {
+        const target = document.getElementById(id);
+        if (target) observer.observe(target);
+      });
     })();
   </script>
 </body>
