@@ -186,6 +186,90 @@
       font-size: 14px;
     }
 
+    .brief-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .brief-card {
+      display: grid;
+      gap: 10px;
+      min-height: 186px;
+      padding: 16px;
+      border: 1px solid rgba(37, 87, 167, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .brief-card h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 17px;
+    }
+
+    .brief-card ul {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .more-news {
+      margin-top: 18px;
+      border: 1px solid rgba(37, 87, 167, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .more-news > summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 56px;
+      padding: 14px 18px;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 900;
+      list-style: none;
+    }
+
+    .more-news > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .more-news > summary::after {
+      content: "+";
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 50%;
+      background: #eef4ff;
+      color: var(--blue);
+      font-size: 18px;
+    }
+
+    .more-news[open] > summary::after {
+      content: "-";
+    }
+
+    .more-news .section {
+      border: 0;
+      border-top: 1px solid var(--line);
+      border-radius: 0;
+      background: rgba(255, 255, 255, 0.70);
+      box-shadow: none;
+    }
+
     .hero-side {
       display: grid;
       align-content: center;
@@ -1105,6 +1189,7 @@
       .hero,
       .grid,
       .market-summary,
+      .brief-grid,
       .risk-band,
       .news-list,
       .supply-chain,
@@ -1450,7 +1535,7 @@
   <div class="scroll-progress" aria-hidden="true"></div>
   <nav class="ios-dock" aria-label="快速導覽">
     <button class="dock-button" type="button" data-scroll-target="page-title" aria-current="true">總覽</button>
-    <button class="dock-button" type="button" data-scroll-target="news-title">新聞</button>
+    <button class="dock-button" type="button" data-scroll-target="moreNews">新聞</button>
     <button class="dock-button" type="button" data-scroll-target="fx-title">貨幣</button>
     <button class="dock-button" type="button" data-scroll-target="prices-title">行情</button>
     <button class="dock-button" type="button" data-scroll-target="signals-title">訊號</button>
@@ -1497,6 +1582,51 @@
           <span class="stat-value down">TSLA -3.03%</span>
         </div>
       </aside>
+    </section>
+
+    <section class="section" id="briefLayout" aria-labelledby="brief-title">
+      <div class="section-head">
+        <h2 id="brief-title">今日最重要 5 件事</h2>
+        <span class="badge">Executive Brief</span>
+      </div>
+      <div class="section-body">
+        <div class="brief-grid">
+          <article class="brief-card">
+            <h3>今日最重要 5 件事</h3>
+            <ul>
+              <li>美債殖利率高檔震盪，科技股估值容錯下降。</li>
+              <li>AI 與晶片仍是主線，但追價集中度偏高。</li>
+              <li>中東油價與航運風險仍牽動通膨預期。</li>
+              <li>Tesla robotaxi 監管與事故揭露壓抑高估值敘事。</li>
+              <li>Apple 供應鏈需同時看中國、印度、台灣與美國製造布局。</li>
+            </ul>
+          </article>
+          <article class="brief-card">
+            <h3>AI 市場摘要</h3>
+            <ul>
+              <li>AI capex 仍支撐 MSFT、AMZN、台積電與雲端鏈。</li>
+              <li>市場等待 Nvidia 類財報驗證需求強度。</li>
+              <li>Google / OpenAI / Tesla AI 敘事提高大型科技分化。</li>
+            </ul>
+          </article>
+          <article class="brief-card">
+            <h3>市場風險</h3>
+            <ul>
+              <li>利率重新上行會壓縮高本益比科技股。</li>
+              <li>油價反彈可能讓通膨與 Fed 壓力回來。</li>
+              <li>AI 交易過度集中，財報不如預期時回撤會放大。</li>
+            </ul>
+          </article>
+          <article class="brief-card">
+            <h3>觀察標的</h3>
+            <ul>
+              <li>偏過熱：TSLA、BTC、GOOGL、部分 AI 晶片鏈。</li>
+              <li>偏低估觀察：AAPL、MSFT、AMZN、2317。</li>
+              <li>防守觀察：XAUUSD、美元現金、短天期票券。</li>
+            </ul>
+          </article>
+        </div>
+      </div>
     </section>
 
     <div class="grid">
@@ -2507,6 +2637,51 @@
       });
     });
 
+    function applyCompactMarketLayout() {
+      const main = document.querySelector("main.shell");
+      const hero = document.querySelector(".hero");
+      const brief = document.getElementById("briefLayout");
+      const risk = document.getElementById("risk-title")?.closest("section");
+      const overheat = document.getElementById("overheat-title")?.closest("section");
+      const fx = document.getElementById("fxSection");
+      const prices = document.getElementById("prices-title")?.closest("section");
+      const signals = document.getElementById("signals-title")?.closest("section");
+      const apple = document.getElementById("apple-title")?.closest("section");
+      const tesla = document.getElementById("tesla-supply-title")?.closest("section");
+      const sources = document.getElementById("sources-title")?.closest("section");
+      const news = document.getElementById("news-title")?.closest("section");
+      if (!main || !hero || !brief) return;
+
+      let anchor = hero;
+      [brief, risk, overheat, fx, prices, signals, apple, tesla, sources].forEach((section) => {
+        if (!section) return;
+        anchor.insertAdjacentElement("afterend", section);
+        anchor = section;
+      });
+
+      if (news && sources) {
+        let moreNews = document.getElementById("moreNews");
+        if (!moreNews) {
+          moreNews = document.createElement("details");
+          moreNews.id = "moreNews";
+          moreNews.className = "more-news";
+          const summary = document.createElement("summary");
+          summary.textContent = "更多新聞（可展開）";
+          moreNews.appendChild(summary);
+        }
+        sources.insertAdjacentElement("afterend", moreNews);
+        moreNews.appendChild(news);
+      }
+
+      Array.from(main.children).forEach((child) => {
+        if (child.classList?.contains("grid") && child.children.length === 0) {
+          child.remove();
+        }
+      });
+    }
+
+    applyCompactMarketLayout();
+
     document.querySelectorAll("tbody tr").forEach((row) => {
       row.addEventListener("click", () => {
         row.parentElement?.querySelectorAll(".is-selected").forEach((item) => item.classList.remove("is-selected"));
@@ -2537,7 +2712,11 @@
 
     dockButtons.forEach((button) => {
       button.addEventListener("click", () => {
-        document.getElementById(button.dataset.scrollTarget)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        const target = document.getElementById(button.dataset.scrollTarget);
+        if (button.dataset.scrollTarget === "moreNews" && target instanceof HTMLDetailsElement) {
+          target.open = true;
+        }
+        target?.scrollIntoView({ behavior: "smooth", block: "start" });
         if (button.dataset.scrollTarget === "fx-title") {
           window.setTimeout(playFxAnimation, 280);
         }
@@ -2553,7 +2732,7 @@
       });
     }, { rootMargin: "-35% 0px -55% 0px", threshold: 0 });
 
-    ["page-title", "news-title", "fx-title", "prices-title", "signals-title"].forEach((id) => {
+    ["page-title", "moreNews", "fx-title", "prices-title", "signals-title"].forEach((id) => {
       const target = document.getElementById(id);
       if (target) dockObserver.observe(target);
     });
@@ -2567,7 +2746,7 @@
       });
     }, { threshold: 0.08 });
 
-    document.querySelectorAll(".section, .hero-main, .hero-side, .news-item, .overheat-card, .supplier-card").forEach((item) => {
+    document.querySelectorAll(".section, .hero-main, .hero-side, .brief-card, .news-item, .overheat-card, .supplier-card").forEach((item) => {
       item.classList.add("reveal");
       revealObserver.observe(item);
     });
