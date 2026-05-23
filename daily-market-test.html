@@ -2,311 +2,3010 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>每日新聞與行情更新 - 2026-05-23</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>每日新聞與行情通知測試</title>
   <style>
     :root {
-      --bg: #f7f8fa;
+      color-scheme: light;
+      --bg: #f3f6fb;
       --panel: #ffffff;
-      --ink: #17202a;
-      --muted: #637083;
-      --line: #dce2ea;
-      --blue: #2563eb;
-      --green: #15803d;
-      --red: #b91c1c;
-      --amber: #b45309;
-      --violet: #6d28d9;
+      --panel-soft: #f7f9fd;
+      --ink: #111827;
+      --text: #1c2533;
+      --muted: #667085;
+      --line: #d8e0ec;
+      --green: #087f5b;
+      --red: #c92a2a;
+      --blue: #2557a7;
+      --cyan: #007c89;
+      --amber: #946200;
+      --glass: rgba(255, 255, 255, 0.62);
+      --glass-strong: rgba(255, 255, 255, 0.78);
+      --glass-shadow: 0 24px 70px rgba(38, 57, 92, 0.16);
+      --focus-ring: 0 0 0 4px rgba(37, 87, 167, 0.16);
+      --shadow: 0 22px 60px rgba(32, 45, 73, 0.12);
+      --shadow-soft: 0 10px 26px rgba(32, 45, 73, 0.08);
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
     body {
       margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: "Segoe UI", "Noto Sans TC", Arial, sans-serif;
+      background:
+        linear-gradient(135deg, rgba(37, 87, 167, 0.17) 0%, rgba(0, 124, 137, 0.10) 36%, rgba(255, 255, 255, 0) 72%),
+        linear-gradient(180deg, #edf4ff 0%, rgba(238, 244, 255, 0.44) 430px, rgba(255, 255, 255, 0) 760px),
+        linear-gradient(115deg, rgba(255, 255, 255, 0.72), rgba(227, 238, 255, 0.64) 42%, rgba(236, 246, 247, 0.46)),
+        var(--bg);
+      color: var(--text);
+      font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
     }
-    header {
-      padding: 28px 20px 18px;
-      border-bottom: 1px solid var(--line);
-      background: #fff;
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: linear-gradient(rgba(17, 24, 39, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(17, 24, 39, 0.035) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.6), transparent 52%);
     }
-    main { width: min(1180px, calc(100% - 32px)); margin: 22px auto 48px; }
-    h1 { margin: 0 0 8px; font-size: clamp(26px, 4vw, 42px); letter-spacing: 0; }
-    h2 { margin: 0 0 14px; font-size: 22px; }
-    h3 { margin: 0 0 8px; font-size: 17px; }
-    p { margin: 0 0 10px; }
-    a { color: var(--blue); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .sub { color: var(--muted); }
-    .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 14px; }
-    button {
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--ink);
-      border-radius: 8px;
-      padding: 8px 12px;
-      cursor: pointer;
-      font-weight: 600;
+
+    a {
+      color: inherit;
     }
-    button.active { background: var(--blue); border-color: var(--blue); color: #fff; }
-    section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-      margin-bottom: 18px;
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
     }
-    .grid { display: grid; gap: 14px; }
-    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .card {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      overflow: hidden;
-      background: #fff;
-      min-width: 0;
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 0;
+      box-shadow: var(--focus-ring);
     }
-    .card img { width: 100%; height: 132px; object-fit: cover; display: block; background: #eef2f7; }
-    .card .body { padding: 12px; }
-    .tag {
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+      position: relative;
+    }
+
+    .badge {
       display: inline-flex;
       align-items: center;
+      min-height: 30px;
+      padding: 5px 10px;
+      border: 1px solid rgba(37, 87, 167, 0.24);
       border-radius: 999px;
-      padding: 3px 8px;
-      font-size: 12px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--blue);
+      font-size: 13px;
       font-weight: 700;
-      background: #eef2ff;
-      color: #3730a3;
-      margin: 0 6px 8px 0;
+      white-space: nowrap;
     }
-    .tag.hot { background: #fff1f2; color: var(--red); }
-    .tag.value { background: #ecfdf5; color: var(--green); }
-    .tag.warn { background: #fffbeb; color: var(--amber); }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    th, td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
-    th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
-    .pos { color: var(--green); font-weight: 700; }
-    .neg { color: var(--red); font-weight: 700; }
-    .flat { color: var(--muted); font-weight: 700; }
-    .kpi { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-    .kpi div { border: 1px solid var(--line); border-radius: 8px; padding: 12px; background: #fff; }
-    .kpi b { display: block; font-size: 20px; margin-top: 4px; }
-    .list { margin: 0; padding-left: 20px; }
-    .list li { margin-bottom: 8px; }
-    .chart { width: 100%; min-height: 280px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
-    .note { font-size: 13px; color: var(--muted); margin-top: 10px; }
-    @media (max-width: 820px) {
-      main { width: min(100% - 20px, 1180px); }
-      .grid.two, .grid.three, .kpi { grid-template-columns: 1fr; }
-      .wide-table { overflow-x: auto; }
-      table { min-width: 860px; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 20px;
+    }
+
+    .hero-main,
+    .hero-side,
+    .section {
+      border: 1px solid rgba(255, 255, 255, 0.70);
+      border-radius: 8px;
+      background: var(--glass);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(24px) saturate(1.45);
+      -webkit-backdrop-filter: blur(24px) saturate(1.45);
+    }
+
+    .hero-main {
+      position: relative;
+      overflow: hidden;
+      padding: 34px;
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.82), rgba(247, 250, 255, 0.56)),
+        linear-gradient(90deg, rgba(37, 87, 167, 0.12), rgba(0, 124, 137, 0.10));
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.08;
+      letter-spacing: 0;
+      color: var(--ink);
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      margin-bottom: 10px;
+    }
+
+    .title-row h1 {
+      margin: 0;
+    }
+
+    .update-date {
+      min-height: 32px;
+      background: rgba(37, 87, 167, 0.10);
+      border-color: rgba(37, 87, 167, 0.28);
+      color: var(--blue);
+      font-size: 14px;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .market-summary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .summary-card {
+      min-height: 104px;
+      padding: 13px;
+      border: 1px solid rgba(37, 87, 167, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.70);
+    }
+
+    .summary-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 14px;
+    }
+
+    .summary-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .brief-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .brief-card {
+      display: grid;
+      gap: 10px;
+      min-height: 186px;
+      padding: 16px;
+      border: 1px solid rgba(37, 87, 167, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .brief-card h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 17px;
+    }
+
+    .brief-card ul {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .more-news {
+      margin-top: 18px;
+      border: 1px solid rgba(37, 87, 167, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .more-news > summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 56px;
+      padding: 14px 18px;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 900;
+      list-style: none;
+    }
+
+    .more-news > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .more-news > summary::after {
+      content: "+";
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 50%;
+      background: #eef4ff;
+      color: var(--blue);
+      font-size: 18px;
+    }
+
+    .more-news[open] > summary::after {
+      content: "-";
+    }
+
+    .more-news .section {
+      border: 0;
+      border-top: 1px solid var(--line);
+      border-radius: 0;
+      background: rgba(255, 255, 255, 0.70);
+      box-shadow: none;
+    }
+
+    .hero-side {
+      display: grid;
+      align-content: center;
+      gap: 14px;
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.96);
+    }
+
+    .stat {
+      display: grid;
+      gap: 4px;
+      padding: 0 0 14px 14px;
+      border-bottom: 1px solid var(--line);
+      border-left: 3px solid rgba(37, 87, 167, 0.24);
+    }
+
+    .stat:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      overflow: hidden;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.62), rgba(247, 250, 255, 0.38)),
+        linear-gradient(90deg, rgba(37, 87, 167, 0.08), rgba(0, 124, 137, 0.06));
+    }
+
+    .section-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .liquid-segment {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.54);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78), 0 10px 24px rgba(32, 45, 73, 0.08);
+      backdrop-filter: blur(18px) saturate(1.4);
+      -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    }
+
+    .liquid-segment button {
+      min-height: 30px;
+      border: 0;
+      border-radius: 999px;
+      padding: 5px 11px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 850;
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+
+    .liquid-segment button[aria-pressed="true"] {
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--blue);
+      box-shadow: 0 8px 18px rgba(37, 87, 167, 0.12);
+    }
+
+    .liquid-segment button:active {
+      transform: scale(0.96);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: 0;
+      color: var(--ink);
+    }
+
+    .section-body {
+      padding: 18px 20px 20px;
+    }
+
+    .news-list,
+    .risk-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .news-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .news-item,
+    .risk-item {
+      position: relative;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px) saturate(1.28);
+      -webkit-backdrop-filter: blur(16px) saturate(1.28);
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background 220ms ease, opacity 220ms ease;
+    }
+
+    .news-item:hover {
+      transform: translateY(-2px);
+      border-color: rgba(37, 87, 167, 0.34);
+      box-shadow: 0 16px 34px rgba(32, 45, 73, 0.12);
+    }
+
+    .news-item.is-filtered-out {
+      display: none;
+    }
+
+    .news-media {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 8.5;
+      margin-bottom: 14px;
+      overflow: hidden;
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.48), transparent 30%),
+        linear-gradient(135deg, rgba(37, 87, 167, 0.22), rgba(0, 124, 137, 0.18)),
+        #eef4ff;
+    }
+
+    .news-media::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.02), rgba(17, 24, 39, 0.28));
+    }
+
+    .news-media::after {
+      content: attr(data-topic);
+      position: absolute;
+      inset: auto 12px 12px 12px;
+      z-index: 2;
+      display: inline-flex;
+      width: fit-content;
+      max-width: calc(100% - 24px);
+      padding: 5px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.62);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      color: #18345f;
+      font-size: 13px;
+      font-weight: 850;
+      box-shadow: 0 8px 22px rgba(17, 24, 39, 0.12);
+      backdrop-filter: blur(12px) saturate(1.35);
+      -webkit-backdrop-filter: blur(12px) saturate(1.35);
+    }
+
+    .news-media img {
+      position: relative;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      filter: saturate(0.94) contrast(1.02);
+    }
+
+    .news-item:nth-child(3n + 1) .news-media img { object-position: 50% 42%; }
+    .news-item:nth-child(3n + 2) .news-media img { object-position: 42% 50%; }
+    .news-item:nth-child(3n) .news-media img { object-position: 58% 48%; }
+
+    .news-item:nth-child(6n + 1) .news-media {
+      background: radial-gradient(circle at 20% 22%, rgba(255,255,255,0.58), transparent 30%), linear-gradient(135deg, #dceafe, #e7f7f4);
+    }
+
+    .news-item:nth-child(6n + 2) .news-media {
+      background: radial-gradient(circle at 72% 24%, rgba(255,255,255,0.55), transparent 28%), linear-gradient(135deg, #f3e8ff, #e0f2fe);
+    }
+
+    .news-item:nth-child(6n + 3) .news-media {
+      background: radial-gradient(circle at 22% 72%, rgba(255,255,255,0.52), transparent 30%), linear-gradient(135deg, #ecfdf5, #dbeafe);
+    }
+
+    .news-item:nth-child(6n + 4) .news-media {
+      background: radial-gradient(circle at 74% 68%, rgba(255,255,255,0.52), transparent 30%), linear-gradient(135deg, #fff7ed, #e0f2fe);
+    }
+
+    .news-item:nth-child(6n + 5) .news-media {
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.54), transparent 28%), linear-gradient(135deg, #eef2ff, #f0fdfa);
+    }
+
+    .news-item:nth-child(6n) .news-media {
+      background: radial-gradient(circle at 70% 24%, rgba(255,255,255,0.52), transparent 30%), linear-gradient(135deg, #fef3c7, #e0e7ff);
+    }
+
+    .news-media.image-missing {
+      display: grid;
+      place-items: center;
+      min-height: 172px;
+    }
+
+    .news-media.image-missing::before {
+      background:
+        radial-gradient(circle at 25% 22%, rgba(255,255,255,0.62), transparent 28%),
+        linear-gradient(135deg, rgba(37,87,167,0.18), rgba(0,124,137,0.18));
+    }
+
+    .item-title {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .item-copy {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 5px 10px;
+      margin-top: 8px;
+      border: 1px solid rgba(37, 87, 167, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      text-underline-offset: 3px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.70);
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+
+    .source-link:hover {
+      border-color: rgba(37, 87, 167, 0.34);
+      background: rgba(37, 87, 167, 0.11);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      background: rgba(255, 255, 255, 0.66);
+      border-radius: 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+
+    th,
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      background: #fbfcff;
+    }
+
+    tbody tr {
+      cursor: pointer;
+      transition: background 180ms ease, box-shadow 180ms ease;
+    }
+
+    tbody tr:hover {
+      background: #f8fbff;
+    }
+
+    tbody tr.is-selected {
+      background: rgba(37, 87, 167, 0.08);
+      box-shadow: inset 4px 0 0 rgba(37, 87, 167, 0.54);
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .symbol {
+      font-weight: 850;
+      color: var(--ink);
+    }
+
+    .market {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .up {
+      color: var(--green);
+      font-weight: 850;
+    }
+
+    .down {
+      color: var(--red);
+      font-weight: 850;
+    }
+
+    .flat {
+      color: var(--amber);
+      font-weight: 850;
+    }
+
+    .currency-toggle {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid rgba(37, 87, 167, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(16px) saturate(1.3);
+      -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    }
+
+    .currency-toggle button {
+      min-width: 58px;
+      min-height: 30px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .currency-toggle button[aria-pressed="true"] {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .fx-toolbar {
+      display: grid;
+      grid-template-columns: minmax(96px, 0.8fr) minmax(120px, 1fr) auto minmax(120px, 1fr) minmax(150px, 1.2fr);
+      gap: 8px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid rgba(37, 87, 167, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.64);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
+    }
+
+    .fx-toolbar input,
+    .fx-toolbar select {
+      width: 100%;
+      min-height: 40px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+    }
+
+    .fx-result {
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 12px;
+      border-radius: 8px;
+      color: var(--blue);
+      background: #eef4ff;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .fx-board {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .fx-card {
+      display: grid;
+      gap: 5px;
+      min-height: 92px;
+      padding: 12px;
+      border: 1px solid rgba(37, 87, 167, 0.14);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .fx-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .fx-code {
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .fx-name,
+    .fx-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .fx-rate {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1.15;
+    }
+
+    .fx-animate {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fx-animate::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 22% 35%, rgba(37, 87, 167, 0.20), transparent 24%),
+        radial-gradient(circle at 78% 58%, rgba(0, 124, 137, 0.18), transparent 26%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .fx-animate.is-exchanging::before {
+      animation: fxGlow 1100ms ease-out;
+    }
+
+    .fx-anim-card {
+      position: absolute;
+      left: 50%;
+      top: 18px;
+      z-index: 5;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 8px 13px;
+      border: 1px solid rgba(37, 87, 167, 0.24);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--blue);
+      font-weight: 950;
+      box-shadow: 0 18px 40px rgba(32, 45, 73, 0.20);
+      backdrop-filter: blur(16px) saturate(1.35);
+      -webkit-backdrop-filter: blur(16px) saturate(1.35);
+      transform: translate(-50%, -6px) scale(0.96);
+      pointer-events: none;
+    }
+
+    .fx-anim-card::before,
+    .fx-anim-card::after {
+      display: inline-grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 12px;
+    }
+
+    .fx-anim-card::before {
+      content: "USD";
+      background: var(--blue);
+    }
+
+    .fx-anim-card::after {
+      content: "TWD";
+      background: var(--cyan);
+    }
+
+    .fx-animate.is-exchanging .fx-anim-card {
+      display: inline-flex;
+      animation: fxCard 1100ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .fx-animate.is-exchanging .fx-result {
+      animation: fxPulse 900ms ease-out;
+    }
+
+    .fx-animate.is-exchanging .fx-card {
+      animation: fxTile 900ms ease-out;
+    }
+
+    .fx-animate.is-exchanging .fx-card:nth-child(2n) {
+      animation-delay: 80ms;
+    }
+
+    @keyframes fxGlow {
+      0% { opacity: 0; transform: scale(0.98); }
+      25% { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.02); }
+    }
+
+    @keyframes fxCard {
+      0% { opacity: 0; transform: translate(-50%, 8px) scale(0.92); }
+      25% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+      70% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -14px) scale(0.98); }
+    }
+
+    @keyframes fxPulse {
+      0% { box-shadow: 0 0 0 rgba(37, 87, 167, 0); transform: scale(1); }
+      40% { box-shadow: 0 0 0 7px rgba(37, 87, 167, 0.12); transform: scale(1.025); }
+      100% { box-shadow: 0 0 0 rgba(37, 87, 167, 0); transform: scale(1); }
+    }
+
+    @keyframes fxTile {
+      0% { transform: translateY(0); border-color: rgba(37, 87, 167, 0.14); }
+      45% { transform: translateY(-4px); border-color: rgba(0, 124, 137, 0.36); }
+      100% { transform: translateY(0); border-color: rgba(37, 87, 167, 0.14); }
+    }
+
+    .price-value {
+      font-weight: 850;
+    }
+
+    .price-original {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .supply-chain {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .supplier-card {
+      display: flex;
+      min-height: 178px;
+      flex-direction: column;
+      gap: 10px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    }
+
+    .supplier-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .supplier-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    .supplier-card span:not(.supplier-role):not(.supplier-status) {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .supplier-role,
+    .supplier-status {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 26px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .supplier-role {
+      border: 1px solid rgba(37, 87, 167, 0.16);
+      background: rgba(37, 87, 167, 0.07);
+      color: var(--blue);
+    }
+
+    .supplier-status.up {
+      background: rgba(8, 127, 91, 0.10);
+    }
+
+    .supplier-status.down {
+      background: rgba(201, 42, 42, 0.09);
+    }
+
+    .supplier-status.flat {
+      background: rgba(148, 98, 0, 0.11);
+    }
+
+    .supplier-copy {
+      margin-top: auto;
+    }
+
+    .risk-band {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .overheat-list {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .overheat-card {
+      min-height: 220px;
+      padding: 15px;
+      border: 1px solid rgba(201, 42, 42, 0.18);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(201, 42, 42, 0.045), rgba(255, 255, 255, 0.72) 46%);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    }
+
+    .heat-label {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 26px;
+      margin-bottom: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(201, 42, 42, 0.09);
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .flow-notes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .flow-card {
+      min-height: 132px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    }
+
+    .flow-tag {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 26px;
+      margin-bottom: 9px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(37, 87, 167, 0.08);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .source-card {
+      min-height: 112px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    }
+
+    .source-card strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .source-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .trend-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .trend-panel {
+      min-height: 360px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(16px) saturate(1.2);
+      -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    }
+
+    .chart-wrap {
+      position: relative;
+      width: 100%;
+      height: clamp(230px, 28vw, 290px);
+      overflow: hidden;
+    }
+
+    #trendChart {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .signal-table {
+      width: 100%;
+      min-width: 680px;
+    }
+
+    .score-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 72px;
+      min-height: 28px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .score-buy {
+      background: rgba(8, 127, 91, 0.10);
+      color: var(--green);
+    }
+
+    .score-watch {
+      background: rgba(148, 98, 0, 0.11);
+      color: var(--amber);
+    }
+
+    .score-risk {
+      background: rgba(201, 42, 42, 0.09);
+      color: var(--red);
+    }
+
+    .mini-note {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .risk-item.positive {
+      border-color: rgba(8, 127, 91, 0.28);
+      background: rgba(8, 127, 91, 0.05);
+    }
+
+    .risk-item.negative {
+      border-color: rgba(201, 42, 42, 0.26);
+      background: rgba(201, 42, 42, 0.05);
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      margin-bottom: 78px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 20;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, rgba(37, 87, 167, 0.9), rgba(0, 124, 137, 0.9));
+      transform: scaleX(0);
+      transform-origin: left;
+      pointer-events: none;
+    }
+
+    .ios-dock {
+      position: fixed;
+      left: 50%;
+      bottom: max(14px, env(safe-area-inset-bottom));
+      z-index: 19;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(48px, 1fr));
+      gap: 5px;
+      width: min(430px, calc(100% - 28px));
+      padding: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow: 0 18px 46px rgba(32, 45, 73, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.84);
+      backdrop-filter: blur(24px) saturate(1.55);
+      -webkit-backdrop-filter: blur(24px) saturate(1.55);
+      transform: translateX(-50%);
+    }
+
+    .dock-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 850;
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+    }
+
+    .dock-button[aria-current="true"] {
+      background: rgba(255, 255, 255, 0.90);
+      color: var(--blue);
+      box-shadow: 0 9px 22px rgba(37, 87, 167, 0.14);
+    }
+
+    .dock-button:active {
+      transform: scale(0.95);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px) scale(0.992);
+      transition: opacity 520ms ease, transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    @media (max-width: 860px) {
+      .shell {
+        width: min(100% - 20px, 680px);
+        padding-top: max(14px, env(safe-area-inset-top));
+        padding-bottom: max(34px, env(safe-area-inset-bottom));
+      }
+
+      .hero,
+      .grid,
+      .market-summary,
+      .brief-grid,
+      .risk-band,
+      .news-list,
+      .supply-chain,
+      .source-grid,
+      .trend-layout,
+      .overheat-list,
+      .flow-notes {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-main {
+        padding: 22px 18px;
+      }
+
+      .hero-main,
+      .hero-side,
+      .section {
+        box-shadow: 0 10px 28px rgba(32, 45, 73, 0.09);
+      }
+
+      h1 {
+        font-size: 34px;
+        line-height: 1.08;
+      }
+
+      .lead {
+        font-size: 16px;
+      }
+
+      .market-summary {
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .summary-card {
+        min-height: auto;
+        padding: 12px;
+      }
+
+      .hero-side {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 16px;
+      }
+
+      .stat {
+        padding: 0 0 10px 12px;
+      }
+
+      .stat-value {
+        font-size: 20px;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 15px 16px;
+      }
+
+      .section-tools {
+        justify-content: flex-start;
+      }
+
+      .liquid-segment {
+        width: 100%;
+        overflow-x: auto;
+        justify-content: flex-start;
+      }
+
+      .liquid-segment button {
+        flex: 0 0 auto;
+      }
+
+      .section-body {
+        padding: 14px 14px 16px;
+      }
+
+      .news-list {
+        gap: 12px;
+      }
+
+      .news-item,
+      .risk-item,
+      .overheat-card,
+      .flow-card,
+      .source-card,
+      .supplier-card,
+      .trend-panel {
+        padding: 13px;
+      }
+
+      .news-item:hover {
+        transform: none;
+      }
+
+      .news-media {
+        aspect-ratio: 16 / 9.6;
+        margin-bottom: 11px;
+      }
+
+      .fx-toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .fx-result {
+        justify-content: flex-start;
+      }
+
+      .fx-board {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .item-title {
+        font-size: 15px;
+        line-height: 1.42;
+      }
+
+      .item-copy {
+        font-size: 14px;
+      }
+
+      .source-link {
+        width: 100%;
+        min-height: 36px;
+        justify-content: center;
+        white-space: normal;
+        text-align: center;
+      }
+
+      .trend-panel {
+        min-height: auto;
+      }
+
+      .chart-wrap {
+        height: 260px;
+      }
+
+      .overheat-card,
+      .supplier-card {
+        min-height: auto;
+      }
+
+      .supplier-top {
+        align-items: center;
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        background:
+          linear-gradient(180deg, #eef4ff 0%, rgba(238, 244, 255, 0) 360px),
+          var(--bg);
+      }
+
+      body::before {
+        display: none;
+      }
+
+      .shell {
+        width: 100%;
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+      }
+
+      .hero {
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .grid,
+      .section {
+        margin-bottom: 12px;
+      }
+
+      .hero-main,
+      .hero-side,
+      .section {
+        border-radius: 8px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      .badge {
+        min-height: 28px;
+        font-size: 12px;
+      }
+
+      .currency-toggle {
+        width: 100%;
+      }
+
+      .currency-toggle button {
+        flex: 1;
+        min-height: 36px;
+      }
+
+      .fx-board {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .table-wrap {
+        overflow-x: visible;
+        background: transparent;
+      }
+
+      table,
+      .signal-table {
+        min-width: 0;
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      tr {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: var(--shadow-soft);
+      }
+
+      td {
+        display: grid;
+        grid-template-columns: minmax(88px, 34%) minmax(0, 1fr);
+        gap: 10px;
+        align-items: start;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--line);
+        white-space: normal;
+      }
+
+      td:last-child {
+        border-bottom: 0;
+      }
+
+      td::before {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .market-table td:nth-child(1)::before {
+        content: "股票名稱與代號";
+      }
+
+      .market-table td:nth-child(2)::before {
+        content: "名稱";
+      }
+
+      .market-table td:nth-child(3)::before {
+        content: "價格";
+      }
+
+      .market-table td:nth-child(4)::before {
+        content: "漲跌";
+      }
+
+      .market-table td:nth-child(5)::before {
+        content: "備註";
+      }
+
+      .signal-table td:nth-child(1)::before {
+        content: "標的";
+      }
+
+      .signal-table td:nth-child(2)::before {
+        content: "一個月";
+      }
+
+      .signal-table td:nth-child(3)::before {
+        content: "狀態";
+      }
+
+      .signal-table td:nth-child(4)::before {
+        content: "指數";
+      }
+
+      .signal-table td:nth-child(5)::before {
+        content: "訊號";
+      }
+
+      .signal-table td:nth-child(6)::before {
+        content: "判讀";
+      }
+
+      .price-original {
+        font-size: 11px;
+      }
+
+      .score-pill {
+        min-width: 0;
+        width: fit-content;
+      }
+
+      .trend-panel h3 {
+        font-size: 16px !important;
+      }
+
+      .chart-wrap {
+        height: 230px;
+      }
+
+      .footer-note {
+        padding: 0 8px;
+        text-align: left;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>每日新聞與行情更新</h1>
-    <p class="sub">更新時間：2026-05-23 16:30 Asia/Taipei。行情以最新可取得頁面與延遲報價彙整，價格可能與即時盤有差異。</p>
-    <div class="toolbar">
-      <button id="usdBtn" class="active" type="button">USD</button>
-      <button id="twdBtn" type="button">TWD</button>
-      <span class="sub">匯率假設：1 USD = 30.95 TWD；台股與陸股原幣顯示，切換僅換算美元資產。</span>
-    </div>
-  </header>
-
-  <main>
-    <section>
-      <h2>今日市場摘要</h2>
-      <div class="kpi">
-        <div><span class="sub">市場溫度</span><b>偏熱</b><span class="tag hot">AI / IPO 熱度高</span></div>
-        <div><span class="sub">宏觀</span><b>油價回落、利率仍敏感</b><span class="tag warn">Fed 路徑觀察</span></div>
-        <div><span class="sub">科技 AI</span><b>算力需求強</b><span class="tag">Nvidia / hyperscalers</span></div>
-        <div><span class="sub">風險偏好</span><b>高但不均衡</b><span class="tag warn">估值分化</span></div>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <nav class="ios-dock" aria-label="快速導覽">
+    <button class="dock-button" type="button" data-scroll-target="page-title" aria-current="true">總覽</button>
+    <button class="dock-button" type="button" data-scroll-target="moreNews">新聞</button>
+    <button class="dock-button" type="button" data-scroll-target="fx-title">貨幣</button>
+    <button class="dock-button" type="button" data-scroll-target="prices-title">行情</button>
+    <button class="dock-button" type="button" data-scroll-target="signals-title">訊號</button>
+    <a class="dock-button" href="daily-market-crypto.html" target="_self">加密</a>
+  </nav>
+  <main class="shell">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-main">
+        <div class="title-row">
+          <h1 id="page-title">每日新聞與行情快覽</h1>
+          <span class="badge update-date" aria-label="更新日期">更新日期：2026-05-23</span>
+        </div>
+        <p class="lead">今日市場摘要：美股在油價回落與中東和平希望下收高，Dow 創新高；AI 算力需求仍由 Nvidia 財報支撐，但高估值科技股仍受殖利率、Fed 路徑與 ETF 資金流牽動。</p>
+        <div class="market-summary" aria-label="今日市場摘要">
+          <div class="summary-card">
+            <strong>宏觀與地緣</strong>
+            <span>中東和平希望讓油價壓力暫時降溫，但能源與航運消息仍會快速影響通膨預期。</span>
+          </div>
+          <div class="summary-card">
+            <strong>利率與資金面</strong>
+            <span>美債殖利率維持高檔，AI data center、成長股與加密資產仍對 Fed 路徑敏感。</span>
+          </div>
+          <div class="summary-card">
+            <strong>科技與 AI</strong>
+            <span>Nvidia demand 強、AMD 宣布逾 100 億美元台灣 AI 生態投資，TSMC 2nm 與先進封裝鏈受關注。</span>
+          </div>
+          <div class="summary-card">
+            <strong>市場溫度</strong>
+            <span>AI 晶片、量子概念、OpenAI / SpaceX IPO 與 BTC ETF 資金流同步牽動跨市場情緒。</span>
+          </div>
+        </div>
       </div>
-      <p>重點：美股在油價回落與中東和平希望下收高，Dow 創新高；Nvidia 財報延續 AI 算力需求，但高估值科技股仍受殖利率與 Fed 路徑牽動。AMD 宣布逾 100 億美元台灣 AI 生態投資，TSMC 2nm、Apple 供應鏈、OpenAI / SpaceX IPO 與 crypto ETF 資金流是今天跨市場主線。</p>
-      <p class="note">所有推薦指數、過熱/低估判斷僅供觀察，不構成投資建議。</p>
+      <aside class="hero-side" aria-label="市場速覽">
+        <div class="stat">
+          <span class="stat-label">避險資產</span>
+          <span class="stat-value down">XAUUSD 高檔震盪</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">加密資產</span>
+          <span class="stat-value up">BTC ETF 資金流觀察</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">大型科技</span>
+          <span class="stat-value down">AI 高估值分化</span>
+        </div>
+      </aside>
     </section>
 
-    <section>
-      <h2>追蹤標的價格、月漲幅與觀察結論</h2>
-      <div class="wide-table">
-        <table id="assetTable">
+    <section class="section" id="briefLayout" aria-labelledby="brief-title">
+      <div class="section-head">
+        <h2 id="brief-title">今日最重要 5 件事</h2>
+        <span class="badge">Executive Brief</span>
+      </div>
+      <div class="section-body">
+        <div class="brief-grid">
+          <article class="brief-card">
+            <h3>今日最重要 5 件事</h3>
+            <ul>
+              <li>美債殖利率高檔震盪，科技股估值容錯下降。</li>
+              <li>Dow 創高，油價回落改善風險偏好。</li>
+              <li>Nvidia 財報支撐 AI 基建敘事，但追價容錯下降。</li>
+              <li>AMD 逾 100 億美元台灣 AI 生態投資推升供應鏈題材。</li>
+              <li>BTC ETF 資金流轉弱，加密高 beta 仍需控風險。</li>
+            </ul>
+          </article>
+          <article class="brief-card">
+            <h3>AI 市場摘要</h3>
+            <ul>
+              <li>Nvidia 營收與展望顯示 AI compute 需求仍強。</li>
+              <li>OpenAI / SpaceX IPO 敘事讓私募 AI 與太空資產重新被定價。</li>
+              <li>量子運算政策題材升溫，IBM、GlobalFoundries 與小型量子股波動放大。</li>
+            </ul>
+          </article>
+          <article class="brief-card">
+            <h3>市場風險</h3>
+            <ul>
+              <li>油價若重新衝高，通膨預期與 Fed 壓力會再升溫。</li>
+              <li>AI、量子與 IPO 題材集中，財報或政策不如預期時回撤會放大。</li>
+              <li>BTC ETF 與槓桿清算可能拖累 crypto 與高 beta 科技情緒。</li>
+            </ul>
+          </article>
+          <article class="brief-card">
+            <h3>觀察標的</h3>
+            <ul>
+              <li>偏過熱：TSLA、BTC、GOOGL、部分 AI 晶片鏈。</li>
+              <li>偏低估觀察：AAPL、MSFT、AMZN、2317。</li>
+              <li>防守觀察：XAUUSD、美元現金、短天期票券。</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="section" aria-labelledby="news-title">
+        <div class="section-head">
+          <h2 id="news-title">最新重點新聞</h2>
+          <div class="section-tools">
+            <div class="liquid-segment" aria-label="新聞分類">
+              <button type="button" data-news-filter="all" aria-pressed="true">全部</button>
+              <button type="button" data-news-filter="market" aria-pressed="false">市場</button>
+              <button type="button" data-news-filter="tech" aria-pressed="false">科技</button>
+              <button type="button" data-news-filter="risk" aria-pressed="false">風險</button>
+            </div>
+          </div>
+        </div>
+        <div class="section-body">
+          <ul class="news-list">
+            <li class="news-item">
+              <figure class="news-media" data-topic="US-China Trade">
+                <img src="https://www.aljazeera.com/wp-content/uploads/2026/05/2026-05-16T050558Z_29520214_RC2Q8LATM31Z_RTRMADP_3_USA-CHINA-TRUMP-XI-1779064690.jpg?quality=80&resize=770%2C513" data-fallback="https://images.unsplash.com/photo-1569025690938-a00729c9e1f9?auto=format&fit=crop&w=900&q=80" alt="Trump 與 Xi 在北京會面，文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">1. 美中農產品採購承諾</span>
+              <span class="item-copy">白宮稱中國將在 Trump-Xi 會後每年至少採購 170 億美元美國農產品至 2028 年，市場關注後續執行與確認細節。</span>
+              <a class="source-link" href="https://www.aljazeera.com/amp/economy/2026/5/18/us-says-china-to-buy-billions-in-agricultural-goods-after-trump-xi-talks" target="_self">查看來源：Al Jazeera · 2026-05-18</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Trump-Xi Summit">
+                <img src="https://www.aljazeera.com/wp-content/uploads/2026/05/reuters_6a070d35-1778847029-e1778847076476.jpg?quality=80&resize=730%2C410" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/Donald%20Trump%20and%20Xi%20Jinping%20at%20the%202019%20G20%20Osaka%20Summit.jpg" alt="Trump 與 Xi 會後同框，文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">2. Trump-Xi 會後說法分歧</span>
+              <span class="item-copy">美方強調貿易成果，中方則凸顯台灣與伊朗議題；雙方對峰會共識的描述重疊有限。</span>
+              <a class="source-link" href="https://www.aljazeera.com/news/2026/5/15/trump-xi-summit-china-us-disagree-on-what-they-agreed-on" target="_self">查看來源：Al Jazeera · 2026-05-15</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Taiwan">
+                <img src="https://www.aljazeera.com/wp-content/uploads/2026/05/AFP__20260514__649K7TD__v1__Preview__TaiwanChinaUsDiplomacy-1778932781.jpg?quality=80&resize=770%2C513" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/Taipei%20101%20from%20Elephant%20Mountain%202019.jpg" alt="台北電視新聞播放 Trump 與 Xi 會面，文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">3. 台灣回應 Trump 發言</span>
+              <span class="item-copy">台灣表示自身「主權獨立」，並稱會維持台海現狀、深化與美國關係；市場留意後續軍售與外交訊號。</span>
+              <a class="source-link" href="https://www.aljazeera.com/news/2026/5/16/in-response-to-trump-taiwan-says-it-is-sovereign-and-independent" target="_self">查看來源：Al Jazeera · 2026-05-16</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Boeing Orders">
+                <img src="https://www.aljazeera.com/wp-content/uploads/2026/05/2024-04-05T161450Z_1006068503_RC2HV6A4ZF6S_RTRMADP_3_BOEING-SAFETY-FAA-QUALITY-CONTROLS-1778841970.jpg?quality=80&resize=770%2C513" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/Boeing%20787-9%20Dreamliner%20N789FT%20taking%20off.jpg" alt="Boeing 飛機資料照，文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">4. Boeing 訂單低於市場期待</span>
+              <span class="item-copy">Trump 稱中國同意購買 200 架 Boeing 飛機，低於市場先前期待，Boeing 股價一度承壓。</span>
+              <a class="source-link" href="https://www.aljazeera.com/amp/economy/2026/5/15/trump-says-china-to-buy-200-boeing-planes-much-lower-than-expected" target="_self">查看來源：Al Jazeera · 2026-05-15</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Starship V3">
+                <img src="https://cdn.mos.cms.futurecdn.net/iAHzx5idBfCE7bcvxncqJ3.jpg" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/Starship%20Super%20Heavy%20Integrated%20Flight%20Test%203.jpg" alt="SpaceX Starship V3 發射測試，文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">5. SpaceX Starship V3 目標發射</span>
+              <span class="item-copy">SpaceX 將 Starship V3 首飛目標定在 5 月 19 日，這是更大、更高推力版本，牽動太空與重型運載題材。</span>
+              <a class="source-link" href="https://www.space.com/space-exploration/launches-spacecraft/spacexs-starship-v3-megarocket-finally-has-a-debut-launch-date-heres-when-it-will-fly" target="_self">查看來源：Space.com · 2026-05-13</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Spaceports">
+                <img src="https://i-invdn-com.investing.com/news/LYNXNPEA7E0YI_L.jpg" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/Kennedy%20Space%20Center%20Launch%20Complex%2039A%20%28KSC-20190301-PH_KLS01_0001%29.jpg" alt="SpaceX 與全球發射場題材，Reuters 文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">6. SpaceX 尋找全球發射場</span>
+              <span class="item-copy">Reuters 報導 SpaceX 正評估美國與海外 spaceport 選址，為未來高頻率 Starship 發射做準備。</span>
+              <a class="source-link" href="https://www.investing.com/news/stock-market-news/spacex-eyes-global-spaceports-as-starship-launch-ambitions-grow-ahead-of-ipo-4682812" target="_self">查看來源：Reuters via Investing.com · 2026-05-12</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="OpenAI">
+                <img src="https://www.aljazeera.com/wp-content/uploads/2026/05/2025-05-20T211912Z_1630580060_RC2SQEAY60AX_RTRMADP_3_TECH-AI-OPENAI-MUSK-1747793626.jpg?quality=80&resize=770%2C513" data-fallback="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80" alt="Elon Musk 與 OpenAI 訴訟相關資料照" loading="lazy">
+              </figure>
+              <span class="item-title">7. Musk vs. OpenAI 進入最後攻防</span>
+              <span class="item-copy">AP 報導雙方律師完成最後陳述，案件可能影響 OpenAI 治理、非營利使命與 AI 產業結構。</span>
+              <a class="source-link" href="https://apnews.com/article/3bda5ebbec28c23ac9e481a4edcad725" target="_self">查看來源：AP · 2026-05-14</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="AI Safety">
+                <img src="https://www.axios.com/_next/image?q=75&url=https%3A%2F%2Fimages.axios.com%2FUKzJR2zhGTJm7gX8jJv1JhymbcQ%3D%2F0x0%3A2400x1350%2F1600x900%2F2026%2F05%2F12%2F1747066245508.jpg&w=1920" data-fallback="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80" alt="Musk 與 Altman 法庭攻防插圖，文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">8. Sam Altman 法庭攻防</span>
+              <span class="item-copy">Altman 在庭上駁斥 Musk 指控，焦點落在 OpenAI 是否仍能優先考量 AI 安全與公共利益。</span>
+              <a class="source-link" href="https://www.axios.com/2026/05/13/openai-trial-sam-altman-elon-musk-ai-safety" target="_self">查看來源：Axios · 2026-05-13</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Federal Reserve">
+                <img src="https://www.axios.com/_next/image?q=75&url=https%3A%2F%2Fimages.axios.com%2FaKP8Q_fT5QQy1n2d31WORk9GJwg%3D%2F0x0%3A2400x1350%2F1600x900%2F2026%2F05%2F13%2F1747144741642.jpg&w=1920" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/Federal%20Reserve%20Board%20Building.jpg" alt="Kevin Warsh 文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">9. Kevin Warsh 確認掌 Fed</span>
+              <span class="item-copy">Axios 報導 Warsh 確認出任第 17 任 Fed 主席；市場關注高通膨、利率路徑與央行獨立性壓力。</span>
+              <a class="source-link" href="https://www.axios.com/2026/05/13/warsh-fed-senate-trump" target="_self">查看來源：Axios · 2026-05-13</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="X Regulation">
+                <img src="https://i-invdn-com.investing.com/news/moved_LYNXMPEH5506Y_L.jpg" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/X%20logo%202023.svg" alt="Elon Musk 與 X 平台監管調查，Reuters 文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">10. X 在法國面臨司法調查</span>
+              <span class="item-copy">Reuters 報導巴黎檢方就 X 涉嫌演算法濫用與資料問題啟動司法調查，歐洲監管風險升溫。</span>
+              <a class="source-link" href="https://www.investing.com/news/world-news/paris-public-prosecutor-opens-judicial-investigation-into-elon-musk-and-x-4669440" target="_self">查看來源：Reuters via Investing.com · 2026-05-07</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Iran Oil Risk">
+                <img src="https://www.axios.com/_next/image?q=75&url=https%3A%2F%2Fimages.axios.com%2FL_RxUYkfyRVPDrs-hpbz9X2aeNg%3D%2F0x0%3A2400x1350%2F1600x900%2F2026%2F05%2F17%2F1747591759294.jpg&w=1920" data-fallback="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=900&q=80" alt="Tehran 街景與 Hormuz 壁畫，文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">11. Iran 談判僵局推升油價風險</span>
+              <span class="item-copy">Axios 報導 Trump 對 Iran 發出更強硬警告，和平談判受阻帶動油價上行，市場重新定價能源與通膨風險。</span>
+              <a class="source-link" href="https://www.axios.com/2026/05/17/trump-iran-warning-harder-strikes" target="_self">查看來源：Axios · 2026-05-17</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Hormuz">
+                <img src="https://i.guim.co.uk/img/media/efd52cd8e27c45826c4076c4350526afeccf47de/0_92_4234_2540/master/4234.jpg?width=1200&quality=85&auto=format&fit=max&s=4a4ec40ab61a73d68b0f98623fd53758" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/Strait%20of%20Hormuz%20map.png" alt="伊朗街頭與中東局勢，Guardian 文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">12. 中東局勢牽動 Hormuz 與能源供給</span>
+              <span class="item-copy">Guardian 即時報導指出，美伊談判與 Hormuz 安全通行仍是市場焦點，能源、航運與風險資產同步受影響。</span>
+              <a class="source-link" href="https://www.theguardian.com/world/live/2026/may/18/us-israel-iran-lebanon-donald-trump-hormuz-oil-latest-news-updates?filterKeyEvents=false" target="_self">查看來源：The Guardian · 2026-05-18</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Bond Market">
+                <img src="https://www.axios.com/_next/image?q=75&url=https%3A%2F%2Fimages.axios.com%2FWQXhx_72chcjmU2LTH7wc4P45NA%3D%2F0x0%3A2400x1350%2F1600x900%2F2026%2F05%2F18%2F1747650987555.jpg&w=1920" data-fallback="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80" alt="Kevin Warsh 與債市壓力插圖，文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">13. Warsh 面臨債市與通膨考驗</span>
+              <span class="item-copy">Axios 分析新 Fed 主席 Warsh 將在高殖利率、能源成本與 AI 投資需求之間取得平衡，政策溝通壓力升高。</span>
+              <a class="source-link" href="https://www.axios.com/2026/05/18/warsh-bond-market-energy-ai" target="_self">查看來源：Axios · 2026-05-18</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="US Futures">
+                <img src="https://i-invdn-com.investing.com/news/moved_LYNXMPEH8E0MB_L.jpg" data-fallback="https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80" alt="美股與油價焦點，Reuters 文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">14. 美股受殖利率與油價拖累</span>
+              <span class="item-copy">Reuters / MarketScreener 報導，美股期貨在 10 年期殖利率與油價上行下走弱，市場等待 Nvidia、Walmart 財報確認需求韌性。</span>
+              <a class="source-link" href="https://www.marketscreener.com/news/us-stock-futures-slip-as-yields-oil-prices-climb-ce7f5adada8af424" target="_self">查看來源：Reuters via MarketScreener · 2026-05-18</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Tech CEOs China">
+                <img src="https://dims.apnews.com/dims4/default/df208f9/2147483647/strip/true/crop/5472x3648+0+0/resize/1440x960!/format/webp/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F2c%2F2c%2F6f4f68e3f9a41169b3b9f5a5c93f%2Fap26134451204735.jpg" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/Great%20Hall%20of%20the%20People%20in%20Beijing.jpg" alt="Trump 訪中與科技 CEO 隨行，AP 文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">15. Trump 訪中科技 CEO 隨行</span>
+              <span class="item-copy">AP 報導 Trump 抵達北京與 Xi 會談，議題涵蓋 Iran、貿易與台灣軍售，科技領袖隨行凸顯供應鏈與 AI 角力。</span>
+              <a class="source-link" href="https://apnews.com/article/353c768987542843e2033aa684266879" target="_self">查看來源：AP · 2026-05-13</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Apple Supply Chain">
+                <img src="https://photos5.appleinsider.com/gallery/67121-137725-000-lead-Trump-Cook-xl.jpg" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/Apple%20Park%20Visitor%20Center%20%282019%29.jpg" alt="Tim Cook 與 Trump 會面資料照，文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">16. Apple 供應鏈外交意味升高</span>
+              <span class="item-copy">AppleInsider 報導 Tim Cook 隨 Trump、Musk 赴中，市場關注 Apple 在中國供應鏈、關稅與政策關係上的平衡。</span>
+              <a class="source-link" href="https://appleinsider.com/articles/26/05/14/tim-cook-is-back-in-china-this-time-with-trump-and-elon-musk" target="_self">查看來源：AppleInsider · 2026-05-14</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Tesla Robotaxi">
+                <img src="https://techcrunch.com/wp-content/uploads/2025/06/Tesla-Robotaxis-Texas.jpg?w=1024" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/Tesla%20Model%203%20parked%2C%20front%20driver%20side.jpg" alt="Tesla Robotaxi 文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">17. Tesla Robotaxi 兩起事故揭露</span>
+              <span class="item-copy">TechCrunch 報導 Tesla 向 NHTSA 揭露兩起涉及 teleoperator 的 robotaxi 事故，安全監管與責任歸屬成為股價壓力。</span>
+              <a class="source-link" href="https://techcrunch.com/2026/05/15/tesla-reveals-two-robotaxi-crashes-involving-teleoperators/" target="_self">查看來源：TechCrunch · 2026-05-15</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="OpenAI Trial">
+                <img src="https://www.axios.com/_next/image?q=75&url=https%3A%2F%2Fimages.axios.com%2FM0yyZfHED4ZSKpPBGgMyXr77E-k%3D%2F0x0%3A2400x1350%2F1600x900%2F2026%2F05%2F14%2F1747331718854.jpg&w=1920" data-fallback="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=900&q=80" alt="Elon Musk 到庭，Axios 文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">18. Musk 方稱 OpenAI 涉欺瞞</span>
+              <span class="item-copy">Axios 報導 Musk 律師在結案陳詞中指稱 OpenAI 誤用捐款並違反創立宗旨，案件結果可能影響 AI 公司治理。</span>
+              <a class="source-link" href="https://www.axios.com/2026/05/14/musk-closing-arguments-openai-altman" target="_self">查看來源：Axios · 2026-05-14</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Sam Altman">
+                <img src="https://dims.apnews.com/dims4/default/6c7c896/2147483647/strip/true/crop/6000x4000+0+0/resize/1440x960!/format/webp/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F58%2F70%2Ff9cc33d418c6fd93ce24e314600e%2Fap26132750885021.jpg" data-fallback="https://commons.wikimedia.org/wiki/Special:FilePath/Sam%20Altman%20TechCrunch%20SF%202019%20Day%202%20Oct%203%20%28cropped%29.jpg" alt="Sam Altman 出庭，AP 文章主圖" loading="lazy">
+              </figure>
+              <span class="item-title">19. Altman 高風險出庭</span>
+              <span class="item-copy">AP 報導 OpenAI CEO Sam Altman 出庭為其商業紀錄辯護，回應對公司領導與營利化路線的質疑。</span>
+              <a class="source-link" href="https://apnews.com/article/7648a50c3981dcc464324d1835b77f93" target="_self">查看來源：AP · 2026-05-12</a>
+            </li>
+            <li class="news-item">
+              <figure class="news-media" data-topic="Financial Juice">
+                <img src="https://www.financialjuice.com/static/media/homepage-cover.0f25f3b8.jpg" data-fallback="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80" alt="Financial Juice 市場快訊來源圖片" loading="lazy">
+              </figure>
+              <span class="item-title">20. Financial Juice 納入快訊來源</span>
+              <span class="item-copy">Financial Juice 繼續作為 macro、forex、crypto、commodities 突發訊號來源，用來輔助判讀油價、美元與風險資產連動。</span>
+              <a class="source-link" href="https://www.financialjuice.com/home" target="_self">查看來源：Financial Juice</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="risk-title">
+        <div class="section-head">
+          <h2 id="risk-title">利多 / 利空與風險</h2>
+          <span class="badge">Brief View</span>
+        </div>
+        <div class="section-body">
+          <div class="risk-band">
+            <div class="risk-item positive">
+              <span class="item-title">利多</span>
+              <span class="item-copy">雲端與 AI 資本開支循環仍可能支撐半導體與 Apple 供應鏈長線需求，MSFT、AMZN、台積電仍有基本面支撐。</span>
+            </div>
+            <div class="risk-item negative">
+              <span class="item-title">利空 / 風險</span>
+              <span class="item-copy">高殖利率、油價上行、Tesla robotaxi 監管與 OpenAI / Apple 法務摩擦，可能放大科技股短線波動。</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+    <section class="section" aria-labelledby="overheat-title" style="margin-bottom: 18px;">
+      <div class="section-head">
+        <h2 id="overheat-title">市場過熱股市新聞</h2>
+        <span class="badge">Overheat Watch · 5 Items</span>
+      </div>
+      <div class="section-body">
+        <div class="overheat-list">
+          <article class="overheat-card">
+            <span class="heat-label">利率壓力</span>
+              <span class="item-title">1. 美股期貨受殖利率與油價拖累</span>
+              <span class="item-copy">Reuters 指出 10 年期美債殖利率一度升至 4.63% 附近，油價同步上行，對高估值股票形成壓力。</span>
+              <a class="source-link" href="https://www.marketscreener.com/news/us-stock-futures-slip-as-yields-oil-prices-climb-ce7f5adada8af424" target="_self">查看來源：Reuters via MarketScreener · 2026-05-18</a>
+          </article>
+          <article class="overheat-card">
+            <span class="heat-label">AI 估值</span>
+              <span class="item-title">2. AI 股從高檔回落</span>
+              <span class="item-copy">AP 指出全球股市自高點回落時，AI 題材股領跌，Nvidia 等權值股成為指數壓力來源，顯示追價風險升高。</span>
+              <a class="source-link" href="https://apnews.com/article/7a29502a1b592d3fbe0ede548421ba58" target="_self">查看來源：AP · 2026-05-15</a>
+          </article>
+          <article class="overheat-card">
+            <span class="heat-label">集中度</span>
+              <span class="item-title">3. 晶片股對 AI 需求更敏感</span>
+              <span class="item-copy">週一美股混合收盤，Seagate、Micron 等晶片股受 AI 需求疑慮拖累，市場等待 Nvidia 財報定調。</span>
+              <a class="source-link" href="https://invezz.com/sg/news/2026/05/18/dow-rises-while-nasdaq-slides-on-oil-surge-treasury-yields-pressure-tech/" target="_self">查看來源：Invezz · 2026-05-18</a>
+          </article>
+          <article class="overheat-card">
+            <span class="heat-label">泡沫警訊</span>
+              <span class="item-title">4. Tesla 高估值遇監管測試</span>
+              <span class="item-copy">Tesla 股價仍帶有 robotaxi 與 AI 選擇權價值，但事故揭露與遠端操作員議題使散戶信仰盤與機構風控同時受測。</span>
+              <a class="source-link" href="https://techcrunch.com/2026/05/15/tesla-reveals-two-robotaxi-crashes-involving-teleoperators/" target="_self">查看來源：TechCrunch · 2026-05-15</a>
+          </article>
+          <article class="overheat-card">
+            <span class="heat-label">AI 主線</span>
+              <span class="item-title">5. 大型科技漲幅集中度仍高</span>
+              <span class="item-copy">Benzinga 熱門報價顯示 NVDA、TSLA、MSFT、AMZN、AAPL、GOOGL 仍是近 30 日主流關注標的，行情容易被少數權值股牽動。</span>
+              <a class="source-link" href="https://www.benzinga.com/quote" target="_self">查看來源：Benzinga · 2026-05-19</a>
+          </article>
+        </div>
+        <div class="flow-notes" aria-label="機構與散戶買盤註記">
+          <div class="flow-card">
+            <span class="flow-tag">偏機構買盤</span>
+            <span class="item-title">AI / 雲端 / 半導體主線</span>
+            <span class="item-copy">MSFT、NVDA、台積電等大型權值股較偏機構配置與長線資金，通常伴隨財報、CAPEX 與 ETF 資金流。</span>
+          </div>
+          <div class="flow-card">
+            <span class="flow-tag">偏散戶買盤</span>
+            <span class="item-title">Meme / 高波動題材股</span>
+            <span class="item-copy">短線暴量、社群討論升溫與選擇權交易活躍時，較可能是散戶與動能資金主導，回檔速度也更快。</span>
+          </div>
+          <div class="flow-card">
+            <span class="flow-tag">混合買盤</span>
+            <span class="item-title">Tesla / BTC / 黃金</span>
+            <span class="item-copy">Tesla 同時有機構主題基金與散戶信仰盤；BTC、黃金則混合避險、ETF、槓桿與短線交易資金。</span>
+          </div>
+        </div>
+        <p class="mini-note">資金結構註記為定性判讀：需搭配成交量、ETF 流入、選擇權 Put/Call、融資餘額與法人買賣超確認；不代表買賣建議。</p>
+      </div>
+    </section>
+
+    <section class="section fx-animate" id="fxSection" aria-labelledby="fx-title" style="margin-top: 18px;">
+      <div class="section-head">
+        <h2 id="fx-title">貨幣換算與台幣匯率</h2>
+        <span class="badge">FX Converter</span>
+      </div>
+      <div class="section-body">
+        <div class="fx-anim-card" aria-hidden="true">換匯中</div>
+        <div class="fx-toolbar" aria-label="貨幣換算器">
+          <input id="fxAmount" type="number" min="0" step="100" value="1000" aria-label="換算金額">
+          <select id="fxFrom" aria-label="來源貨幣"></select>
+          <span class="item-copy">換成</span>
+          <select id="fxTo" aria-label="目標貨幣"></select>
+          <div class="fx-result" id="fxResult">-</div>
+        </div>
+        <div class="fx-board" id="fxBoard" aria-label="主要貨幣兌台幣行情"></div>
+        <p class="mini-note">匯率為公開可見快照與頁面換算基準，非即時交易報價；實際換匯請以銀行或券商牌告為準。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="prices-title">
+      <div class="section-head">
+        <h2 id="prices-title">追蹤標的行情</h2>
+        <div class="section-tools">
+          <div class="currency-toggle" aria-label="切換顯示幣別">
+            <button type="button" data-currency="USD" aria-pressed="true">美元</button>
+            <button type="button" data-currency="TWD" aria-pressed="false">台幣</button>
+          </div>
+          <span class="badge">TradingView Watchlist</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="market-table">
           <thead>
             <tr>
-              <th>標的</th><th>最新可用價格</th><th>日漲跌</th><th>一個月</th><th>狀態</th><th>觀察推薦指數</th><th>說明</th>
+              <th>股票名稱與代號</th>
+              <th>名稱 / 市場</th>
+              <th>最新價格</th>
+              <th>漲跌幅</th>
+              <th>備註</th>
             </tr>
           </thead>
           <tbody>
-            <tr data-usd="3336.4"><td>OANDA:XAUUSD 黃金</td><td class="price">US$3,336.40</td><td class="neg">-0.4%</td><td class="pos">+1.8%</td><td><span class="tag warn">中性偏熱</span></td><td>53 / 100</td><td>實質利率上行會壓抑，但避險需求支撐。</td></tr>
-            <tr data-usd="109200"><td>BTCUSD 比特幣</td><td class="price">US$109,200</td><td class="pos">+0.9%</td><td class="pos">+14.5%</td><td><span class="tag hot">過熱</span></td><td>42 / 100</td><td>ETF/風險偏好支撐，短線動能偏擁擠。</td></tr>
-            <tr data-usd="5320"><td>ETHUSD 以太幣</td><td class="price">US$5,320</td><td class="pos">+1.6%</td><td class="pos">+19.2%</td><td><span class="tag hot">過熱</span></td><td>45 / 100</td><td>受加密風險偏好帶動，波動風險高。</td></tr>
-            <tr><td>TWSE:2330 台積電</td><td>NT$2,095</td><td class="pos">+3.2%</td><td class="pos">+7.1%</td><td><span class="tag hot">偏熱</span></td><td>58 / 100</td><td>AI 先進製程需求強，但估值與供給限制需追蹤。</td></tr>
-            <tr data-usd="308.82"><td>NASDAQ:AAPL Apple</td><td class="price">US$308.82</td><td class="pos">+1.26%</td><td class="pos">+9.3%</td><td><span class="tag hot">偏熱</span></td><td>55 / 100</td><td>接近高檔，供應鏈缺口與 AI 產品週期是關鍵。</td></tr>
-            <tr data-usd="426.01"><td>NASDAQ:TSLA Tesla</td><td class="price">US$426.01</td><td class="pos">+1.95%</td><td class="neg">-0.8%</td><td><span class="tag warn">高估值觀察</span></td><td>39 / 100</td><td>AI/能源故事支撐，但汽車需求與毛利壓力仍在。</td></tr>
-            <tr data-usd="387.66"><td>NASDAQ:GOOGL Alphabet</td><td class="price">US$387.66</td><td class="flat">約持平</td><td class="pos">+13.8%</td><td><span class="tag hot">過熱</span></td><td>47 / 100</td><td>AI 與雲端重估推升，短線追價風險升高。</td></tr>
-            <tr data-usd="417.93"><td>NASDAQ:MSFT Microsoft</td><td class="price">US$417.93</td><td class="neg">-1.32%</td><td class="neg">-1.16%</td><td><span class="tag value">低估觀察</span></td><td>67 / 100</td><td>AI 需求仍強，回檔後相對估值較可防守。</td></tr>
-            <tr data-usd="260.18"><td>NASDAQ:AMZN Amazon</td><td class="price">US$260.18</td><td class="neg">-1.77%</td><td class="pos">+2.2%</td><td><span class="tag value">低估觀察</span></td><td>64 / 100</td><td>AWS/廣告成長支撐，估值較部分 AI 題材溫和。</td></tr>
-            <tr><td>TWSE:2317 鴻海</td><td>NT$251.00</td><td class="pos">+0.4%</td><td class="pos">+6.4%</td><td><span class="tag">中性偏多</span></td><td>61 / 100</td><td>AI 伺服器與 Apple/Tesla 供應鏈題材並存。</td></tr>
-            <tr><td>TWSE:4938 和碩</td><td>NT$91.20</td><td class="pos">+0.7%</td><td class="pos">+3.5%</td><td><span class="tag">中性</span></td><td>57 / 100</td><td>Apple 終端組裝與換機週期，估值較溫和。</td></tr>
-            <tr><td>SZSE:002475 立訊精密</td><td>¥67.00</td><td class="neg">-2.39%</td><td class="pos">+37.41%</td><td><span class="tag hot">過熱</span></td><td>41 / 100</td><td>Apple 供應鏈與 AI 連接器想像強，月線漲幅過大。</td></tr>
+            <tr>
+              <td class="symbol">OANDA:XAUUSD</td>
+              <td><span>Gold Spot</span><div class="market">OANDA</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="4556.99" data-original="$4,556.99"><span class="price-value">$4,556.99</span></td>
+              <td class="down">高檔回落</td>
+              <td>避險需求仍在，利率壓力壓抑追價</td>
+            </tr>
+            <tr>
+              <td class="symbol">BTCUSD</td>
+              <td><span>Bitcoin</span><div class="market">Crypto</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="76879.75" data-original="$76,879.75"><span class="price-value">$76,879.75</span></td>
+              <td class="up">+0.69%</td>
+              <td>Coinbase 05/19 06:02 UTC 參考</td>
+            </tr>
+            <tr>
+              <td class="symbol">ETHUSD</td>
+              <td><span>Ethereum</span><div class="market">Crypto</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="2126.46" data-original="$2,126.46"><span class="price-value">$2,126.46</span></td>
+              <td class="up">+0.69%</td>
+              <td>BitMEX / Coinbase 05/19 參考</td>
+            </tr>
+            <tr>
+              <td class="symbol">TWSE:2330</td>
+              <td><span>台積電</span><div class="market">TWSE</div></td>
+              <td class="price-cell" data-currency-native="TWD" data-price-native="2240" data-original="2240.00 TWD"><span class="price-value">US$71.51</span><span class="price-original">原幣 2240.00 TWD</span></td>
+              <td class="down">-1.10%</td>
+              <td>先進製程核心觀察</td>
+            </tr>
+            <tr>
+              <td class="symbol">NASDAQ:AAPL</td>
+              <td><span>Apple</span><div class="market">NASDAQ</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="297.44" data-original="$297.44"><span class="price-value">$297.44</span></td>
+              <td class="down">-0.13%</td>
+              <td>Benzinga 05/19 參考</td>
+            </tr>
+            <tr>
+              <td class="symbol">NASDAQ:TSLA</td>
+              <td><span>Tesla</span><div class="market">NASDAQ</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="409.47" data-original="$409.47"><span class="price-value">$409.47</span></td>
+              <td class="down">-3.03%</td>
+              <td>Robotaxi / 監管風險觀察</td>
+            </tr>
+            <tr>
+              <td class="symbol">NASDAQ:GOOGL</td>
+              <td><span>Alphabet</span><div class="market">NASDAQ</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="398.80" data-original="$398.80"><span class="price-value">$398.80</span></td>
+              <td class="up">+0.47%</td>
+              <td>Benzinga 05/19 參考</td>
+            </tr>
+            <tr>
+              <td class="symbol">NASDAQ:MSFT</td>
+              <td><span>Microsoft</span><div class="market">NASDAQ</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="423.20" data-original="$423.20"><span class="price-value">$423.20</span></td>
+              <td class="down">-0.08%</td>
+              <td>Benzinga 05/19 參考</td>
+            </tr>
+            <tr>
+              <td class="symbol">NASDAQ:AMZN</td>
+              <td><span>Amazon</span><div class="market">NASDAQ</div></td>
+              <td class="price-cell" data-currency-native="USD" data-price-native="264.84" data-original="$264.84"><span class="price-value">$264.84</span></td>
+              <td class="down">-0.01%</td>
+              <td>Benzinga 05/19 參考</td>
+            </tr>
+            <tr>
+              <td class="symbol">TWSE:2317</td>
+              <td><span>鴻海</span><div class="market">TWSE</div></td>
+              <td class="price-cell" data-currency-native="TWD" data-price-native="248.5" data-original="248.5 TWD"><span class="price-value">US$7.93</span><span class="price-original">原幣 248.5 TWD</span></td>
+              <td class="up">+0.40%</td>
+              <td>Apple 組裝鏈觀察</td>
+            </tr>
+            <tr>
+              <td class="symbol">TWSE:4938</td>
+              <td><span>和碩</span><div class="market">TWSE</div></td>
+              <td class="price-cell" data-currency-native="TWD" data-price-native="76.5" data-original="76.50 TWD"><span class="price-value">US$2.44</span><span class="price-original">原幣 76.50 TWD</span></td>
+              <td class="flat">+0.00%</td>
+              <td>持平整理</td>
+            </tr>
+            <tr>
+              <td class="symbol">SZSE:002475</td>
+              <td><span>立訊精密</span><div class="market">SZSE</div></td>
+              <td class="price-cell" data-currency-native="CNY" data-price-native="40.06" data-original="40.06 CNY"><span class="price-value">US$5.89</span><span class="price-original">原幣 40.06 CNY</span></td>
+              <td class="down">-0.60%</td>
+              <td>中國供應鏈觀察</td>
+            </tr>
           </tbody>
         </table>
       </div>
-      <p class="note">價格來源包含 Yahoo Finance、MarketBeat、Investing.com 與可搜尋延遲報價頁；非即時交易指令資料。推薦指數僅供觀察，不構成投資建議。</p>
-    </section>
-
-    <section>
-      <h2>一個月漲幅趨勢圖</h2>
-      <svg class="chart" viewBox="0 0 980 320" role="img" aria-label="一個月漲幅趨勢圖">
-        <line x1="70" y1="260" x2="940" y2="260" stroke="#cbd5e1"/>
-        <line x1="70" y1="40" x2="70" y2="260" stroke="#cbd5e1"/>
-        <text x="18" y="46" fill="#637083" font-size="12">+40%</text>
-        <text x="26" y="260" fill="#637083" font-size="12">0%</text>
-        <text x="800" y="28" fill="#b91c1c" font-size="13">紅色區：短線過熱觀察</text>
-        <g font-size="11" fill="#17202a">
-          <rect x="95" y="250" width="42" height="10" fill="#b45309"/><text x="84" y="282">XAU</text>
-          <rect x="165" y="180" width="42" height="80" fill="#b91c1c"/><text x="158" y="282">BTC</text>
-          <rect x="235" y="154" width="42" height="106" fill="#b91c1c"/><text x="229" y="282">ETH</text>
-          <rect x="305" y="221" width="42" height="39" fill="#2563eb"/><text x="297" y="282">2330</text>
-          <rect x="375" y="209" width="42" height="51" fill="#2563eb"/><text x="370" y="282">AAPL</text>
-          <rect x="445" y="260" width="42" height="4" fill="#64748b"/><text x="440" y="282">TSLA</text>
-          <rect x="515" y="184" width="42" height="76" fill="#b91c1c"/><text x="508" y="282">GOOGL</text>
-          <rect x="585" y="260" width="42" height="6" fill="#15803d"/><text x="579" y="282">MSFT</text>
-          <rect x="655" y="248" width="42" height="12" fill="#15803d"/><text x="649" y="282">AMZN</text>
-          <rect x="725" y="225" width="42" height="35" fill="#2563eb"/><text x="719" y="282">2317</text>
-          <rect x="795" y="241" width="42" height="19" fill="#2563eb"/><text x="789" y="282">4938</text>
-          <rect x="865" y="54" width="42" height="206" fill="#b91c1c"/><text x="856" y="282">002475</text>
-        </g>
-      </svg>
-    </section>
-
-    <section>
-      <h2>最新重點新聞 20 項</h2>
-      <div class="grid two">
-        <article class="card"><img alt="Wall Street" src="https://source.unsplash.com/900x500/?wall-street,stock-market"><div class="body"><span class="tag">Reuters via MarketScreener</span><h3><a href="https://www.marketscreener.com/news/wall-street-rises-dow-hits-record-high-as-middle-east-hopes-lift-sentiment-ce7f5ed8dd8df32d">Dow 創高，美股受中東和平希望帶動</a></h3><p>Reuters 報導美股收高，油價壓力降溫與中東和平希望改善風險偏好；但高估值科技股仍需看殖利率與 AI 財報驗證。</p></div></article>
-        <article class="card"><img alt="Oil market" src="https://source.unsplash.com/900x500/?oil,market"><div class="body"><span class="tag">AP</span><h3><a href="https://apnews.com/article/stocks-markets-rates-oil-nvidia-kospi-d42265575e6ca7edd4fea8edce5a74f3">油價 U-turn 讓美股日內波動收斂</a></h3><p>AP 指出油價先急漲後回落，股市收復早盤跌幅；能源、通膨預期與 Fed 利率路徑仍是今天全市場核心變數。</p></div></article>
-        <article class="card"><img alt="Nvidia chip" src="https://source.unsplash.com/900x500/?semiconductor,chip"><div class="body"><span class="tag">Axios</span><h3><a href="https://www.axios.com/2026/05/20/nvidia-earnings-shows-ai-demand-is-still-roaring">Nvidia 財報確認 AI demand 仍強</a></h3><p>AI 基建需求支撐晶片與資料中心鏈，但市場已預先反映高成長，後續更看重毛利、中國缺口與 hyperscaler capex。</p></div></article>
-        <article class="card"><img alt="Rocket launch" src="https://source.unsplash.com/900x500/?rocket,space"><div class="body"><span class="tag">AP</span><h3><a href="https://apnews.com/article/eee2fd12d03e7c3c2e24753eb80c0d17">Starship V3 發射倒數臨停</a></h3><p>SpaceX 首次 V3 測試在倒數最後階段因發射台問題喊停，太空基建與 Musk 相關資產短線仍受事件節奏牽動。</p></div></article>
-        <article class="card"><img alt="Court" src="https://source.unsplash.com/900x500/?court,technology"><div class="body"><span class="tag">Reuters via Investing</span><h3><a href="https://www.investing.com/news/stock-market-news/elon-musk-loses-lawsuit-against-openai-4696614">Musk 對 OpenAI 訴訟敗訴</a></h3><p>OpenAI IPO 障礙下降，Musk 與 Altman 的競爭焦點轉向資本市場。</p></div></article>
-        <article class="card"><img alt="Federal Reserve" src="https://source.unsplash.com/900x500/?federal-reserve,interest-rate"><div class="body"><span class="tag">AP</span><h3><a href="https://apnews.com/article/stocks-markets-rates-oil-nvidia-kospi-d42265575e6ca7edd4fea8edce5a74f3">殖利率仍是成長股估值天花板</a></h3><p>AP 市場報導強調利率與能源價格仍牽動股票、比特幣與企業融資成本；AI capex 雖強，但高利率會壓縮估值空間。</p></div></article>
-        <article class="card"><img alt="AI regulation" src="https://source.unsplash.com/900x500/?cybersecurity,ai"><div class="body"><span class="tag">Reuters via Investing</span><h3><a href="https://www.investing.com/news/stock-market-news/trump-to-sign-order-on-ai-oversight-as-security-fears-mount-among-supporters-4702720">AI 監管行政令一度升溫</a></h3><p>白宮對高能力 AI 安全評估的政策訊號反覆，可能影響大型模型公司估值。</p></div></article>
-        <article class="card"><img alt="AI safety" src="https://source.unsplash.com/900x500/?government,technology"><div class="body"><span class="tag">Axios</span><h3><a href="https://www.axios.com/2026/05/08/ai-safety-pivot-trump-administration-china">美國 AI 安全政策轉向</a></h3><p>Google、xAI、Microsoft 與政府安全測試合作，監管與競爭並行。</p></div></article>
-        <article class="card"><img alt="Apple chips" src="https://source.unsplash.com/900x500/?iphone,semiconductor"><div class="body"><span class="tag">Tom's Hardware</span><h3><a href="https://www.tomshardware.com/tech-industry/semiconductors/apple-concedes-it-is-constrained-by-tsmcs-supply-of-advanced-chips-storage-and-memory-are-also-in-short-supply-firm-isnt-projecting-supply-conditions-beyond-the-second-quarter">Apple 承認先進晶片供應受限</a></h3><p>TSMC 先進製程、記憶體與儲存供應不足，牽動 iPhone 與 AI 裝置供給。</p></div></article>
-        <article class="card"><img alt="Apple manufacturing" src="https://source.unsplash.com/900x500/?electronics,assembly-line"><div class="body"><span class="tag">TechSpot</span><h3><a href="https://www.techspot.com/news/111466-how-apple-quietly-building-out-american-chip-manufacturing.html">Apple 建構美國晶片供應鏈</a></h3><p>先進封裝、Foxconn AI 伺服器與 TSMC 相關產能是去風險化重點。</p></div></article>
-        <article class="card"><img alt="Quantum chips" src="https://source.unsplash.com/900x500/?quantum-computer,chip"><div class="body"><span class="tag">Axios</span><h3><a href="https://www.axios.com/2026/05/21/quantum-computing-trump-ibm">美國政府入股量子公司</a></h3><p>CHIPS Act grant 轉為 equity stakes 的政策訊號，讓 IBM、GlobalFoundries 與量子運算供應鏈成為 AI 以外的新科技熱點。</p></div></article>
-        <article class="card"><img alt="OpenAI tokens" src="https://source.unsplash.com/900x500/?startup,ai"><div class="body"><span class="tag">TechCrunch</span><h3><a href="https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/">OpenAI 對 YC 新創提出 token 投資</a></h3><p>以算力/模型 token 換取新創股權，顯示 AI 平台正在深化生態圈綁定。</p></div></article>
-        <article class="card"><img alt="Cybersecurity" src="https://source.unsplash.com/900x500/?software-security,code"><div class="body"><span class="tag">TechCrunch</span><h3><a href="https://techcrunch.com/2026/05/14/openai-says-hackers-stole-some-data-after-latest-code-security-issue/">OpenAI 供應鏈安全事件</a></h3><p>員工設備受開源供應鏈攻擊影響，雖稱無使用者資料外洩，仍提醒 AI 公司營運風險。</p></div></article>
-        <article class="card"><img alt="AI product" src="https://source.unsplash.com/900x500/?chatbot,computer"><div class="body"><span class="tag">TechCrunch</span><h3><a href="https://techcrunch.com/2026/05/16/openai-co-founder-greg-brockman-reportedly-takes-charge-of-product-strategy/">OpenAI 產品策略整合</a></h3><p>Brockman 據報接手產品策略，ChatGPT、Codex 與 API 統一平台想像增強。</p></div></article>
-        <article class="card"><img alt="Tesla robotaxi" src="https://source.unsplash.com/900x500/?tesla,robotaxi"><div class="body"><span class="tag">TechCrunch</span><h3><a href="https://techcrunch.com/2026/05/15/tesla-reveals-two-robotaxi-crashes-involving-teleoperators/">Tesla Robotaxi 事故資料仍壓估值</a></h3><p>NHTSA 事故揭露使 robotaxi 規模化與責任歸屬重新被檢視，Tesla 多方敘事仍需交付與安全數據配合。</p></div></article>
-        <article class="card"><img alt="EV battery" src="https://source.unsplash.com/900x500/?electric-truck,battery"><div class="body"><span class="tag">Electrive</span><h3><a href="https://www.electrive.com/2026/05/11/its-official-tesla-semi-features-822-kwh-battery-capacity/">Tesla Semi 電池容量曝光</a></h3><p>822 kWh 等級電池資訊讓商用車、儲能與電池供應鏈再受關注，也提醒重型 EV 的成本與供應壓力。</p></div></article>
-        <article class="card"><img alt="Taiwan chips" src="https://source.unsplash.com/900x500/?taiwan,semiconductor"><div class="body"><span class="tag">AMD</span><h3><a href="https://www.amd.com/en/newsroom/press-releases/2026-5-21-amd-announces-more-than-10-billion-in-taiwan-ecos.html">AMD 宣布逾 100 億美元台灣 AI 生態投資</a></h3><p>AMD 將與 TSMC 2nm、系統與研發夥伴加深合作，台灣半導體、AI 伺服器與先進封裝鏈同步受惠。</p></div></article>
-        <article class="card"><img alt="Amazon cloud" src="https://source.unsplash.com/900x500/?cloud-computing,warehouse"><div class="body"><span class="tag">Yahoo Finance</span><h3><a href="https://finance.yahoo.com/quote/AMZN/">Amazon AWS 與廣告仍是核心</a></h3><p>AWS、廣告與零售金融服務更新支撐基本面，但高利率環境限制估值擴張。</p></div></article>
-        <article class="card"><img alt="Microsoft cloud" src="https://source.unsplash.com/900x500/?microsoft,cloud"><div class="body"><span class="tag">Yahoo Finance</span><h3><a href="https://finance.yahoo.com/quote/MSFT/">Microsoft AI 雲端需求與估值回檔並存</a></h3><p>AI 與資料中心需求強，但年內股價偏弱，使其成為相對低估觀察名單。</p></div></article>
-        <article class="card"><img alt="Bitcoin ETF" src="https://source.unsplash.com/900x500/?bitcoin,market"><div class="body"><span class="tag">BlockTempo</span><h3><a href="https://www.blocktempo.com/bitcoins-record-etf-outflow-over-2-7-billion/">比特幣 ETF 單月流出創高</a></h3><p>BlockTempo 指出現貨 BTC ETF 5 月資金流出壓力升高，crypto 風險偏好與美股高 beta 資產需要一起觀察。</p></div></article>
+      <div class="section-body" style="padding-top: 0;">
+        <span class="item-copy">換算估值使用 1 USD = 31.322 TWD、1 USD = 6.803386 CNY；美股與加密價格採 2026-05-19 可查報價快照，台股 / 陸股保留原觀察值，實際交易仍以各市場原幣報價為準。</span>
       </div>
     </section>
 
-    <section>
-      <h2>市場過熱股市新聞 5 項與買盤判斷</h2>
-      <div class="wide-table">
-        <table>
-          <thead><tr><th>新聞</th><th>買盤判斷</th><th>原因</th></tr></thead>
-          <tbody>
-            <tr><td><a href="https://www.marketscreener.com/news/wall-street-rises-dow-hits-record-high-as-middle-east-hopes-lift-sentiment-ce7f5ed8dd8df32d">Dow 創高、風險偏好回升</a></td><td><span class="tag">偏機構買盤</span></td><td>指數型與多資產基金在油價降溫後回補風險曝險，但並非所有科技股同步上漲。</td></tr>
-            <tr><td><a href="https://www.axios.com/2026/05/20/nvidia-earnings-shows-ai-demand-is-still-roaring">Nvidia 財報延續 AI demand</a></td><td><span class="tag">偏機構買盤</span></td><td>AI data center capex 仍由大型雲端與主權資金驅動，散戶追價反而需留意估值壓力。</td></tr>
-            <tr><td><a href="https://www.axios.com/2026/05/21/quantum-computing-trump-ibm">量子運算政策題材升溫</a></td><td><span class="tag hot">混合買盤</span></td><td>政府 equity stake 訊號讓量子小型股與 IBM 題材同時被交易，短線波動可能放大。</td></tr>
-            <tr><td><a href="https://www.amd.com/en/newsroom/press-releases/2026-5-21-amd-announces-more-than-10-billion-in-taiwan-ecos.html">AMD 台灣 AI 生態投資</a></td><td><span class="tag">偏機構買盤</span></td><td>TSMC 2nm、先進封裝與伺服器供應鏈受惠，偏向基本面與產業鏈重估。</td></tr>
-            <tr><td><a href="https://www.blocktempo.com/bitcoins-record-etf-outflow-over-2-7-billion/">BTC ETF 流出壓力升高</a></td><td><span class="tag hot">偏散戶/槓桿盤</span></td><td>加密貨幣價格更容易受 ETF 資金流與槓桿清算影響，過熱時不宜追高。</td></tr>
-          </tbody>
-        </table>
+    <section class="section" aria-labelledby="signals-title" style="margin-top: 18px;">
+      <div class="section-head">
+        <h2 id="signals-title">一個月趨勢與買賣推薦指數</h2>
+        <span class="badge">Signal Model · Test</span>
       </div>
-      <p class="note">買盤性質為新聞、成交量/社群情緒與可取得資料的觀察判斷，非投資建議。</p>
-    </section>
-
-    <section class="grid two">
-      <div>
-        <h2>Apple 供應鏈觀察 10 項</h2>
-        <ol class="list">
-          <li>TSMC 先進製程產能仍是 iPhone/AI 裝置供給瓶頸。</li>
-          <li>記憶體與儲存短缺使高階 iPhone 毛利與出貨節奏需追蹤。</li>
-          <li>Foxconn 承接 Apple AI 伺服器與美國組裝相關題材。</li>
-          <li>Luxshare 月線急漲，反映 Apple 組裝與連接器市占期待。</li>
-          <li>Pegatron 估值較溫和，受惠終端換機但成長彈性較低。</li>
-          <li>Apple 美國晶片供應鏈加速，長期降低地緣風險。</li>
-          <li>TSMC 美國/日本/台灣產能配置成為 Apple 供應韌性核心。</li>
-          <li>若 AI iPhone 推出節奏延後，供應鏈庫存風險升高。</li>
-          <li>匯率變動影響台灣供應商美元營收折算。</li>
-          <li>Apple 股價高檔，供應鏈若無新規格催化可能先整理。</li>
-        </ol>
-      </div>
-      <div>
-        <h2>Tesla 供應鏈觀察 10 項</h2>
-        <ol class="list">
-          <li>EV 車市競爭加劇，BYD 對價格與儲能均形成壓力。</li>
-          <li>Tesla AI5/AI6 與 SpaceX/TeraFab 敘事支撐長線想像。</li>
-          <li>Megapack 需求仍強，但中國儲能供給擴張壓縮價格。</li>
-          <li>電池材料若因地緣或關稅波動，將影響毛利。</li>
-          <li>Cybertruck 需求與品質新聞仍牽動品牌風險。</li>
-          <li>FSD/Robotaxi 商業化時程是估值最重要變數。</li>
-          <li>與 SpaceX/xAI 的交叉採購可支撐需求，也增加關係人交易疑慮。</li>
-          <li>中國銷量與出口節奏是短線營收關鍵。</li>
-          <li>高本益比使股價對利率與交付數據更敏感。</li>
-          <li>散戶情緒偏強，遇到失望數據時波動可能放大。</li>
-        </ol>
-      </div>
-    </section>
-
-    <section>
-      <h2>利多、利空與風險提示</h2>
-      <div class="grid three">
-        <div>
-          <h3>利多</h3>
-          <ul class="list">
-            <li>AI 算力需求仍高，Nvidia、TSMC、雲端業者基本面支撐。</li>
-            <li>OpenAI/SpaceX IPO 可帶動 AI 資產重新定價。</li>
-            <li>Apple 供應鏈去風險化增加台美供應鏈投資。</li>
-          </ul>
+      <div class="section-body">
+        <div class="trend-layout">
+          <div class="trend-panel">
+            <h3 style="margin: 0 0 10px; font-size: 17px;">一個月漲幅與過熱 / 低估趨勢</h3>
+            <div class="chart-wrap">
+              <canvas id="trendChart" aria-label="一個月漲幅與市場溫度趨勢圖" role="img"></canvas>
+            </div>
+            <p class="mini-note">判讀規則：一個月漲幅越高且推薦分數越低，越偏過熱；跌深但分數改善則偏低估觀察。此為測試模型，不構成投資建議。</p>
+          </div>
+          <div class="trend-panel">
+            <h3 style="margin: 0 0 10px; font-size: 17px;">訊號摘要</h3>
+            <ul class="risk-list">
+              <li class="risk-item positive">
+                <span class="item-title">偏多觀察</span>
+                <span class="item-copy">MSFT、AMZN、2330 受 AI / 雲端 / 先進製程題材支撐，但高殖利率下仍需搭配估值與財報確認。</span>
+              </li>
+              <li class="risk-item negative">
+                <span class="item-title">過熱或風險偏高</span>
+                <span class="item-copy">BTC、TSLA 與高估值 AI 股波動偏大；若 Nvidia 財報或殖利率不利，回檔可能放大。</span>
+              </li>
+              <li class="risk-item">
+                <span class="item-title">低估觀察</span>
+                <span class="item-copy">AAPL、2317、部分 Apple 供應鏈若表現落後但基本面未惡化，可列為分批觀察清單。</span>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div>
-          <h3>利空</h3>
-          <ul class="list">
-            <li>高利率與通膨回升壓抑成長股估值。</li>
-            <li>AI IPO 估值過高可能抽離二級市場資金。</li>
-            <li>EV 與儲能競爭壓低 Tesla 相關毛利想像。</li>
-          </ul>
+        <div class="table-wrap" style="margin-top: 18px;">
+          <table class="signal-table">
+            <thead>
+              <tr>
+                <th>標的</th>
+                <th>一個月漲幅</th>
+                <th>市場狀態</th>
+                <th>推薦指數</th>
+                <th>訊號</th>
+                <th>判讀</th>
+              </tr>
+            </thead>
+            <tbody id="signalTableBody"></tbody>
+          </table>
         </div>
-        <div>
-          <h3>需要特別留意的風險</h3>
-          <ul class="list">
-            <li>AI 題材估值泡沫：GOOGL、002475、加密資產短線過熱。</li>
-            <li>Fed/通膨：殖利率上行會打擊長久期科技股。</li>
-            <li>地緣與油價：中東、關稅與供應鏈政策反覆。</li>
-          </ul>
+        <p class="mini-note">推薦指數為 0–100 的測試分數：70 以上偏多觀察、45–69 中性觀察、44 以下風險偏高。實際買賣仍需依個人風險承受度、資金配置與即時價格判斷。</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="apple-title" style="margin-top: 18px;">
+      <div class="section-head">
+        <h2 id="apple-title">Apple 供應鏈觀察</h2>
+        <span class="badge">Supply Chain</span>
+      </div>
+      <div class="section-body">
+        <div class="supply-chain">
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>台積電 2330</strong>
+                <span class="supplier-role">晶圓代工</span>
+              </div>
+              <span class="supplier-status down">-1.10%</span>
+            </div>
+            <span class="supplier-copy">AI / 先進製程長線需求仍在，短線受風險偏好影響。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>鴻海 2317</strong>
+                <span class="supplier-role">組裝 / AI 伺服器</span>
+              </div>
+              <span class="supplier-status up">+0.40%</span>
+            </div>
+            <span class="supplier-copy">組裝與伺服器題材提供支撐，觀察毛利與訂單能見度。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>和碩 4938</strong>
+                <span class="supplier-role">組裝</span>
+              </div>
+              <span class="supplier-status flat">0.00%</span>
+            </div>
+            <span class="supplier-copy">盤勢持平，等待新品週期與產能配置訊號。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>立訊精密 002475</strong>
+                <span class="supplier-role">連接器 / 組裝</span>
+              </div>
+              <span class="supplier-status down">-0.60%</span>
+            </div>
+            <span class="supplier-copy">中國供應鏈標的偏弱，留意匯率與地緣風險。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>大立光 3008</strong>
+                <span class="supplier-role">光學鏡頭</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">iPhone 高階鏡頭核心供應商，關注新品規格升級與毛利率變化。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>玉晶光 3406</strong>
+                <span class="supplier-role">光學鏡頭</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">鏡頭模組與光學升級受惠標的，波動通常跟隨 iPhone 拉貨週期。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>台郡 6269</strong>
+                <span class="supplier-role">軟板 / 天線</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">軟板與天線相關供應鏈，留意新品週期、庫存與稼動率變化。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>臻鼎-KY 4958</strong>
+                <span class="supplier-role">PCB / 軟板</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">PCB / 軟板供應商，受 Apple 裝置更新與 AI 伺服器題材共同牽動。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>可成 2474</strong>
+                <span class="supplier-role">機構件 / 現金部位</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">金屬機構件與資產配置題材，較偏價值與現金部位觀察。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>Skyworks SWKS</strong>
+                <span class="supplier-role">射頻元件</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">射頻元件供應商，iPhone 需求與中國手機復甦會影響營收能見度。</span>
+          </div>
         </div>
       </div>
-      <p class="note">以上皆為市場觀察，不構成投資建議；請自行搭配風險承受度與即時報價確認。</p>
     </section>
+
+    <section class="section" aria-labelledby="tesla-supply-title" style="margin-top: 18px;">
+      <div class="section-head">
+        <h2 id="tesla-supply-title">Tesla 供應鏈觀察</h2>
+        <span class="badge">EV Supply Chain</span>
+      </div>
+      <div class="section-body">
+        <div class="supply-chain tesla-supply-chain">
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>Panasonic 6752</strong>
+                <span class="supplier-role">圓柱電池</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">Tesla 長期電池夥伴，重點看 4680 良率、北美產能與電池成本曲線。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>LG Energy 373220</strong>
+                <span class="supplier-role">電池芯</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">供應 EV 電池與儲能需求，需追蹤 Tesla 拉貨、原料價格與韓系電池競爭。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>CATL 300750</strong>
+                <span class="supplier-role">LFP 電池</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">LFP 成本優勢明顯，但中國供應鏈與政策風險會影響估值折價。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>Samsung SDI 006400</strong>
+                <span class="supplier-role">電池 / 儲能</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">可作為高階電池與儲能備選供應鏈觀察，重點是毛利率與客戶組合。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>NVIDIA NVDA</strong>
+                <span class="supplier-role">AI 晶片</span>
+              </div>
+              <span class="supplier-status up">偏強</span>
+            </div>
+            <span class="supplier-copy">自駕訓練與 AI 基礎設施核心供應商，受 Tesla AI / Robotaxi 敘事牽動。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>台積電 2330</strong>
+                <span class="supplier-role">車用晶片代工</span>
+              </div>
+              <span class="supplier-status up">偏強</span>
+            </div>
+            <span class="supplier-copy">車用與 AI 晶片先進製程供應鏈，Tesla 自研晶片與 AI 需求可形成間接受惠。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>STMicro STM</strong>
+                <span class="supplier-role">功率半導體</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">SiC / 車用功率元件與逆變器需求相關，重點看 EV 滲透率與庫存週期。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>Aptiv APTV</strong>
+                <span class="supplier-role">線束 / 車電</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">車用電子架構、線束與安全系統供應鏈，受 EV 平台更新與車廠成本控管影響。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>Albemarle ALB</strong>
+                <span class="supplier-role">鋰材料</span>
+              </div>
+              <span class="supplier-status down">偏弱</span>
+            </div>
+            <span class="supplier-copy">鋰價週期影響大，若 EV 需求復甦會受惠，但短線仍看商品價格與庫存。</span>
+          </div>
+          <div class="supplier-card">
+            <div class="supplier-top">
+              <div>
+                <strong>Vale VALE</strong>
+                <span class="supplier-role">鎳 / 原料</span>
+              </div>
+              <span class="supplier-status flat">觀察</span>
+            </div>
+            <span class="supplier-copy">電池金屬與工業循環相關，作為 Tesla 上游材料風險與成本的觀察指標。</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="sources-title" style="margin-top: 18px;">
+      <div class="section-head">
+        <h2 id="sources-title">資料來源</h2>
+        <span class="badge">News & Market Feeds</span>
+      </div>
+      <div class="section-body">
+        <div class="source-grid">
+          <div class="source-card">
+            <strong>Google News</strong>
+            <span>追蹤世界新聞、Trump、Musk、Tesla、SpaceX、X、Fed、Sam Altman、OpenAI 等關鍵字。</span>
+          </div>
+          <div class="source-card">
+            <strong>Financial Juice</strong>
+            <span>補充即時 market moving、macro、forex、crypto、commodities 快訊。</span>
+            <a class="source-link" href="https://www.financialjuice.com/home" target="_self">查看來源：Financial Juice</a>
+          </div>
+          <div class="source-card">
+            <strong>TradingView / 市場報價</strong>
+            <span>追蹤黃金、加密資產、美股、台股與 Apple 供應鏈標的行情。</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p class="footer-note">本輪修復更新時間：2026-05-23 17:05 Asia/Taipei。已恢復 iOS dock、完整排版、貨幣換算與加密貨幣分頁入口，並更新最新重點新聞；報價與新聞需以即時來源為準，非投資建議。</p>
   </main>
-
   <script>
-    const fx = 30.95;
-    const usdBtn = document.getElementById('usdBtn');
-    const twdBtn = document.getElementById('twdBtn');
-    const rows = [...document.querySelectorAll('#assetTable tbody tr[data-usd]')];
-    function format(n, currency) {
-      if (currency === 'TWD') return 'NT$' + Math.round(n * fx).toLocaleString('zh-TW');
-      return 'US$' + Number(n).toLocaleString('en-US', { maximumFractionDigits: n > 1000 ? 0 : 2 });
-    }
-    function setCurrency(currency) {
-      rows.forEach(row => {
-        const v = Number(row.dataset.usd);
-        row.querySelector('.price').textContent = format(v, currency);
+
+    const topicFallbackImages = {
+      "US-China Trade": "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=900&q=80",
+      "Trump-Xi Summit": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?auto=format&fit=crop&w=900&q=80",
+      "Taiwan": "https://images.unsplash.com/photo-1470004914212-05527e49370b?auto=format&fit=crop&w=900&q=80",
+      "Boeing Orders": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80",
+      "Starship V3": "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?auto=format&fit=crop&w=900&q=80",
+      "Spaceports": "https://images.unsplash.com/photo-1517976547714-720226b864c1?auto=format&fit=crop&w=900&q=80",
+      "OpenAI": "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80",
+      "AI Safety": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=900&q=80",
+      "Federal Reserve": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80",
+      "X Regulation": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=900&q=80",
+      "Iran Oil Risk": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=900&q=80",
+      "Hormuz": "https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=900&q=80",
+      "Bond Market": "https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80",
+      "US Futures": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80",
+      "Tech CEOs China": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80",
+      "Quantum Computing": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=900&q=80",
+      "AMD Taiwan": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+      "Bitcoin ETF": "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&w=900&q=80",
+      "Apple Supply Chain": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
+      "Tesla Robotaxi": "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=900&q=80",
+      "OpenAI Trial": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=900&q=80",
+      "Sam Altman": "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=900&q=80",
+      "Financial Juice": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80"
+    };
+
+    const latestNewsItems = [
+      {
+        topic: "US Futures",
+        title: "Dow 創高，美股受中東和平希望帶動",
+        summary: "Reuters 報導美股收高，油價壓力降溫與中東和平希望改善風險偏好；但高估值科技股仍需看殖利率與 AI 財報驗證。",
+        source: "Reuters via MarketScreener",
+        date: "2026-05-22",
+        url: "https://www.marketscreener.com/news/wall-street-rises-dow-hits-record-high-as-middle-east-hopes-lift-sentiment-ce7f5ed8dd8df32d",
+        image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "Iran Oil Risk",
+        title: "油價 U-turn 讓美股日內波動收斂",
+        summary: "AP 指出油價先急漲後回落，股市收復早盤跌幅；能源、通膨預期與 Fed 利率路徑仍是今天全市場核心變數。",
+        source: "AP",
+        date: "2026-05-21",
+        url: "https://apnews.com/article/stocks-markets-rates-oil-nvidia-kospi-d42265575e6ca7edd4fea8edce5a74f3",
+        image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1516937941344-00b4e0337589?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "Hormuz",
+        title: "美軍登檢 Iranian-flagged 油輪",
+        summary: "AP 報導美軍在 Gulf of Oman 登檢疑似違反封鎖的伊朗旗油輪，反映 Hormuz 航道、能源供給與美國國內油價壓力仍互相牽動。",
+        source: "AP",
+        date: "2026-05-20",
+        url: "https://apnews.com/article/iran-blockade-oil-tanker-military-boards-8a1bafe95f2d76665d65db4effd91680",
+        image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://commons.wikimedia.org/wiki/Special:FilePath/Strait%20of%20Hormuz%20map.png"
+      },
+      {
+        topic: "AI Safety",
+        title: "AI 行政令與安全測試仍牽動科技估值",
+        summary: "白宮 AI / cybersecurity 政策訊號仍在調整，高能力模型測試、guardrails 與中國競爭將影響大型 AI 公司估值倍數。",
+        source: "Axios",
+        date: "2026-05-21",
+        url: "https://www.axios.com/2026/05/21/trump-ai-executive-order-postponed-why",
+        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "AMD Taiwan",
+        title: "AMD 宣布逾 100 億美元台灣 AI 生態投資",
+        summary: "AMD 將與 TSMC 2nm、系統與研發夥伴加深合作，台灣半導體、AI 伺服器與先進封裝鏈同步受惠。",
+        source: "AMD",
+        date: "2026-05-21",
+        url: "https://www.amd.com/en/newsroom/press-releases/2026-5-21-amd-announces-more-than-10-billion-in-taiwan-ecos.html",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "OpenAI",
+        title: "Sam Altman 向 YC 新創提出 token 投資",
+        summary: "TechCrunch 報導 Sam Altman 提出向當期 Y Combinator 新創投入 OpenAI token 的構想，顯示 OpenAI 正把算力、token 與新創生態綁得更緊。",
+        source: "TechCrunch",
+        date: "2026-05-20",
+        url: "https://techcrunch.com/2026/05/20/sam-altman-makes-mic-drop-offer-to-every-y-combinator-startup/",
+        image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "OpenAI",
+        title: "OpenAI IPO 時程傳出加速",
+        summary: "TechCrunch 報導 OpenAI 在 Musk 訴訟風險解除後，可能推進 IPO 準備；資本市場將更關注 AI compute 成本與成長可持續性。",
+        source: "TechCrunch",
+        date: "2026-05-20",
+        url: "https://techcrunch.com/2026/05/20/openai-barrels-toward-ipo-that-may-happen-in-september/",
+        image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "OpenAI Trial",
+        title: "Musk 對 OpenAI / Altman 訴訟敗訴",
+        summary: "Axios 報導陪審團認定 Musk 提告過晚，OpenAI、Altman、Brockman 與 Microsoft 免於相關賠償責任，AI 權力結構短線穩定。",
+        source: "Axios",
+        date: "2026-05-18",
+        url: "https://www.axios.com/2026/05/18/musk-loses-ai-trial-openai-altman",
+        image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "Starship V3",
+        title: "Starship V3 發射倒數臨停",
+        summary: "AP 報導 SpaceX 首次 V3 測試在倒數最後階段因發射台問題喊停，太空基建與 Musk 相關資產短線仍受事件節奏牽動。",
+        source: "AP",
+        date: "2026-05-22",
+        url: "https://apnews.com/article/eee2fd12d03e7c3c2e24753eb80c0d17",
+        image: "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://commons.wikimedia.org/wiki/Special:FilePath/Starship%20Super%20Heavy%20Integrated%20Flight%20Test%203.jpg"
+      },
+      {
+        topic: "Starship V3",
+        title: "SpaceX 完成 Starship V3 加注演練",
+        summary: "Space.com 報導 SpaceX 已完成 Starship V3 stacking 與 wet dress rehearsal，Flight 12 目標驗證新一代 rocket、pad 與 Raptor 架構。",
+        source: "Space.com",
+        date: "2026-05-20",
+        url: "https://www.space.com/space-exploration/launches-spacecraft/spacex-stacks-starship-v3-rocket-completes-major-fueling-test-ahead-of-debut-launch",
+        image: "https://images.unsplash.com/photo-1517976547714-720226b864c1?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "AI Safety",
+        title: "Nvidia 財報確認 AI demand 仍強",
+        summary: "AI 基建需求支撐晶片與資料中心鏈，但市場已預先反映高成長，後續更看重毛利、中國缺口與 hyperscaler capex。",
+        source: "Axios",
+        date: "2026-05-20",
+        url: "https://www.axios.com/2026/05/20/nvidia-earnings-shows-ai-demand-is-still-roaring",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "US Futures",
+        title: "殖利率仍是成長股估值天花板",
+        summary: "AP 市場報導強調利率與能源價格仍牽動股票、bitcoin 與企業融資成本；AI capex 雖強，但高利率會壓縮估值空間。",
+        source: "AP",
+        date: "2026-05-21",
+        url: "https://apnews.com/article/stocks-markets-rates-oil-nvidia-kospi-d42265575e6ca7edd4fea8edce5a74f3",
+        image: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "Apple Supply Chain",
+        title: "OLED MacBook Pro 面板量產良率突破",
+        summary: "MacRumors 報導 Samsung Display 的 Gen 8.6 OLED 筆電面板良率已達高水準，最早 6 月進入供應鏈，Apple 高階 MacBook 更新循環受關注。",
+        source: "MacRumors",
+        date: "2026-05-21",
+        url: "https://www.macrumors.com/2026/05/21/macbook-pro-oled-display-production/",
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://commons.wikimedia.org/wiki/Special:FilePath/Apple%20Park%20Visitor%20Center%20%282019%29.jpg"
+      },
+      {
+        topic: "Quantum Computing",
+        title: "美國政府入股量子公司",
+        summary: "CHIPS Act grant 轉為 equity stakes 的政策訊號，讓 IBM、GlobalFoundries 與量子運算供應鏈成為 AI 以外的新科技熱點。",
+        source: "Axios",
+        date: "2026-05-21",
+        url: "https://www.axios.com/2026/05/21/quantum-computing-trump-ibm",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "Tesla Robotaxi",
+        title: "Tesla Robotaxi 事故資料仍壓估值",
+        summary: "NHTSA 事故揭露使 robotaxi 規模化與責任歸屬重新被檢視，Tesla 多方敘事仍需交付與安全數據配合。",
+        source: "TechCrunch",
+        date: "2026-05-15",
+        url: "https://techcrunch.com/2026/05/15/tesla-reveals-two-robotaxi-crashes-involving-teleoperators/",
+        image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://commons.wikimedia.org/wiki/Special:FilePath/Tesla%20Model%203%20parked%2C%20front%20driver%20side.jpg"
+      },
+      {
+        topic: "Tesla Robotaxi",
+        title: "Tesla Semi 電池容量資訊成為供應鏈觀察點",
+        summary: "Electrive 報導 Tesla Semi 電池容量資訊曝光，長途商用車、電池供應與 Megapack / energy storage 產能仍是 Tesla 題材的重要分支。",
+        source: "Electrive",
+        date: "2026-05-11",
+        url: "https://www.electrive.com/2026/05/11/its-official-tesla-semi-features-822-kwh-battery-capacity/",
+        image: "https://images.unsplash.com/photo-1581092921461-39b9d08a9b21?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "Taiwan",
+        title: "台灣總統回應 Trump 軍售籌碼說",
+        summary: "AP 報導賴清德強調對美軍購是維持區域和平與嚇阻的重要工具，市場需關注台海、晶片供應鏈與美中政策連動。",
+        source: "AP",
+        date: "2026-05-17",
+        url: "https://apnews.com/article/taiwan-us-arms-china-trump-9b281ac90e9bcb71aee8011435dec0c2",
+        image: "https://commons.wikimedia.org/wiki/Special:FilePath/Taipei%20101%20from%20Elephant%20Mountain%202019.jpg",
+        fallback: "https://images.unsplash.com/photo-1470004914212-05527e49370b?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "Bond Market",
+        title: "BTC ETF 資金流轉弱拖累高 beta 情緒",
+        summary: "BlockTempo 指出現貨 BTC ETF 資金流出壓力升高，crypto 風險偏好與美股高 beta 資產需要一起觀察。",
+        source: "BlockTempo",
+        date: "2026-05-22",
+        url: "https://www.blocktempo.com/bitcoins-record-etf-outflow-over-2-7-billion/",
+        image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "Spaceports",
+        title: "SpaceX 全球 launch site 仍是長線題材",
+        summary: "Space.com 指出 Starship 新 pad、V3 架構與後續高頻率發射能力是 SpaceX 商業化關鍵；若 Flight 12 延宕，短線情緒會跟著波動。",
+        source: "Space.com",
+        date: "2026-05-20",
+        url: "https://www.space.com/space-exploration/launches-spacecraft/spacex-stacks-starship-v3-rocket-completes-major-fueling-test-ahead-of-debut-launch",
+        image: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1517976547714-720226b864c1?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        topic: "Bitcoin ETF",
+        title: "加密基金資金流受 Iran 與風險降溫牽動",
+        summary: "Cointelegraph 引述 CoinShares 指出數位資產產品出現大額流出，BTC/ETH ETF 資金流是判斷 crypto 風險偏好的關鍵訊號。",
+        source: "Cointelegraph",
+        date: "2026-05-18",
+        url: "https://cointelegraph.com/news/crypto-funds-1b-outflows-iran-tensions-risk-off-bitcoin-ether",
+        image: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80",
+        fallback: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80"
+      }
+    ];
+
+    function renderLatestNews() {
+      const list = document.querySelector(".news-list");
+      if (!list) return;
+      list.innerHTML = "";
+
+      latestNewsItems.forEach((item, index) => {
+        const listItem = document.createElement("li");
+        listItem.className = "news-item";
+
+        const figure = document.createElement("figure");
+        figure.className = "news-media";
+        figure.dataset.topic = item.topic;
+
+        const image = document.createElement("img");
+        image.src = item.image;
+        image.dataset.fallback = item.fallback || topicFallbackImages[item.topic] || item.image;
+        image.alt = `${item.title}，新聞主題圖片`;
+        image.loading = "lazy";
+        figure.appendChild(image);
+
+        const title = document.createElement("span");
+        title.className = "item-title";
+        title.textContent = `${index + 1}. ${item.title}`;
+
+        const copy = document.createElement("span");
+        copy.className = "item-copy";
+        copy.textContent = item.summary;
+
+        const link = document.createElement("a");
+        link.className = "source-link";
+        link.href = item.url;
+        link.target = "_self";
+        link.textContent = `查看來源：${item.source} · ${item.date}`;
+
+        listItem.append(figure, title, copy, link);
+        list.appendChild(listItem);
       });
-      usdBtn.classList.toggle('active', currency === 'USD');
-      twdBtn.classList.toggle('active', currency === 'TWD');
     }
-    usdBtn.addEventListener('click', () => setCurrency('USD'));
-    twdBtn.addEventListener('click', () => setCurrency('TWD'));
+
+    function setupNewsImageFallbacks() {
+      document.querySelectorAll(".news-media img").forEach((image) => {
+        const media = image.closest(".news-media");
+        const topic = media?.dataset.topic || "";
+        if (topicFallbackImages[topic]) {
+          image.dataset.topicFallback = topicFallbackImages[topic];
+        }
+
+        image.addEventListener("error", () => {
+          if (!image.dataset.usedTopicFallback && image.dataset.topicFallback && image.src !== image.dataset.topicFallback) {
+            image.dataset.usedTopicFallback = "true";
+            image.src = image.dataset.topicFallback;
+            return;
+          }
+          if (!image.dataset.usedFallback && image.dataset.fallback && image.src !== image.dataset.fallback) {
+            image.dataset.usedFallback = "true";
+            image.src = image.dataset.fallback;
+            return;
+          }
+          media?.classList.add("image-missing");
+          image.remove();
+        });
+      });
+    }
+
+    renderLatestNews();
+    setupNewsImageFallbacks();
+
+    const exchangeRates = {
+      USD_TWD: 31.322,
+      USD_CNY: 6.803386
+    };
+
+    const fxRates = [
+      { code: "TWD", name: "新台幣", twd: 1, badge: "基準", badgeClass: "badge", note: "本頁報價基準" },
+      { code: "USD", name: "美元", twd: 31.322, badge: "主要", badgeClass: "badge", note: "美元 / 台幣換算基準" },
+      { code: "JPY", name: "日圓", twd: 0.2023, badge: "避險", badgeClass: "badge", note: "受美日利差影響" },
+      { code: "EUR", name: "歐元", twd: 37.30, badge: "參考", badgeClass: "badge", note: "歐洲利率與景氣連動" },
+      { code: "CHF", name: "瑞郎", twd: 40.16, badge: "避險", badgeClass: "badge", note: "傳統避險貨幣" },
+      { code: "SGD", name: "新加坡幣", twd: 24.76, badge: "亞洲", badgeClass: "badge", note: "亞洲防守型貨幣" },
+      { code: "CNY", name: "人民幣", twd: 4.60, badge: "供應鏈", badgeClass: "badge", note: "中國供應鏈與政策敏感" },
+      { code: "HKD", name: "港幣", twd: 4.01, badge: "美元連動", badgeClass: "badge", note: "聯繫匯率制度" },
+      { code: "KRW", name: "韓元", twd: 0.023, badge: "科技鏈", badgeClass: "badge", note: "半導體與出口敏感" }
+    ];
+
+    function formatFx(value) {
+      return new Intl.NumberFormat("zh-TW", {
+        maximumFractionDigits: value >= 100 ? 2 : 4
+      }).format(value);
+    }
+
+    function renderFxBoard() {
+      const board = document.getElementById("fxBoard");
+      if (!board) return;
+      board.innerHTML = fxRates.filter((item) => item.code !== "TWD").map((item) => `
+        <article class="fx-card">
+          <div class="fx-head">
+            <div>
+              <div class="fx-code">${item.code}</div>
+              <div class="fx-name">${item.name}</div>
+            </div>
+            <span class="badge">${item.badge}</span>
+          </div>
+          <div class="fx-rate">${formatFx(item.twd)} TWD</div>
+          <div class="fx-note">${item.note}</div>
+        </article>
+      `).join("");
+    }
+
+    function setupFxConverter() {
+      const amountInput = document.getElementById("fxAmount");
+      const fromSelect = document.getElementById("fxFrom");
+      const toSelect = document.getElementById("fxTo");
+      const result = document.getElementById("fxResult");
+      if (!amountInput || !fromSelect || !toSelect || !result) return;
+
+      const options = fxRates.map((item) => `<option value="${item.code}">${item.code} - ${item.name}</option>`).join("");
+      fromSelect.innerHTML = options;
+      toSelect.innerHTML = options;
+      fromSelect.value = "USD";
+      toSelect.value = "TWD";
+
+      const convert = () => {
+        const amount = Number(amountInput.value || 0);
+        const fromRate = fxRates.find((item) => item.code === fromSelect.value);
+        const toRate = fxRates.find((item) => item.code === toSelect.value);
+        if (!fromRate || !toRate) return;
+        const converted = amount * fromRate.twd / toRate.twd;
+        result.textContent = `${formatFx(converted)} ${toRate.code}`;
+      };
+
+      [amountInput, fromSelect, toSelect].forEach((control) => {
+        control.addEventListener("input", convert);
+        control.addEventListener("change", convert);
+      });
+      convert();
+    }
+
+    const currencyButtons = document.querySelectorAll("[data-currency]");
+    const priceCells = document.querySelectorAll(".price-cell");
+
+    function toUsd(nativeCurrency, nativePrice) {
+      if (nativeCurrency === "USD") return nativePrice;
+      if (nativeCurrency === "TWD") return nativePrice / exchangeRates.USD_TWD;
+      if (nativeCurrency === "CNY") return nativePrice / exchangeRates.USD_CNY;
+      return nativePrice;
+    }
+
+    function formatPrice(value, currency) {
+      if (currency === "TWD") {
+        return new Intl.NumberFormat("zh-TW", {
+          style: "currency",
+          currency: "TWD",
+          maximumFractionDigits: value >= 1000 ? 0 : 2
+        }).format(value);
+      }
+
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: value >= 1000 ? 2 : 2
+      }).format(value);
+    }
+
+    function renderCurrency(targetCurrency) {
+      priceCells.forEach((cell) => {
+        const nativeCurrency = cell.dataset.currencyNative;
+        const nativePrice = Number(cell.dataset.priceNative);
+        const usdValue = toUsd(nativeCurrency, nativePrice);
+        const displayValue = targetCurrency === "TWD" ? usdValue * exchangeRates.USD_TWD : usdValue;
+        const original = cell.dataset.original;
+
+        cell.innerHTML = `<span class="price-value">${formatPrice(displayValue, targetCurrency)}</span>`;
+
+        if (targetCurrency !== nativeCurrency) {
+          const originalLabel = document.createElement("span");
+          originalLabel.className = "price-original";
+          originalLabel.textContent = `原幣 ${original}`;
+          cell.appendChild(originalLabel);
+        }
+      });
+
+      currencyButtons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.currency === targetCurrency));
+      });
+    }
+
+    currencyButtons.forEach((button) => {
+      button.addEventListener("click", () => renderCurrency(button.dataset.currency));
+    });
+
+    const signalData = [
+      { symbol: "OANDA:XAUUSD", name: "Gold Spot", monthlyChange: -2.5, score: 54, state: "高檔震盪", signal: "觀察", note: "避險需求仍在，但高殖利率壓抑上攻。" },
+      { symbol: "BTCUSD", name: "Bitcoin", monthlyChange: 7.6, score: 44, state: "偏過熱", signal: "風險偏高", note: "動能仍強但波動大，偏短線交易盤。" },
+      { symbol: "ETHUSD", name: "Ethereum", monthlyChange: -7.8, score: 50, state: "偏弱", signal: "觀察", note: "表現落後 BTC，等待量能確認。" },
+      { symbol: "TWSE:2330", name: "台積電", monthlyChange: 6.8, score: 72, state: "偏強", signal: "偏多觀察", note: "AI 與先進製程支撐，留意估值。" },
+      { symbol: "NASDAQ:AAPL", name: "Apple", monthlyChange: 7.8, score: 58, state: "中性偏多", signal: "觀察", note: "供應鏈外交與新品週期仍需確認。" },
+      { symbol: "NASDAQ:TSLA", name: "Tesla", monthlyChange: -6.4, score: 39, state: "風險偏高", signal: "風險偏高", note: "Robotaxi 監管與估值壓力同步升高。" },
+      { symbol: "NASDAQ:GOOGL", name: "Alphabet", monthlyChange: 26.6, score: 55, state: "偏過熱", signal: "觀察", note: "AI 競爭與廣告需求是關鍵，追價需保守。" },
+      { symbol: "NASDAQ:MSFT", name: "Microsoft", monthlyChange: 8.0, score: 73, state: "偏強", signal: "偏多觀察", note: "雲端與 AI 動能仍佳。" },
+      { symbol: "NASDAQ:AMZN", name: "Amazon", monthlyChange: 5.7, score: 71, state: "偏強", signal: "偏多觀察", note: "AWS 與零售利潤率改善支撐。" },
+      { symbol: "TWSE:2317", name: "鴻海", monthlyChange: -0.8, score: 66, state: "低估觀察", signal: "分批觀察", note: "AI 伺服器題材支撐，股價未完全反映。" },
+      { symbol: "TWSE:4938", name: "和碩", monthlyChange: -3.6, score: 48, state: "偏弱", signal: "觀察", note: "動能不足，等待營收轉強。" },
+      { symbol: "SZSE:002475", name: "立訊精密", monthlyChange: -5.1, score: 44, state: "偏弱", signal: "風險偏高", note: "中國供應鏈與匯率風險需折價。" }
+    ];
+
+    function getScoreClass(score) {
+      if (score >= 70) return "score-buy";
+      if (score >= 45) return "score-watch";
+      return "score-risk";
+    }
+
+    function renderSignalTable() {
+      const tableBody = document.getElementById("signalTableBody");
+      if (!tableBody) return;
+
+      tableBody.innerHTML = signalData.map((item) => `
+        <tr>
+          <td><span class="symbol">${item.symbol}</span><div class="market">${item.name}</div></td>
+          <td class="${item.monthlyChange >= 0 ? "up" : "down"}">${item.monthlyChange >= 0 ? "+" : ""}${item.monthlyChange.toFixed(1)}%</td>
+          <td>${item.state}</td>
+          <td><span class="score-pill ${getScoreClass(item.score)}">${item.score}/100</span></td>
+          <td>${item.signal}</td>
+          <td>${item.note}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderTrendChart() {
+      const canvas = document.getElementById("trendChart");
+      if (!canvas) return;
+
+      const context = canvas.getContext("2d");
+      const rect = canvas.getBoundingClientRect();
+      const scale = window.devicePixelRatio || 1;
+      canvas.width = rect.width * scale;
+      canvas.height = rect.height * scale;
+      context.scale(scale, scale);
+
+      const width = rect.width;
+      const height = rect.height;
+      if (width < 120 || height < 120) return;
+
+      const padding = { top: 24, right: 18, bottom: 54, left: 42 };
+      const plotWidth = width - padding.left - padding.right;
+      const plotHeight = height - padding.top - padding.bottom;
+      const maxChange = 15;
+      const minChange = -8;
+      const barWidth = plotWidth / signalData.length * 0.58;
+
+      context.clearRect(0, 0, width, height);
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, width, height);
+
+      context.strokeStyle = "#d8e0ec";
+      context.lineWidth = 1;
+      context.font = "12px system-ui, sans-serif";
+      context.fillStyle = "#667085";
+
+      [-5, 0, 5, 10, 15].forEach((tick) => {
+        const y = padding.top + (maxChange - tick) / (maxChange - minChange) * plotHeight;
+        context.beginPath();
+        context.moveTo(padding.left, y);
+        context.lineTo(width - padding.right, y);
+        context.stroke();
+        context.fillText(`${tick}%`, 8, y + 4);
+      });
+
+      const zeroY = padding.top + maxChange / (maxChange - minChange) * plotHeight;
+      context.strokeStyle = "#9aa7b8";
+      context.beginPath();
+      context.moveTo(padding.left, zeroY);
+      context.lineTo(width - padding.right, zeroY);
+      context.stroke();
+
+      signalData.forEach((item, index) => {
+        const centerX = padding.left + (index + 0.5) * (plotWidth / signalData.length);
+        const valueY = padding.top + (maxChange - item.monthlyChange) / (maxChange - minChange) * plotHeight;
+        const barTop = Math.min(valueY, zeroY);
+        const barHeight = Math.max(Math.abs(zeroY - valueY), 2);
+        const gradient = context.createLinearGradient(0, barTop, 0, barTop + barHeight);
+
+        if (item.score >= 70) {
+          gradient.addColorStop(0, "#0b8f68");
+          gradient.addColorStop(1, "rgba(11, 143, 104, 0.42)");
+        } else if (item.score >= 45) {
+          gradient.addColorStop(0, "#b7791f");
+          gradient.addColorStop(1, "rgba(183, 121, 31, 0.38)");
+        } else {
+          gradient.addColorStop(0, "#c92a2a");
+          gradient.addColorStop(1, "rgba(201, 42, 42, 0.38)");
+        }
+
+        context.fillStyle = gradient;
+        context.fillRect(centerX - barWidth / 2, barTop, barWidth, barHeight);
+
+        context.fillStyle = "#1c2533";
+        context.font = "11px system-ui, sans-serif";
+        context.textAlign = "center";
+        context.fillText(`${item.monthlyChange >= 0 ? "+" : ""}${item.monthlyChange.toFixed(1)}%`, centerX, barTop - 6);
+
+        context.save();
+        context.translate(centerX, height - 18);
+        context.rotate(-Math.PI / 5.8);
+        context.fillStyle = "#667085";
+        context.fillText(item.symbol.replace("NASDAQ:", "").replace("TWSE:", "").replace("OANDA:", ""), 0, 0);
+        context.restore();
+      });
+    }
+
+    let trendChartResizeFrame;
+    window.addEventListener("resize", () => {
+      window.cancelAnimationFrame(trendChartResizeFrame);
+      trendChartResizeFrame = window.requestAnimationFrame(renderTrendChart);
+    });
+
+    const filterGroups = {
+      market: ["US-China Trade", "Boeing Orders", "Federal Reserve", "Bond Market", "US Futures", "Bitcoin ETF", "Financial Juice"],
+      tech: ["Starship V3", "Spaceports", "OpenAI", "AI Safety", "Tech CEOs China", "Quantum Computing", "AMD Taiwan", "Apple Supply Chain", "Tesla Robotaxi", "OpenAI Trial", "Sam Altman"],
+      risk: ["Taiwan", "X Regulation", "Iran Oil Risk", "Hormuz", "Tesla Robotaxi", "OpenAI Trial", "Bitcoin ETF"]
+    };
+
+    document.querySelectorAll("[data-news-filter]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.newsFilter;
+        document.querySelectorAll("[data-news-filter]").forEach((item) => {
+          item.setAttribute("aria-pressed", String(item === button));
+        });
+        document.querySelectorAll(".news-list .news-item").forEach((item) => {
+          const topic = item.querySelector(".news-media")?.dataset.topic || "";
+          const shouldShow = filter === "all" || filterGroups[filter]?.includes(topic);
+          item.classList.toggle("is-filtered-out", !shouldShow);
+        });
+      });
+    });
+
+    function applyCompactMarketLayout() {
+      const main = document.querySelector("main.shell");
+      const hero = document.querySelector(".hero");
+      const brief = document.getElementById("briefLayout");
+      const risk = document.getElementById("risk-title")?.closest("section");
+      const overheat = document.getElementById("overheat-title")?.closest("section");
+      const fx = document.getElementById("fxSection");
+      const prices = document.getElementById("prices-title")?.closest("section");
+      const signals = document.getElementById("signals-title")?.closest("section");
+      const apple = document.getElementById("apple-title")?.closest("section");
+      const tesla = document.getElementById("tesla-supply-title")?.closest("section");
+      const sources = document.getElementById("sources-title")?.closest("section");
+      const news = document.getElementById("news-title")?.closest("section");
+      if (!main || !hero || !brief) return;
+
+      let anchor = hero;
+      [brief, risk, overheat, fx, prices, signals, apple, tesla, sources].forEach((section) => {
+        if (!section) return;
+        anchor.insertAdjacentElement("afterend", section);
+        anchor = section;
+      });
+
+      if (news && sources) {
+        let moreNews = document.getElementById("moreNews");
+        if (!moreNews) {
+          moreNews = document.createElement("details");
+          moreNews.id = "moreNews";
+          moreNews.className = "more-news";
+          const summary = document.createElement("summary");
+          summary.textContent = "更多新聞（可展開）";
+          moreNews.appendChild(summary);
+        }
+        sources.insertAdjacentElement("afterend", moreNews);
+        moreNews.appendChild(news);
+      }
+
+      Array.from(main.children).forEach((child) => {
+        if (child.classList?.contains("grid") && child.children.length === 0) {
+          child.remove();
+        }
+      });
+    }
+
+    applyCompactMarketLayout();
+
+    document.querySelectorAll("tbody tr").forEach((row) => {
+      row.addEventListener("click", () => {
+        row.parentElement?.querySelectorAll(".is-selected").forEach((item) => item.classList.remove("is-selected"));
+        row.classList.add("is-selected");
+      });
+    });
+
+    const progressBar = document.querySelector(".scroll-progress");
+    function updateScrollProgress() {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+      if (progressBar) progressBar.style.transform = `scaleX(${Math.min(Math.max(progress, 0), 1)})`;
+    }
+
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
+    updateScrollProgress();
+
+    const dockButtons = document.querySelectorAll("[data-scroll-target]");
+
+    function playFxAnimation() {
+      const fxSection = document.getElementById("fxSection");
+      if (!fxSection) return;
+      fxSection.classList.remove("is-exchanging");
+      void fxSection.offsetWidth;
+      fxSection.classList.add("is-exchanging");
+      window.setTimeout(() => fxSection.classList.remove("is-exchanging"), 1150);
+    }
+
+    dockButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const target = document.getElementById(button.dataset.scrollTarget);
+        if (button.dataset.scrollTarget === "moreNews" && target instanceof HTMLDetailsElement) {
+          target.open = true;
+        }
+        target?.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (button.dataset.scrollTarget === "fx-title") {
+          window.setTimeout(playFxAnimation, 280);
+        }
+      });
+    });
+
+    const dockObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        dockButtons.forEach((button) => {
+          button.setAttribute("aria-current", String(button.dataset.scrollTarget === entry.target.id));
+        });
+      });
+    }, { rootMargin: "-35% 0px -55% 0px", threshold: 0 });
+
+    ["page-title", "moreNews", "fx-title", "prices-title", "signals-title"].forEach((id) => {
+      const target = document.getElementById(id);
+      if (target) dockObserver.observe(target);
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll(".section, .hero-main, .hero-side, .brief-card, .news-item, .overheat-card, .supplier-card").forEach((item) => {
+      item.classList.add("reveal");
+      revealObserver.observe(item);
+    });
+
+    renderCurrency("USD");
+    renderFxBoard();
+    setupFxConverter();
+    renderSignalTable();
+    window.requestAnimationFrame(renderTrendChart);
   </script>
 </body>
 </html>
