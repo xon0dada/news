@@ -901,7 +901,7 @@
     <header>
       <div>
         <h1>每日新聞與行情更新</h1>
-        <p class="subhead">更新時間：2026-05-23 17:35 Asia/Taipei。加密行情與 ETF 資金流以最新可取得公開資料整理，價格仍可能與即時盤不同。</p>
+        <p class="subhead">更新時間：2026-05-27 20:55 Asia/Taipei。加密行情與 ETF 資金流以最新可取得公開資料整理，價格仍可能與即時盤不同。</p>
       </div>
     </header>
 
@@ -988,7 +988,7 @@
         </div>
         <div class="fx-board" id="fxBoard"></div>
         <div class="source-line">
-          本區每次自動化更新都重新查詢最新可見公開報價；本輪報價時間：2026-05-21 00:27 Asia/Taipei。匯率為每 1 單位外幣約等於多少 TWD；USD 參考
+          本區每次自動化更新都重新查詢最新可見公開報價；本輪報價時間：2026-05-27 20:55 Asia/Taipei。匯率為每 1 單位外幣約等於多少 TWD；USD 參考
           <a href="https://usd.currencyrate.today/twd" target="_blank" rel="noopener">CurrencyRate</a>，
           主要交叉匯率參考
           <a href="https://en.findrate.tw/" target="_blank" rel="noopener">FindRate / Bank of Taiwan</a>、
@@ -1844,6 +1844,9 @@
     ];
 
     const cryptoNewsItems = [
+      { source: "The Block", time: "May 27", title: "Bitcoin ETF 流出延續，IBIT 13 億美元級別大額交易牽動情緒", summary: "The Block 指出 spot bitcoin ETF 流出仍在延續，BlackRock IBIT 大額交易被市場解讀為再平衡、避險與戰術性降風險。", url: "https://www.theblock.co/post/402707/bitcoin-etf-outflows-ibit-whale-trade", image: sourceImages.crypto },
+      { source: "Blockchain News", time: "May 27", title: "Bitcoin 跌至約 75,500 美元，75K 支撐成短線焦點", summary: "報導指出 IBIT 大額交易後 BTC 回落，交易員開始關注 75,000 美元附近支撐與 ETF 流動性的吸收能力。", url: "https://blockchain.news/postamp?id=bitcoin-drops-after-1-3b-ibit-dark-pool-sale", image: sourceImages.markets },
+      { source: "GN Crypto", time: "May 25", title: "美國 Bitcoin ETF 連六日流出，2026 年淨流入收窄", summary: "US spot Bitcoin ETFs 連六日淨流出，IBIT 與 FBTC 承壓，機構需求是否降溫成為加密市場核心觀察。", url: "https://www.gncrypto.news/news/six-days-outflows-narrow-2026-us-bitcoin-etfs/", image: sourceImages.crypto },
       { source: "BlockTempo", time: "May 22", title: "哈佛清倉全部以太幣 ETF，同步減持比特幣 ETF", summary: "Harvard Management Company Q1 申報顯示 ETH ETF 持倉歸零，BTC ETF 也減碼；美國大學捐贈基金對加密資產配置明顯分化。", url: "https://www.blocktempo.com/harvard-liquidates-eth-position-q1-sec-filing/", image: sourceImages.markets },
       { source: "Bitcoin.com", time: "May 21", title: "Bitcoin ETF 連續流出，BlackRock IBIT 領跌", summary: "美國現貨 BTC ETF 連續第四個交易日流出，ETH ETF 也延續資金壓力；XRP ETF 仍有小幅流入，顯示資金偏好分化。", url: "https://news.bitcoin.com/blackrock-leads-bitcoin-etf-70m-loss-as-outflow-streak-reaches-fourth-day/", image: sourceImages.crypto },
       { source: "InflowScan", time: "May 22", title: "Spot crypto ETFs 單日淨流出 1.25 億美元", summary: "InflowScan 統計最新 issuer-reported tape 顯示 IBIT、ETHA 領跌；SOL 週線仍相對強勢，穩定幣供給則由 USDC 推升。", url: "https://inflowscan.com/brief/premarket/2026-05-22-btc-etfs-125m-settled-thu-btc-77-466-0-2-ibit-leads", image: sourceImages.markets },
@@ -2505,7 +2508,7 @@
   </script>
   <script>
     (() => {
-      const updateTime = "2026-05-21 00:27 Asia/Taipei";
+      const updateTime = "2026-05-27 20:55 Asia/Taipei";
 
       const makeTrendOverride = month => {
         const points = 8;
@@ -2570,12 +2573,12 @@
       newsItems.splice
 
       newsItems.splice(0, newsItems.length,
-        { source: "AP", time: "May 20", title: "美股反彈，殖利率與油價壓力暫時緩和", summary: "AP 指出 10 年期美債殖利率從 4.67% 回落到 4.60%，油價回吐漲幅後帶動風險資產短線喘息。", url: "https://apnews.com/article/351c7434b9875516e61e8917f960fc13", image: sourceImages.markets },
-        { source: "Reuters / Yahoo Finance", time: "May 19", title: "S&P 500 與 Nasdaq 開低，晶片股與通膨疑慮壓抑風險偏好", summary: "Reuters 指出高殖利率與晶片股回落讓 AI 交易降溫，市場等待 Nvidia 給出新方向。", url: "https://finance.yahoo.com/markets/stocks/articles/p-500-nasdaq-open-lower-133516585.html", image: sourceImages.rates },
-        { source: "Reuters / Investing.com", time: "May 20", title: "Morning Bid：市場屏息等待 Nvidia 財報", summary: "Reuters 指出選擇權市場預期 Nvidia 財報後可能出現約 6.5% 波動，成為 AI 交易本週核心事件。", url: "https://au.investing.com/news/commodities-news/morning-bid-nvidia-vigil-4446803", image: sourceImages.chip },
-        { source: "Reuters / LSE", time: "May 20", title: "全球股市在高殖利率下暫穩，Nvidia 前夕氣氛保守", summary: "Reuters 稱債券殖利率仍接近多年高位，足以繼續壓抑高估值股票的折現倍數。", url: "https://www.lse.co.uk/news/global-markets-bond-yields-pause-near-recent-peak-stocks-steady-ahead-of-nvidia-results-csulitninatwffp.html", image: sourceImages.rates },
-        { source: "Axios", time: "May 20", title: "Nvidia 不再是晶片股唯一焦點，AI 資金開始分流", summary: "Axios 指出 Intel 等晶片股漲幅更猛，代表 AI 資金正從單一龍頭擴散到次主線。", url: "https://www.axios.com/2026/05/20/nvidia-ai-intel-chips", image: sourceImages.chip },
-        { source: "AP", time: "May 18", title: "Trump 暫停原定對 Iran 的打擊，保留談判空間", summary: "中東風險暫未失控，但油價、航運與通膨預期仍容易被突發消息拉動。", url: "https://apnews.com/article/2b46d8b6a1710f596965797ac867ecfa", image: sourceImages.world },
+        { source: "Reuters / Investing.com", time: "May 27", title: "S&P 500 創紀錄收盤，AI 與半導體續撐風險偏好", summary: "AI 樂觀情緒抵消中東和平談判與美軍對 Iran 行動造成的油價壓力，Micron 與晶片股領漲。", url: "https://au.investing.com/news/stock-market-news/sp-500-hits-record-closing-high-on-ai-optimism-micron-joins-1-trillion-club-4456351", image: sourceImages.markets },
+        { source: "AP", time: "May 27", title: "全球股市多數上漲，追隨 Wall Street 新高", summary: "AP 指出歐亞股市週三多數走高，油價回落後市場暫時延續風險偏好。", url: "https://apnews.com/article/8191917f4f1d7ebc54584dd3c3265032", image: sourceImages.rates },
+        { source: "Reuters / Investing.com", time: "May 27", title: "油價跌逾 3%，交易員等待美伊談判更明確訊號", summary: "油價在美伊談判進展與敵對行動消息間劇烈震盪，能源通膨仍是股債市場的主要尾端風險。", url: "https://au.investing.com/news/commodities-news/oil-pulls-back-as-traders-look-for-progress-on-usiran-talks-4456862", image: sourceImages.world },
+        { source: "Reuters / Investing.com", time: "May 27", title: "美軍對 Iran 行動讓 Brent 一度跳漲約 4%", summary: "新一輪打擊拖慢 Hormuz 重新開放預期，市場仍需為能源供給與 LNG 流量風險留折價。", url: "https://au.investing.com/news/commodities-news/brent-crude-jumps-4-as-us-strikes-in-iran-set-back-hopes-for-hormuz-reopening-4456310", image: sourceImages.world },
+        { source: "Nvidia", time: "May 23", title: "Nvidia Q1 FY27 營收 816 億美元，資料中心營收 752 億美元", summary: "AI 基建需求仍強，Nvidia 同步宣布 800 億美元額外庫藏股授權並提高股息。", url: "https://nvidianews.nvidia.com/_gallery/download_pdf/6a0e17dc3d633295d45282e6/", image: sourceImages.chip },
+        { source: "Tom's Hardware", time: "May 26", title: "TSMC 分紅與資本支出壓力浮上檯面", summary: "員工分紅傳聞引發工會與罷工討論，TSMC 則回應 2026 年分紅增速仍可望高於 2025 年。", url: "https://www.tomshardware.com/tech-industry/tsmc-employees-threaten-samsung-style-strike-over-rumored-15-percent-bonus-cuts-despite-record-profits", image: sourceImages.chip },
         { source: "AP", time: "May 15", title: "Trump 權衡 Taiwan 軍售包，美中穩定敘事仍脆弱", summary: "台灣議題持續影響半導體與台股供應鏈估值，市場不宜完全移除地緣折價。", url: "https://apnews.com/article/e7a3cdf161c608de152ac1c6e5755452", image: sourceImages.world },
         { source: "Axios", time: "May 18", title: "Altman 與 OpenAI 在重大 AI 訴訟擊敗 Musk", summary: "陪審團認定 Musk 提告太晚，OpenAI 解除一項重大法律尾端風險。", url: "https://www.axios.com/2026/05/18/musk-loses-ai-trial-openai-altman", image: sourceImages.ai },
         { source: "Axios", time: "May 19", title: "Musk v. Altman 雖落幕，AI 治理與資本集中爭議仍在", summary: "Axios 認為訴訟結束不代表結構問題消失，AI 產業仍需面對治理與權力集中。", url: "https://www.axios.com/2026/05/19/musk-altman-openai-trial", image: sourceImages.ai },
@@ -2595,11 +2598,11 @@
       heatNews.splice
 
       heatNews.splice(0, heatNews.length,
-        { title: "Nvidia 財報前夕，AI 交易再次成為全球股市風險樞紐", source: "Reuters / Investing.com", url: "https://au.investing.com/news/commodities-news/morning-bid-nvidia-vigil-4446803", buyer: "混合買盤", reason: "大型基金透過指數與權值股布局，散戶則用選擇權與短線題材追逐；財報若不夠強，雙方可能同步降槓桿。" },
-        { title: "半導體股主導大盤，但資金正從 Nvidia 擴散到其他晶片股", source: "Axios", url: "https://www.axios.com/2026/05/20/nvidia-ai-intel-chips", buyer: "偏機構買盤", reason: "這類輪動主要由大型主動基金、ETF 與產業配置主導，屬於典型機構擁擠交易。" },
-        { title: "Google I/O 帶動 Alphabet AI 敘事升溫，GOOGL 一個月大漲約兩成", source: "TechCrunch", url: "https://techcrunch.com/2026/05/19/with-gemini-3-5-flash-google-bets-its-next-ai-wave-on-agents-not-chatbots/", buyer: "偏機構買盤", reason: "Alphabet 是大型基金核心持股，AI roadmap 被重新定價時通常由機構先推升權重。" },
-        { title: "Tesla / SpaceX / Starship 題材讓 TSLA 維持高 beta 過熱狀態", source: "Space.com", url: "https://www.space.com/space-exploration/launches-spacecraft/what-time-is-spacex-starship-v3-launch-starship-flight-12-timeline", buyer: "偏散戶買盤", reason: "Musk 生態長期吸引散戶與選擇權資金，題材升溫時更容易出現情緒性追價。" },
-        { title: "Apple 供應鏈中的鴻海與立訊漲幅擴大，AI/手機雙題材進入擁擠區", source: "StockAnalysis / AppleInsider", url: "https://stockanalysis.com/quote/tpe/2317/", buyer: "混合買盤", reason: "外資與本地 ETF 配置鴻海，中國動能資金追逐立訊，形成跨市場混合買盤。" },
+        { title: "S&P 500 創紀錄收盤，AI 與半導體成為市場主軸", source: "Reuters / Investing.com", url: "https://au.investing.com/news/stock-market-news/sp-500-hits-record-closing-high-on-ai-optimism-micron-joins-1-trillion-club-4456351", buyer: "偏機構買盤", reason: "指數型資金與主動基金都集中在 AI 權重與半導體鏈，創高後對壞消息的容錯下降。" },
+        { title: "Nvidia Q1 FY27 營收創高，AI compute 需求仍強", source: "Nvidia", url: "https://nvidianews.nvidia.com/_gallery/download_pdf/6a0e17dc3d633295d45282e6/", buyer: "偏機構買盤", reason: "資料中心營收與庫藏股授權強化大型資金對 AI 基建的信心，但估值已反映高成長。" },
+        { title: "Micron 市值里程碑帶動記憶體與 AI 周邊鏈補漲", source: "Reuters / Investing.com", url: "https://au.investing.com/news/stock-market-news/sp-500-hits-record-closing-high-on-ai-optimism-micron-joins-1-trillion-club-4456351", buyer: "混合買盤", reason: "資金從 Nvidia 擴散到 HBM、記憶體與先進封裝，機構配置與散戶動能同時推升。" },
+        { title: "TSMC 分紅與資本支出壓力提醒 AI 供應鏈成本不是免費午餐", source: "Tom's Hardware", url: "https://www.tomshardware.com/tech-industry/tsmc-employees-threaten-samsung-style-strike-over-rumored-15-percent-bonus-cuts-despite-record-profits", buyer: "偏機構買盤", reason: "AI 需求越強，晶圓、封裝、人才與資本支出瓶頸越重要，會影響台股權重與供應鏈折價。" },
+        { title: "BTC ETF 流出與 IBIT 大額交易讓加密 beta 降溫", source: "The Block", url: "https://www.theblock.co/post/402707/bitcoin-etf-outflows-ibit-whale-trade", buyer: "混合買盤", reason: "ETF 結構讓機構可快速再平衡，散戶槓桿則放大 75K 附近的支撐測試。" },
         { title: "AI 與晶片權重過度集中，半導體成為 S&P 500 核心風險", source: "Axios", url: "https://www.axios.com/2026/05/13/chips-ai-stocks-china", buyer: "偏機構買盤", reason: "ETF、量化與大型主動基金集中配置 AI/半導體權重，散戶追單跟隨但主導權仍偏機構。" },
         { title: "美股高檔遇通膨與殖利率壓力，AI 交易被迫降溫", source: "Reuters / Investing.com", url: "https://www.investing.com/news/economy-news/trading-day-inflation-palpitations-4699755", buyer: "混合買盤", reason: "大型基金與散戶同時參與高 beta AI 股；殖利率上升時兩邊都可能快速降槓桿。" },
         { title: "S&P 500 衝高後市場討論 AI mania 與 momentum machine", source: "Investing.com", url: "https://m.investing.com/analysis/sp-500-storms-above-7500-as-ai-mania-turns-wall-street-into-a-momentum-machine-200680352?ampMode=1", buyer: "偏散戶買盤", reason: "題材與短線動能驅動強，散戶與短線交易帳戶容易在高檔追逐敘事。" },
@@ -2802,7 +2805,7 @@
 
       const footer = document.querySelector("footer");
       if (footer) {
-        footer.innerHTML = `<strong>資料說明：</strong>本頁為自動化新聞與行情整理，最後更新：2026-05-21 00:30 Asia/Taipei。市場價格採可查得之最新公開資料與延遲報價，部分標的因交易所、資料商、資料延遲或時區不同會有差異；「推薦指數」是 0-100 的觀察分數，綜合短線動能、估值壓力、基本面敘事、資金擁擠度與風險事件，並非投資建議。`;
+        footer.innerHTML = `<strong>資料說明：</strong>本頁為自動化新聞與行情整理，最後更新：2026-05-27 20:55 Asia/Taipei。市場價格採可查得之最新公開資料與延遲報價，部分標的因交易所、資料商、資料延遲或時區不同會有差異；「推薦指數」是 0-100 的觀察分數，綜合短線動能、估值壓力、基本面敘事、資金擁擠度與風險事件，並非投資建議。`;
       }
 
       bindExternalLinks();
